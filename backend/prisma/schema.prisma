@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+  created_at DateTime? @default(now())
+  modified_at DateTime? @default(now())
+
+  @@map("users")
+    orders Order[]
+
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  created_at DateTime? @default(now())
+  modified_at DateTime? @default(now())
+
+  @@map("categories")
+  products Product[]
+}
+
+model Product {
+   id String @id @default(uuid())
+  name String
+  price String
+  description String
+  stock String
+  banner  String
+  created_at DateTime? @default(now())
+  modified_at DateTime? @default(now())
+
+  category Category @relation(fields: [category_id], references: [id])
+
+  @@map("products")
+  category_id String
+  productsOnOrder ProductOnOrder[]
+}
+
+model Order{
+   id String @id @default(uuid())
+  status Boolean @default(false)
+  draft Boolean @default(true)  
+  created_at DateTime? @default(now())
+  modified_at DateTime? @default(now())
+
+  user User @relation(fields: [user_id],references: [id])
+  user_id String
+@@map("Orders")
+
+order ProductOnOrder[]
+
+}
+
+model ProductOnOrder {
+  productsOnOrder Product @relation(fields: [product_id], references: [id])
+  product_id String // relation scalar field (used in the `@relation` attribute above)
+  order   Order @relation(fields: [order_id], references: [id])
+  order_id String // relation scalar field (used in the `@relation` attribute above)
+  quantity String
+  @@id([product_id, order_id])
+
+  @@map("ProductOnOrder")
+}
