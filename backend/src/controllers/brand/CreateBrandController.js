@@ -10,13 +10,13 @@ class CreateBrandController {
 		} else {
 			const { originalname, filename: banner } = req.file;
 
-			const product = await createBrandService.execute({
+			const brand = await createBrandService.execute({
 				name,
 				description,
 				banner,
 				user_id,
 			});
-			return res.json(product);
+			return res.json(brand);
 		}
 	}
 }

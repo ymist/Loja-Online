@@ -32,6 +32,7 @@ model User {
 
 model Address {
   id        String    @id @default(uuid())
+  name      String
   street    String
   number    String
   neighborhood String
