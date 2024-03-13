@@ -2,6 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 
 import uploadConfig from "./config/multer.js";
+import uploadProduct from "./config/multerProduct.js";
 
 //middlewares
 import { isAuthToken } from "./middleware/isAuthUser.js";
@@ -16,6 +17,7 @@ import { CreateAdminController } from "./controllers/users/CreateAdminController
 //category
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController.js";
 import { ListCategoryController } from "./controllers/category/ListCategoryController.js";
+import { DeleteCategoryController } from "./controllers/category/DeleteCategoryController.js";
 
 //brands
 import { CreateBrandController } from "./controllers/brand/CreateBrandController.js";
@@ -29,8 +31,16 @@ import { ListAddressController } from "./controllers/address/ListAddressControll
 import { EditAddressController } from "./controllers/address/EditAddressController.js";
 import { DeleteAddressController } from "./controllers/address/DeleteAddressController.js";
 
+//PRODUTOS
+import { CreateProductController } from "./controllers/product/CreateProductController.js";
+import { EditProductController } from "./controllers/product/EditProductController.js";
+import { ListByCategoryController } from "./controllers/product/ListByCategoryController.js";
+import { ListByBrandController } from "./controllers/product/ListByBrandController.js";
+import { ListAllProductsController } from "./controllers/product/ListAllProductsController.js";
+
 const routes = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
+const productUpload = multer(uploadProduct.uploadProduct("./tmp_products"));
 
 //USERS
 routes.post("/signup", new CreateUserController().handle);
@@ -46,6 +56,11 @@ routes.post(
 	new CreateCategoryController().handle,
 );
 routes.get("/categories", new ListCategoryController().handle);
+routes.delete(
+	"/delete-category",
+	isAuthToken,
+	new DeleteCategoryController().handle,
+);
 
 //brands
 routes.post(
@@ -76,5 +91,28 @@ routes.delete(
 	isAuthToken,
 	new DeleteAddressController().handle,
 );
+
+//PRODUCTS
+
+routes.post(
+	"/create-product",
+	productUpload.array("files"),
+	isAuthToken,
+	new CreateProductController().handle,
+);
+routes.get("/products", new ListAllProductsController().handle);
+
+routes.put(
+	"/edit-product",
+	productUpload.array("files"),
+	isAuthToken,
+	new EditProductController().handle,
+);
+
+routes.get(
+	"/products/categories/:category_id",
+	new ListByCategoryController().handle,
+);
+routes.get("/products/brands/:brand_id", new ListByBrandController().handle);
 
 export { routes };

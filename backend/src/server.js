@@ -12,7 +12,11 @@ app.use(cors());
 app.use(routes);
 
 const __dirname = path.resolve();
-app.use("/files", express.static(path.resolve(__dirname, "..", "tmp")));
+app.use("/file", express.static(path.resolve(__dirname, "..", "tmp")));
+app.use(
+	"/files",
+	express.static(path.resolve(__dirname, "..", "tmp_produtos")),
+);
 
 app.use((err, req, res, next) => {
 	if (err instanceof Error) {

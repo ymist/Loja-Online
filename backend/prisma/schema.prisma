@@ -74,7 +74,7 @@ model Product {
   price String
   description String
   stock String
-  banner  String
+  banner  String[]
   created_at DateTime? @default(now())
   modified_at DateTime? @default(now())
 
