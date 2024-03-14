@@ -9,8 +9,9 @@ class EditProductController {
 			stock,
 			category_id,
 			brand_id,
-			product_id,
 		} = req.body;
+
+		const {product_id} = req.params
 
 		const editProduct = new EditProductService();
 		if (!req.files) {

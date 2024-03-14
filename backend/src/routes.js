@@ -37,6 +37,8 @@ import { EditProductController } from "./controllers/product/EditProductControll
 import { ListByCategoryController } from "./controllers/product/ListByCategoryController.js";
 import { ListByBrandController } from "./controllers/product/ListByBrandController.js";
 import { ListAllProductsController } from "./controllers/product/ListAllProductsController.js";
+import { UpdateStockController } from "./controllers/product/UpdateStockController.js";
+import { DeleteProductController } from "./controllers/product/DeleteProductController.js";
 
 const routes = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -95,7 +97,7 @@ routes.delete(
 //PRODUCTS
 
 routes.post(
-	"/create-product",
+	"/admin/create-product",
 	productUpload.array("files"),
 	isAuthToken,
 	new CreateProductController().handle,
@@ -103,7 +105,7 @@ routes.post(
 routes.get("/products", new ListAllProductsController().handle);
 
 routes.put(
-	"/edit-product",
+	"/admin/edit-product/:product_id",
 	productUpload.array("files"),
 	isAuthToken,
 	new EditProductController().handle,
@@ -114,5 +116,9 @@ routes.get(
 	new ListByCategoryController().handle,
 );
 routes.get("/products/brands/:brand_id", new ListByBrandController().handle);
+
+routes.put("/admin/products/stock/:product_id", isAuthToken, new UpdateStockController().handle )
+
+routes.delete("/admin/products/delete/:product_id", isAuthToken, new DeleteProductController().handle)
 
 export { routes };
