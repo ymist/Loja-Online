@@ -72,6 +72,7 @@ model Product {
    id String @id @default(uuid())
   name String
   price String
+  SKU String
   description String
   stock String
   banner  String[]
@@ -90,9 +91,8 @@ model Product {
 
 model Order {
   id String @id @default(uuid())
-  status Boolean @default(false)
-  draft Boolean @default(true)
   active Boolean @default(true)
+  cancel Boolean @default(false)
   delivered Boolean @default(false)
   paid Boolean @default(false)
   delivery_date DateTime?
@@ -120,6 +120,8 @@ model ProductOnOrder {
 }
 model Cart {
   id String @id @default(uuid())
+  active Boolean @default(true)
+  converted Boolean @default(false)
   created_at DateTime? @default(now())
   modified_at DateTime? @default(now())
 

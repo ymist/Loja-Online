@@ -15,7 +15,7 @@ const __dirname = path.resolve();
 app.use("/file", express.static(path.resolve(__dirname, "..", "tmp")));
 app.use(
 	"/files",
-	express.static(path.resolve(__dirname, "..", "tmp_produtos")),
+	express.static(path.resolve(__dirname, "..", "tmp_products")),
 );
 
 app.use((err, req, res, next) => {

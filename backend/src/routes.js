@@ -40,6 +40,14 @@ import { ListAllProductsController } from "./controllers/product/ListAllProducts
 import { UpdateStockController } from "./controllers/product/UpdateStockController.js";
 import { DeleteProductController } from "./controllers/product/DeleteProductController.js";
 
+
+// CART
+import { AddToCartController } from "./controllers/cart/AddToCartController.js";
+import { UpdateCartQuantityController } from "./controllers/cart/UpdateCartQuantityController.js";
+import { DeleteCartItemController } from "./controllers/cart/RemoveItemController.js";
+import { ListCartItemsController } from "./controllers/cart/ListCartItemsController.js";
+import { FinishCartController } from "./controllers/cart/FinishCartController.js";
+
 const routes = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 const productUpload = multer(uploadProduct.uploadProduct("./tmp_products"));
@@ -120,5 +128,18 @@ routes.get("/products/brands/:brand_id", new ListByBrandController().handle);
 routes.put("/admin/products/stock/:product_id", isAuthToken, new UpdateStockController().handle )
 
 routes.delete("/admin/products/delete/:product_id", isAuthToken, new DeleteProductController().handle)
+
+
+// CART
+
+routes.post("/add-to-cart", isAuthToken, new AddToCartController().handle)
+
+routes.put("/update-quantity", isAuthToken, new UpdateCartQuantityController().handle)
+
+routes.delete("/delete-cart-item", isAuthToken, new DeleteCartItemController().handle)
+
+routes.get("/cart/:user_id", isAuthToken, new ListCartItemsController().handle)
+
+routes.post("/finish-cart", isAuthToken, new FinishCartController().handle)
 
 export { routes };

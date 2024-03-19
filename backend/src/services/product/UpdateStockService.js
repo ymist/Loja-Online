@@ -1,27 +1,18 @@
 import prismaClient from "../../prisma/index.js";
 
 class UpdateStockService {
-    async execute({stock, product_id, user_id}){
-        const user = await prismaClient.user.findUnique({
-			where: {
-				id: user_id,
-				is_admin: true,
-			},
-		});
-
-		if (!user) {
-			throw new Error("Voce nao tem credencias para atualizar o estoque!!!");
-		}
+    async execute({stock, SKU,}){
         const product = await prismaClient.product.update({
             where:{
-                id: product_id
+                SKU: SKU
             },
             data:{
                 stock
             },
             select:{
-                name:true,
                 id: true,
+                name:true,
+                SKU: true,
                 stock: true
             }
         })

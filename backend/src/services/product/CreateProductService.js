@@ -8,22 +8,25 @@ class CreateProductService {
 		stock,
 		banner,
 		category_id,
+		sku,
 		brand_id,
-		user_id,
 	}) {
-		const user = await prismaClient.user.findUnique({
-			where: {
-				id: user_id,
-				is_admin: true,
-			},
-		});
 
-		if (!user) {
-			throw new Error("Voce nao tem credencias para criar um produto!!!");
+		const findProduct = await prismaClient.product.findFirst({
+			where:{
+				SKU: sku
+			}
+		})
+
+		if(findProduct){
+			throw new Error("Já existe esse produto cadastrado com esse SKU!")
 		}
+
+
 		const product = await prismaClient.product.create({
 			data: {
 				name: name,
+				SKU:sku,
 				price: price,
 				description: description,
 				stock: stock,
@@ -34,6 +37,7 @@ class CreateProductService {
 			select: {
 				id: true,
 				name: true,
+				SKU: true,
 				price: true,
 				description: true,
 				banner: true,

@@ -9,6 +9,7 @@ class EditProductController {
 			stock,
 			category_id,
 			brand_id,
+			SKU
 		} = req.body;
 
 		const {product_id} = req.params
@@ -21,6 +22,7 @@ class EditProductController {
 				price,
 				description,
 				stock,
+				SKU,
 				category_id,
 				brand_id,
 				product_id,
@@ -38,6 +40,7 @@ class EditProductController {
 				brand_id,
 				product_id,
 				banner,
+				SKU
 			});
 			return res.json(updatedProduct);
 		}

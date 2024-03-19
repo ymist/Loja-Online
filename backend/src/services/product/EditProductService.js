@@ -13,7 +13,22 @@ class EditProductService {
 		category_id,
 		brand_id,
 		product_id,
+		SKU
 	}) {
+
+		const existingProductWithSameSKU = await prismaClient.product.findFirst({
+            where: {
+                NOT: {
+                    id: product_id // Excluir o próprio produto da verificação
+                },
+                SKU: SKU
+            }
+        });
+
+        if (existingProductWithSameSKU) {
+            throw new Error('SKU já está cadastrado no sistema!');
+        }
+
 		const oldProduct = await prismaClient.product.findUnique({
 			where: { id: product_id },
 			select: { banner: true },
@@ -38,6 +53,7 @@ class EditProductService {
 				banner: { set: banner },
 				category_id,
 				brand_id,
+				SKU
 			},
 			select: {
 				id: true,
@@ -47,6 +63,7 @@ class EditProductService {
 				stock: true,
 				brand_id: true,
 				category_id: true,
+				SKU: true
 			},
 		});
 		return updatedProduct;

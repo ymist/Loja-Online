@@ -5,11 +5,11 @@ class CreateProductController {
 		const {
 			name,
 			price,
+			sku,
 			description,
 			stock,
 			category_id,
 			brand_id,
-			user_id,
 		} = req.body;
 
 		const createProduct = new CreateProductService();
@@ -23,8 +23,8 @@ class CreateProductController {
 				description,
 				stock,
 				category_id,
+				sku,
 				brand_id,
-				user_id,
 				banner,
 			});
 
