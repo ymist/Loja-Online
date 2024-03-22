@@ -1,7 +1,7 @@
 import prismaClient from "../../prisma/index.js";
 
 class FinishCartService {
-    async execute(user_id) {
+    async execute({user_id, address_id}) {
         // Encontrar o carrinho ativo do usuário
         const cart = await prismaClient.cart.findFirst({
             where: {
@@ -25,6 +25,7 @@ class FinishCartService {
         const order = await prismaClient.order.create({
             data: {
                 user_id: user_id,
+                address_id: address_id,
                 orderItems: {
                     createMany: {
                         data: cart.cartItems.map((cartItem) => ({
@@ -35,6 +36,19 @@ class FinishCartService {
                 },
             },
         });
+
+        for (const cartItem of cart.cartItems) {
+            await prismaClient.product.update({
+                where: {
+                    id: cartItem.product_id,
+                },
+                data: {
+                    stock: {
+                        decrement: cartItem.quantity,
+                    },
+                },
+            });
+        }
 
         // Marcar o carrinho como inativo
         await prismaClient.cart.update({

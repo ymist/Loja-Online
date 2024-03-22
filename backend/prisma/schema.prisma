@@ -95,6 +95,9 @@ model Order {
   cancel Boolean @default(false)
   delivered Boolean @default(false)
   paid Boolean @default(false)
+  out_delivery Boolean @default(false)
+
+  delivered_date DateTime?
   delivery_date DateTime?
   payment_date DateTime?
   created_at DateTime? @default(now())
