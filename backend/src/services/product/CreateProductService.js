@@ -11,22 +11,20 @@ class CreateProductService {
 		sku,
 		brand_id,
 	}) {
-
 		const findProduct = await prismaClient.product.findFirst({
-			where:{
-				SKU: sku
-			}
-		})
+			where: {
+				SKU: sku,
+			},
+		});
 
-		if(findProduct){
-			throw new Error("Já existe esse produto cadastrado com esse SKU!")
+		if (findProduct) {
+			throw new Error("Já existe esse produto cadastrado com esse SKU!");
 		}
-
 
 		const product = await prismaClient.product.create({
 			data: {
 				name: name,
-				SKU:sku,
+				SKU: sku,
 				price: price,
 				description: description,
 				stock: stock,

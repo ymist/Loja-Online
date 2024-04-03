@@ -2,15 +2,8 @@ import { CreateProductService } from "../../services/product/CreateProductServic
 
 class CreateProductController {
 	async handle(req, res) {
-		const {
-			name,
-			price,
-			sku,
-			description,
-			stock,
-			category_id,
-			brand_id,
-		} = req.body;
+		const { name, price, sku, description, stock, category_id, brand_id } =
+			req.body;
 
 		const createProduct = new CreateProductService();
 		if (!req.files || req.files.length === 0) {
