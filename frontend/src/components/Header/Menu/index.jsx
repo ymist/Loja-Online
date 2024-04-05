@@ -17,6 +17,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "@emotion/react";
 
+import { ComboboxDemo } from "@/components/ui/autocomplete";
+
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const myTheme = useTheme();
 

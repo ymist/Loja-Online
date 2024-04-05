@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Head from "next/head";
 import React, { FormEvent, useContext, useState, useEffect } from "react";
 //images and styles
@@ -18,20 +18,24 @@ import useProducts from "@/data/global_states/useProducts";
 import { useTheme } from "@emotion/react";
 
 export default function Page() {
-	const theme = useTheme
-	const categoriesMenu = useProducts(state => state.categories)
-	const setCategoriesMenu = useProducts(state => state.setCategories)
-	
-	const products = useProducts(state => state.products);
-	const setAllProducts = useProducts(state => state.setProducts)
-	
+	const theme = useTheme;
+	const categoriesMenu = useProducts((state) => state.categories);
+	const setCategoriesMenu = useProducts((state) => state.setCategories);
+	const brands = useProducts((state) => state.brands);
+	const setBrands = useProducts((state) => state.setBrands);
+
+	const products = useProducts((state) => state.products);
+	const setAllProducts = useProducts((state) => state.setProducts);
+
 	useEffect(() => {
 		const response = async () => {
-			
 			const productsResponse = await apiClient.get("/products");
 			const categories = await apiClient.get("/categories");
-			setAllProducts(productsResponse.data)
+			const listBrands = await apiClient.get("/brands");
+			setBrands(listBrands.data);
+			setAllProducts(productsResponse.data);
 			setCategoriesMenu(categories.data);
+			console.log(brands);
 		};
 		response();
 	}, []);
@@ -64,24 +68,45 @@ export default function Page() {
 						}}>
 						{products.length !== 0 ? (
 							<>
-								<div className="flex items-center justify-center w-[100%] flex-col">
-
-							<Box sx={{fontWeight:"200", fontSize:"32px", paddingTop:"24px"}} >CONDICIONADORES</Box>
-								<CarouselCardsProducts products={products} />
-								</div>
-								
+								{brands?.map((brand, index) => {
+									const filterProducts = products.filter(
+										(product) =>
+											product.brand.id === brand.id,
+									);
+									if (filterProducts.length > 0) {
+										return (
+											<div
+												key={index}
+												className="flex items-center justify-center w-[100%] flex-col">
+												<Box
+													sx={{
+														fontWeight: "200",
+														fontSize: "32px",
+														paddingTop: "24px",
+													}}>
+													{brand.name}
+												</Box>
+												<CarouselCardsProducts
+													products={filterProducts}
+												/>
+											</div>
+										);
+									}
+								})}
 							</>
 						) : (
-							<>
+							<div className="flex justify-evenly w-11/12">
 								{Array.from({ length: 4 }).map((_, index) => (
-									<div key={index} className="flex flex-col gap-4 w-52 pt-4">
-										<div className="skeleton bg-base-200  h-32 w-full"></div>
-										<div className="skeleton bg-base-200 h-4 w-28"></div>
-										<div className="skeleton bg-base-200 h-4 w-full"></div>
-										<div className="skeleton bg-base-200 h-4 w-full"></div>
+									<div
+										key={index}
+										className="flex flex-col gap-4 w-52 pt-4">
+										<div className="skeleton bg-neutral-content  h-32 w-full"></div>
+										<div className="skeleton bg-neutral-content h-4 w-28"></div>
+										<div className="skeleton bg-neutral-content h-4 w-full"></div>
+										<div className="skeleton bg-neutral-content h-4 w-full"></div>
 									</div>
 								))}
-							</>
+							</div>
 						)}
 					</Box>
 				</Box>
