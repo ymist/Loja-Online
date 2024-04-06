@@ -1,76 +1,36 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "@emotion/react";
 
-import { ComboboxDemo } from "@/components/ui/autocomplete";
+import TemporaryDrawer from "../Drawer";
+import useProducts from "@/data/global_states/useProducts";
+import CustomAutocomplete from "@/components/ui/custom_autocomplete";
 
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
-	const myTheme = useTheme();
-
-	const Search = styled("div")(({ theme }) => ({
-		position: "relative",
-		borderRadius: theme.shape.borderRadius,
-		backgroundColor: alpha(myTheme.palette.base.dark, 0.1),
-		transition: "ease-in 0.15s",
-		"&:hover": {
-			backgroundColor: alpha(myTheme.palette.base.dark, 0.2),
-		},
-		cursor: "text",
-		marginRight: theme.spacing(2),
-		marginLeft: 0,
-		width: "100%",
-		[theme.breakpoints.up("sm")]: {
-			marginLeft: `calc(1em + ${theme.spacing(4)})`,
-			width: "auto",
-		},
-	}));
-
-	const SearchIconWrapper = styled("div")(({ theme }) => ({
-		padding: theme.spacing(0, 2),
-		height: "100%",
-		position: "absolute",
-		pointerEvents: "none",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	}));
-
-	const StyledInputBase = styled(InputBase)(({ theme }) => ({
-		color: "inherit",
-		"& .MuiInputBase-input": {
-			padding: theme.spacing(1, 1, 1, 0),
-			// vertical padding + font size from searchIcon
-			paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-			transition: theme.transitions.create("width"),
-			width: "100%",
-			[theme.breakpoints.up("md")]: {
-				width: "20ch",
-			},
-		},
-	}));
+	const products = useProducts((state) => state.products);
+	const categories = useProducts((state) => state.categories);
+	const brands = useProducts((state) => state.brands);
+	const [drawerOpen, setDrawerOpen] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-	const handleProfileMenuOpen = (event) => {
-		setAnchorEl(event.currentTarget);
+	const handleMenuHamburguer = () => {
+		setDrawerOpen(true);
 	};
 
 	const handleMobileMenuClose = () => {
@@ -145,7 +105,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 				</IconButton>
 				<p>Notifications</p>
 			</MenuItem>
-			<MenuItem onClick={handleProfileMenuOpen}>
+			<MenuItem>
 				<IconButton
 					size="large"
 					aria-label="account of current user"
@@ -164,26 +124,54 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			sx={{
 				flexGrow: 1,
 			}}>
-			<AppBar position="static" color="base">
+			<AppBar position="static" color="base" sx={{ padding: "0% 5%" }}>
 				<Toolbar>
-					<Link href="/">
-						<Image
-							src="/LogoBrisaDesde1976.png"
-							width={120}
-							height={60}
-							alt="Logo Header"
-						/>
-					</Link>
-					<Box sx={{ width: "500px" }}>
-						<Search>
-							<SearchIconWrapper>
-								<SearchIcon />
-							</SearchIconWrapper>
-							<StyledInputBase
-								placeholder="O que você procurando?"
-								inputProps={{ "aria-label": "search" }}
+					<Box
+						sx={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							width: "100%",
+							"@media (min-width: 900px)": {
+								justifyContent: "flex-start",
+							},
+						}}>
+						{/* Adicionando o ícone de hambúrguer */}
+						<IconButton
+							size="large"
+							edge="start"
+							aria-label="menu"
+							color="inherit"
+							onClick={handleMenuHamburguer}
+							sx={{
+								display: { xs: "flex", md: "none" }, // Mostrar apenas em dispositivos menores que 900px
+								position: "absolute",
+								left: 0,
+							}}
+							// Adicione a função de toggle do menu aqui
+						>
+							<MenuIcon />
+						</IconButton>
+
+						{/* Link para a logo */}
+						<Link href="/" sx={{ mr: "auto" }}>
+							<Image
+								src="/LogoBrisaDesde1976.png"
+								width={120}
+								height={60}
+								alt="Logo Header"
 							/>
-						</Search>
+						</Link>
+
+						{/* Restante do conteúdo */}
+						<Box
+							sx={{
+								display: { xs: "none", md: "block" },
+								width: { md: "650px" },
+								padding: "0% 3%",
+							}}>
+							<CustomAutocomplete products={products} />
+						</Box>
 					</Box>
 					<Box sx={{ flexGrow: 1 }} />
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -209,7 +197,6 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							aria-label="account of current user"
 							aria-controls={menuId}
 							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
 							color="inherit">
 							<AccountCircle />
 						</IconButton>
@@ -226,7 +213,39 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 						</IconButton>
 					</Box>
 				</Toolbar>
+
+				<Box
+					sx={{
+						display: "none",
+						"@media (max-width: 900px)": {
+							display: "block",
+						},
+					}}>
+					<div className="divider mx-0 my-2 divider-neutral opacity-15"></div>
+					<Toolbar
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							height: "fit-content",
+							minHeight: "unset", // Substitua o min-height padrão
+							paddingBottom: "15px",
+							"&.MuiToolbar-regular": {
+								// Sobrescreva o min-height apenas para a classe MuiToolbar-regular
+								minHeight: "unset",
+							},
+						}}>
+						<CustomAutocomplete products={products} />
+					</Toolbar>
+				</Box>
 			</AppBar>
+			{drawerOpen && (
+				<TemporaryDrawer
+					drawerOpen={drawerOpen}
+					setDrawerOpen={setDrawerOpen}
+					categories={categories}
+					brands={brands}
+				/>
+			)}
 			{renderMobileMenu}
 			{renderMenu}
 		</Box>

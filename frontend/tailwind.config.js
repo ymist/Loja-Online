@@ -1,40 +1,42 @@
 /** @type {import('tailwindcss').Config} */
+const { nextui } = require("@nextui-org/react");
 module.exports = {
-  darkMode: ["class"],
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+	darkMode: ["class"],
+	content: [
+		"./app/**/*.{js,ts,jsx,tsx,mdx}",
 		"./pages/**/*.{js,ts,jsx,tsx,mdx}",
 		"./components/**/*.{js,ts,jsx,tsx,mdx}",
+		"./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
 
 		// Or if using `src` directory:
 		"./src/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  prefix: "",
-  theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-    extend: {
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
-    },
-    colors: {
+	],
+	prefix: "",
+	theme: {
+		container: {
+			center: true,
+			padding: "2rem",
+			screens: {
+				"2xl": "1400px",
+			},
+		},
+		extend: {
+			keyframes: {
+				"accordion-down": {
+					from: { height: "0" },
+					to: { height: "var(--radix-accordion-content-height)" },
+				},
+				"accordion-up": {
+					from: { height: "var(--radix-accordion-content-height)" },
+					to: { height: "0" },
+				},
+			},
+			animation: {
+				"accordion-down": "accordion-down 0.2s ease-out",
+				"accordion-up": "accordion-up 0.2s ease-out",
+			},
+		},
+		colors: {
 			palette: {
 				primary: {
 					main: "#1a907f",
@@ -53,7 +55,8 @@ module.exports = {
 				},
 				base: {
 					main: "white",
-					dark: "#14213d",
+					dark: "#000",
+					gray500: "#c2c2c2",
 				},
 			},
 			text: {
@@ -67,6 +70,34 @@ module.exports = {
 				},
 			},
 		},
-  },
-  plugins: [require("tailwindcss-animate"), require("daisyui")],
-}
+	},
+	plugins: [
+		require("tailwindcss-animate"),
+		require("daisyui"),
+		nextui({
+			themes: {
+				primary: {
+					colors: {
+						main: "#1a907f",
+						dark: "#0e635a",
+						light: "#4ab5a9",
+					},
+				},
+				secondary: {
+					colors: {
+						main: "#ff6600",
+						dark: "#cc5200",
+						light: "#ff8533",
+					},
+				},
+				base: {
+					colors: {
+						main: "white",
+						dark: "#000",
+						gray500: "#c2c2c2",
+					},
+				},
+			},
+		}),
+	],
+};

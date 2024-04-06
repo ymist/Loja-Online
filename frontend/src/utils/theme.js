@@ -1,4 +1,7 @@
+import { Box } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
+
+import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
 
 export const newTheme = createTheme({
 	palette: {
@@ -6,6 +9,7 @@ export const newTheme = createTheme({
 			main: "#1a907f",
 			dark: "#0e635a",
 			light: "#4ab5a9",
+			contrastText: "#fff",
 		},
 		secondary: {
 			main: "#ff6600",
@@ -20,6 +24,7 @@ export const newTheme = createTheme({
 		base: {
 			main: "white",
 			dark: "#14213d",
+			gray: "#c2c2c2",
 		},
 	},
 	text: {

@@ -6,10 +6,7 @@ import React, { FormEvent, useContext, useState, useEffect } from "react";
 //components
 import Header from "@/components/Header/NavBar";
 import Swipper from "@/components/Swipper/Swipper";
-import { Box, Stack, Pagination, PaginationItem, colors } from "@mui/material";
-import CardProduct from "@/components/products/card";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Box } from "@mui/material";
 import { CarouselCardsProducts } from "@/components/products/Carousel";
 
 import { apiClient } from "@/services/apiClient";
@@ -47,7 +44,7 @@ export default function Page() {
 					<title>Brisa</title>
 				</Head>
 				<Header items={categoriesMenu} />
-				<Box sx={{ height: "30vw", padding: "1% 0%" }}>
+				<Box sx={{ height: "30vw", padding: "3% 0%" }}>
 					<Swipper />
 				</Box>
 				<Box

@@ -32,4 +32,5 @@
 .swiper-button-next,
 .swiper-button-prev {
 	--swiper-navigation-color: #1a907f; /* Defina a cor desejada aqui */
+	--swiper-navigation-size: "20px";
 }

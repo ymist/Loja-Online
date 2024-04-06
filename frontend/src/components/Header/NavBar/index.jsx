@@ -3,7 +3,6 @@ import { styled } from "styled-components";
 import { useTheme } from "@emotion/react";
 
 import PrimarySearchAppBar from "../Menu";
-
 const StyledHeader = styled.header`
 	width: 100%;
 	height: min-content;
@@ -37,11 +36,16 @@ const StyledDiv = styled.div`
 		cursor: pointer;
 		transition: ease-in 0.15s;
 		&:hover {
-			filter: opacity(0.6);
-			transform: scale(1.04);
+			//filter: opacity(0.6);
+			//transform: scale(1.04);
+			text-decoration: underline;
 		}
 	}
+	@media (max-width: 900px) {
+		display: none; /* Esconder o componente em telas menores que 768px */
+	}
 `;
+
 export default function Header({ items }) {
 	const theme = useTheme(); // Obtém o tema usando o hook useTheme do Material-UI
 	return (
