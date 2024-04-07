@@ -29,6 +29,7 @@
 		"jwt-decode": "^4.0.0",
 		"keen-slider": "^6.8.6",
 		"lucide-react": "^0.364.0",
+		"next-auth": "^4.24.7",
 		"nookies": "^2.5.2",
 		"package": "^1.0.1",
 		"react": "^18",

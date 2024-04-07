@@ -13,6 +13,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 import Image from "next/image";
+import LoginIcon from "@mui/icons-material/Login";
 
 import TemporaryDrawer from "../Drawer";
 import useProducts from "@/data/global_states/useProducts";
@@ -25,6 +26,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const [drawerOpen, setDrawerOpen] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+	const [login, setLogin] = React.useState(false);
+	console.log(login);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -105,17 +108,34 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 				</IconButton>
 				<p>Notifications</p>
 			</MenuItem>
-			<MenuItem>
-				<IconButton
-					size="large"
-					aria-label="account of current user"
-					aria-controls="primary-search-account-menu"
-					aria-haspopup="true"
-					color="inherit">
-					<AccountCircle />
-				</IconButton>
-				<p>Profile</p>
-			</MenuItem>
+			{login ? (
+				<MenuItem>
+					<IconButton
+						size="large"
+						aria-label="account of current user"
+						aria-controls="primary-search-account-menu"
+						aria-haspopup="true"
+						color="inherit">
+						<AccountCircle />
+					</IconButton>
+					<p>Profile</p>
+				</MenuItem>
+			) : (
+				<MenuItem
+					onClick={() => {
+						setLogin(!login);
+					}}>
+					<IconButton
+						size="large"
+						aria-label="account of current user"
+						aria-controls="primary-search-account-menu"
+						aria-haspopup="true"
+						color="inherit">
+						<LoginIcon />
+					</IconButton>
+					<p>Entrar</p>
+				</MenuItem>
+			)}
 		</Menu>
 	);
 
@@ -191,15 +211,32 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>
-						<IconButton
-							size="large"
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							color="inherit">
-							<AccountCircle />
-						</IconButton>
+						{login ? (
+							<>
+								<IconButton
+									size="large"
+									aria-label="account of current user"
+									aria-controls="primary-search-account-menu"
+									aria-haspopup="true"
+									color="inherit">
+									<AccountCircle />
+								</IconButton>
+							</>
+						) : (
+							<>
+								<IconButton
+									onClick={() => {
+										setLogin(!login);
+									}}
+									size="large"
+									aria-label="Entrar"
+									aria-controls="primary-search-account-menu"
+									aria-haspopup="true"
+									color="inherit">
+									<LoginIcon />
+								</IconButton>
+							</>
+						)}
 					</Box>
 					<Box sx={{ display: { xs: "flex", md: "none" } }}>
 						<IconButton

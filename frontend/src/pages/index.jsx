@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 //components
 import Header from "@/components/Header/NavBar";
 import Swipper from "@/components/Swipper/Swipper";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { CarouselCardsProducts } from "@/components/products/Carousel";
 
 import { apiClient } from "@/services/apiClient";
@@ -15,11 +15,11 @@ import useProducts from "@/data/global_states/useProducts";
 import CarouselBanner from "@/components/Swipper/CarouselBanner";
 
 export default function Page() {
+	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;
 	const categoriesMenu = useProducts((state) => state.categories);
 	const setCategoriesMenu = useProducts((state) => state.setCategories);
 	const brands = useProducts((state) => state.brands);
 	const setBrands = useProducts((state) => state.setBrands);
-
 	const products = useProducts((state) => state.products);
 	const setAllProducts = useProducts((state) => state.setProducts);
 
@@ -98,16 +98,18 @@ export default function Page() {
 							</>
 						) : (
 							<div className="flex justify-evenly w-11/12">
-								{Array.from({ length: 4 }).map((_, index) => (
-									<div
-										key={index}
-										className="flex flex-col gap-4 w-52 pt-4">
-										<div className="skeleton bg-neutral-content  h-32 w-full"></div>
-										<div className="skeleton bg-neutral-content h-4 w-28"></div>
-										<div className="skeleton bg-neutral-content h-4 w-full"></div>
-										<div className="skeleton bg-neutral-content h-4 w-full"></div>
-									</div>
-								))}
+								{Array.from({ length: skeletonNumber }).map(
+									(_, index) => (
+										<div
+											key={index}
+											className="flex flex-col gap-4 w-48 pt-4">
+											<div className="skeleton bg-neutral-content h-32 w-full"></div>
+											<div className="skeleton bg-neutral-content h-4 w-28"></div>
+											<div className="skeleton bg-neutral-content h-4 w-full"></div>
+											<div className="skeleton bg-neutral-content h-4 w-full"></div>
+										</div>
+									),
+								)}
 							</div>
 						)}
 					</Box>

@@ -26,6 +26,9 @@ export default function TemporaryDrawer({
 			sx={{ width: 250 }}
 			role="presentation"
 			onClick={toggleDrawer(false)}>
+			<div className="divider divider-neutral opacity-60 text-palette-base-dark ">
+				Categorias
+			</div>
 			<List>
 				{categories.map((text, index) => (
 					<ListItem key={text.id} disablePadding>
@@ -35,7 +38,9 @@ export default function TemporaryDrawer({
 					</ListItem>
 				))}
 			</List>
-			<Divider />
+			<div className="divider  divider-neutral opacity-60 text-palette-base-dark ">
+				Marcas
+			</div>
 			<List>
 				{brands.map((text, index) => (
 					<ListItem key={text.id} disablePadding>
