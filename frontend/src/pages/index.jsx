@@ -1,6 +1,6 @@
 "use client";
 import Head from "next/head";
-import React, { FormEvent, useContext, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 //images and styles
 
 //components
@@ -12,10 +12,9 @@ import { CarouselCardsProducts } from "@/components/products/Carousel";
 import { apiClient } from "@/services/apiClient";
 import Footer from "@/components/Footer";
 import useProducts from "@/data/global_states/useProducts";
-import { useTheme } from "@emotion/react";
+import CarouselBanner from "@/components/Swipper/CarouselBanner";
 
 export default function Page() {
-	const theme = useTheme;
 	const categoriesMenu = useProducts((state) => state.categories);
 	const setCategoriesMenu = useProducts((state) => state.setCategories);
 	const brands = useProducts((state) => state.brands);
@@ -44,8 +43,14 @@ export default function Page() {
 					<title>Brisa</title>
 				</Head>
 				<Header items={categoriesMenu} />
-				<Box sx={{ height: "30vw", padding: "3% 0%" }}>
-					<Swipper />
+				<Box
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						padding: "3% 0%",
+					}}>
+					{/*<Swipper />*/}
+					<CarouselBanner />
 				</Box>
 				<Box
 					sx={{
