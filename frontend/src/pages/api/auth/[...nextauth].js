@@ -15,7 +15,8 @@ export default NextAuth({
 				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials) {
-				if (!credentials) {
+				console.log(credentials);
+				if (!credentials.email || !credentials.password) {
 					return null;
 				}
 				try {
@@ -23,7 +24,7 @@ export default NextAuth({
 						email: credentials.email,
 						password: credentials.password,
 					});
-
+					console.log(response.data);
 					return response.data;
 				} catch (error) {
 					return { error: error };
