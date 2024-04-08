@@ -12,13 +12,13 @@ class AuthUserService {
 		});
 
 		if (!user) {
-			throw new Error("Email/Password Incorreta!");
+			return { error: "Email/Password Incorreta!" };
 		}
 
 		const passwordMatch = await compare(password, user.password);
 
 		if (!passwordMatch) {
-			throw new Error("Email/Password Incorreta!");
+			return { error: "Senha Incorreta!" };
 		}
 
 		const token = sign(
