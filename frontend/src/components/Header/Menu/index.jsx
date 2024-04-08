@@ -27,7 +27,6 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 	const [login, setLogin] = React.useState(false);
-	console.log(login);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

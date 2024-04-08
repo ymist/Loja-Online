@@ -35,9 +35,7 @@ export default function CarouselBanner() {
 
 	return (
 		<>
-			<Carousel
-				className={isDesktop ? "w-[80%]" : "w-full"}
-				showArrows={false}>
+			<Carousel className={isDesktop ? "w-[80%]" : "w-full"}>
 				<CarouselContent>
 					{images.map((image, index) => (
 						<CarouselItem key={index} className="pl-0">

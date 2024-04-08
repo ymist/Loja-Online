@@ -57,6 +57,7 @@ module.exports = {
 					main: "white",
 					dark: "#000",
 					gray500: "#c2c2c2",
+					danger: "red",
 				},
 			},
 			text: {
@@ -76,25 +77,39 @@ module.exports = {
 		require("daisyui"),
 		nextui({
 			themes: {
-				primary: {
+				light: {
 					colors: {
-						main: "#1a907f",
-						dark: "#0e635a",
-						light: "#4ab5a9",
+						background: "#FFFFFF", // or DEFAULT
+						foreground: "#11181C", // or 50 to 900 DEFAULT
+						primary: {
+							//... 50 to 900
+							foreground: "#FFFFFF",
+							DEFAULT: "#006FEE",
+						},
+						// ... rest of the colors
 					},
 				},
-				secondary: {
+				dark: {
 					colors: {
-						main: "#ff6600",
-						dark: "#cc5200",
-						light: "#ff8533",
+						background: "#000000", // or DEFAULT
+						foreground: "#ECEDEE", // or 50 to 900 DEFAULT
+						primary: {
+							//... 50 to 900
+							foreground: "#FFFFFF",
+							DEFAULT: "#006FEE",
+						},
 					},
+					// ... rest of the colors
 				},
-				base: {
+				mytheme: {
+					// custom theme
+					extend: "dark",
 					colors: {
-						main: "white",
-						dark: "#000",
-						gray500: "#c2c2c2",
+						primary: {
+							DEFAULT: "#BEF264",
+							foreground: "#000000",
+						},
+						focus: "#BEF264",
 					},
 				},
 			},

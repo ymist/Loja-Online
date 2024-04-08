@@ -1,5 +1,4 @@
 import "../styles/globals.scss";
-import "../components/Swipper/styles.css";
 import { ThemeProvider } from "@emotion/react";
 import { NextUIProvider } from "@nextui-org/react";
 

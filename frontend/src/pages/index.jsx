@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 
 //components
 import Header from "@/components/Header/NavBar";
-import Swipper from "@/components/Swipper/Swipper";
 import { Box, useMediaQuery } from "@mui/material";
 import { CarouselCardsProducts } from "@/components/products/Carousel";
 
