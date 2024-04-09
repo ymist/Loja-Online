@@ -12,7 +12,6 @@ import { apiClient } from "@/services/apiClient";
 import Footer from "@/components/Footer";
 import useProducts from "@/data/global_states/useProducts";
 import CarouselBanner from "@/components/Swipper/CarouselBanner";
-import { useSession } from "next-auth/react";
 
 export default function Page() {
 	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;
@@ -22,8 +21,6 @@ export default function Page() {
 	const setBrands = useProducts((state) => state.setBrands);
 	const products = useProducts((state) => state.products);
 	const setAllProducts = useProducts((state) => state.setProducts);
-	const { data, status } = useSession();
-	console.log(data, status);
 
 	useEffect(() => {
 		const response = async () => {
@@ -33,7 +30,6 @@ export default function Page() {
 			setBrands(listBrands.data);
 			setAllProducts(productsResponse.data);
 			setCategoriesMenu(categories.data);
-			console.log(brands);
 		};
 		response();
 	}, []);

@@ -36,7 +36,7 @@ export default function Dashboard() {
 
 	async function handleLogin(data) {
 		console.log(data);
-		signIn("credentials", {
+		const response = await signIn("credentials", {
 			email: data.email,
 			password: data.password,
 			callbackUrl: "/",
@@ -144,23 +144,10 @@ export default function Dashboard() {
 	);
 }
 
-import { getServerSession } from "next-auth/next";
+import { canSSRGuest } from "@/lib/CanSSRGuest";
 
-export async function getServerSideProps(context) {
-	const session = await getServerSession(context.req, context.res);
-	console.log(session);
-	if (session) {
-		return {
-			redirect: {
-				destination: "/",
-				permanent: false,
-			},
-		};
-	}
-
+export const getServerSideProps = canSSRGuest(async (context) => {
 	return {
-		props: {
-			session,
-		},
+		props: {},
 	};
-}
+});
