@@ -16,13 +16,13 @@ import Image from "next/image";
 import LoginIcon from "@mui/icons-material/Login";
 
 import TemporaryDrawer from "../Drawer";
-import useProducts from "@/data/global_states/useProducts";
+import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
 
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
-	const products = useProducts((state) => state.products);
-	const categories = useProducts((state) => state.categories);
-	const brands = useProducts((state) => state.brands);
+	const products = useStore((state) => state.products);
+	const categories = useStore((state) => state.categories);
+	const brands = useStore((state) => state.brands);
 	const [drawerOpen, setDrawerOpen] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

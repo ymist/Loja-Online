@@ -10,17 +10,19 @@ import { CarouselCardsProducts } from "@/components/products/Carousel";
 
 import { apiClient } from "@/services/apiClient";
 import Footer from "@/components/Footer";
-import useProducts from "@/data/global_states/useProducts";
+import useStore from "@/data/global_states/useProducts";
 import CarouselBanner from "@/components/Swipper/CarouselBanner";
 
 export default function Page() {
 	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;
-	const categoriesMenu = useProducts((state) => state.categories);
-	const setCategoriesMenu = useProducts((state) => state.setCategories);
-	const brands = useProducts((state) => state.brands);
-	const setBrands = useProducts((state) => state.setBrands);
-	const products = useProducts((state) => state.products);
-	const setAllProducts = useProducts((state) => state.setProducts);
+	const categoriesMenu = useStore((state) => state.categories);
+	const setCategoriesMenu = useStore((state) => state.setCategories);
+	const brands = useStore((state) => state.brands);
+	const user = useStore((state) => state.user);
+	const setBrands = useStore((state) => state.setBrands);
+	const products = useStore((state) => state.products);
+	const setAllProducts = useStore((state) => state.setProducts);
+	console.log(user);
 
 	useEffect(() => {
 		const response = async () => {

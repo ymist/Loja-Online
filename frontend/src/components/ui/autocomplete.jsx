@@ -19,10 +19,10 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import useProducts from "@/data/global_states/useProducts";
+import useStore from "@/data/global_states/useProducts";
 
 export function ComboboxDemo() {
-	const products = useProducts((state) => state.products);
+	const products = useStore((state) => state.products);
 	const [open, setOpen] = React.useState(false);
 	const [value, setValue] = React.useState("");
 

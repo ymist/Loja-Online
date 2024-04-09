@@ -1,6 +1,8 @@
 import { create } from "zustand";
+import checkJWT from "../checkJWT";
+import { apiClient } from "@/services/apiClient";
 
-const useProducts = create((set) => ({
+const useStore = create((set) => ({
 	products: [],
 	categories: [],
 	brands: [],
@@ -8,6 +10,25 @@ const useProducts = create((set) => ({
 	setCategories: (category) => set({ categories: category }),
 	setProducts: (product) => set({ products: product }),
 	setBrands: (brand) => set({ brands: brand }),
+
+	user: null,
+	inicialize: async () => {
+		const token = checkJWT();
+		if (token) {
+			const response = await apiClient.get("/perfil", {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			if (response.status !== 401) {
+				console.log(response.data);
+				const user = response.data;
+				set({ user: user });
+			} else {
+				console.log("erroororo");
+			}
+		}
+	},
 }));
 
-export default useProducts;
+export default useStore;
