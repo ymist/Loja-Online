@@ -17,7 +17,6 @@ const nextAuthOptions = (req, res) => {
 					password: { label: "Password", type: "password" },
 				},
 				async authorize(credentials) {
-					console.log(credentials);
 					if (!credentials.email || !credentials.password) {
 						return null;
 					}
@@ -27,8 +26,8 @@ const nextAuthOptions = (req, res) => {
 							password: credentials.password,
 						});
 
-						if (response.status !== 200) {
-							return null;
+						if (response.status !== 200 || response.data?.error) {
+							throw new Error(response.data.error);
 						}
 
 						const authData = response.data;
@@ -49,7 +48,7 @@ const nextAuthOptions = (req, res) => {
 
 						apiClient.defaults.headers[
 							"Authorization"
-						] = `Bearer ${token}`;
+						] = `Bearer ${authData.token}`;
 
 						console.log("tetste");
 						return {
@@ -58,7 +57,6 @@ const nextAuthOptions = (req, res) => {
 							name: authData.name,
 						};
 					} catch (error) {
-						console.log({ err: error });
 						return null;
 					}
 				},

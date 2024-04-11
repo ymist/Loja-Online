@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 import { canSSRGuest } from "@/lib/CanSSRGuest";
 
-const loginSchema = z.object({
+const signUpSchema = z.object({
 	email: z
 		.string({
 			required_error: "Insira um Email",
@@ -25,7 +25,7 @@ const loginSchema = z.object({
 	}),
 });
 
-export default function Login() {
+export default function SignUp() {
 	const router = useRouter();
 	const {
 		handleSubmit,
@@ -35,7 +35,7 @@ export default function Login() {
 	} = useForm({
 		mode: "onBlur",
 		shouldUnregister: true, // Adicione shouldUnregister: true
-		resolver: zodResolver(loginSchema),
+		resolver: zodResolver(signUpSchema),
 	});
 
 	async function handleLogin(data) {
@@ -68,9 +68,9 @@ export default function Login() {
 				className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
 				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">
 					<div className="grid gap-6 py-6 rounded-t-md text-center bg-palette-primary-main text-palette-base-main">
-						<h1 className="text-3xl font-bold">Entrar</h1>
+						<h1 className="text-3xl font-bold">Cadastre-se</h1>
 						<p className="text-balance text-muted-foreground ">
-							Entre com o seu Email e Senha ou Crie sua Conta
+							Cadastre-se para fazer suas compras!
 						</p>
 					</div>
 					<div className="grid gap-4 px-8">
@@ -97,14 +97,6 @@ export default function Login() {
 							/>
 						</div>
 						<div className="grid gap-2">
-							<div className="flex items-center">
-								<Label htmlFor="password">Senha</Label>
-								<Link
-									href="/forgot-password"
-									className="ml-auto inline-block text-sm underline">
-									Esqueceu a Senha?
-								</Link>
-							</div>
 							<Controller
 								name="password"
 								control={control}
@@ -129,22 +121,22 @@ export default function Login() {
 							type="submit"
 							className="w-full text-palette-base-main "
 							color="success">
-							Entrar
+							Cadastrar
 						</Button>
 						<Button
 							variant="faded"
 							color="success"
 							className="w-full flex justify-center items-center">
-							Entrar com o Google
+							Cadastrar com o Google
 							<GoogleIcon />
 						</Button>
 					</div>
 					<div className="mt-4 text-center text-sm">
-						Não tenho uma conta?{" "}
+						Já tem uma conta?{" "}
 						<Link
-							href="/signup"
+							href="/login"
 							className="underline text-palette-primary-light">
-							Cadastrar-se
+							Entrar
 						</Link>
 					</div>
 				</div>

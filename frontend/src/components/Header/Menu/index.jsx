@@ -18,11 +18,11 @@ import LoginIcon from "@mui/icons-material/Login";
 import TemporaryDrawer from "../Drawer";
 import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
-
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const products = useStore((state) => state.products);
 	const categories = useStore((state) => state.categories);
 	const brands = useStore((state) => state.brands);
+	const user = useStore((state) => state.user);
 	const [drawerOpen, setDrawerOpen] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -90,7 +90,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					size="large"
 					aria-label="show 4 new mails"
 					color="inherit">
-					<Badge badgeContent={cartCount} color="error">
+					<Badge badgeContent={user?.cart.length} color="error">
 						<ShoppingCartIcon />
 					</Badge>
 				</IconButton>
@@ -107,7 +107,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 				</IconButton>
 				<p>Notifications</p>
 			</MenuItem>
-			{login ? (
+			{user ? (
 				<MenuItem>
 					<IconButton
 						size="large"
@@ -120,20 +120,19 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					<p>Profile</p>
 				</MenuItem>
 			) : (
-				<MenuItem
-					onClick={() => {
-						setLogin(!login);
-					}}>
-					<IconButton
-						size="large"
-						aria-label="account of current user"
-						aria-controls="primary-search-account-menu"
-						aria-haspopup="true"
-						color="inherit">
-						<LoginIcon />
-					</IconButton>
-					<p>Entrar</p>
-				</MenuItem>
+				<Link href="/login">
+					<MenuItem>
+						<IconButton
+							size="large"
+							aria-label="account of current user"
+							aria-controls="primary-search-account-menu"
+							aria-haspopup="true"
+							color="inherit">
+							<LoginIcon />
+						</IconButton>
+						<p>Entrar</p>
+					</MenuItem>
+				</Link>
 			)}
 		</Menu>
 	);
@@ -198,7 +197,9 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							size="large"
 							aria-label="show 4 new mails"
 							color="inherit">
-							<Badge badgeContent={cartCount} color="error">
+							<Badge
+								badgeContent={user?.cart.length}
+								color="error">
 								<ShoppingCartIcon />
 							</Badge>
 						</IconButton>
@@ -210,7 +211,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>
-						{login ? (
+						{user ? (
 							<>
 								<IconButton
 									size="large"
@@ -222,11 +223,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 								</IconButton>
 							</>
 						) : (
-							<>
+							<Link href="/login">
 								<IconButton
-									onClick={() => {
-										setLogin(!login);
-									}}
 									size="large"
 									aria-label="Entrar"
 									aria-controls="primary-search-account-menu"
@@ -234,7 +232,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 									color="inherit">
 									<LoginIcon />
 								</IconButton>
-							</>
+							</Link>
 						)}
 					</Box>
 					<Box sx={{ display: { xs: "flex", md: "none" } }}>
