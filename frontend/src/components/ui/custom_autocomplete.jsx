@@ -12,7 +12,6 @@ export default function CustomAutocomplete({ products }) {
 			labelPlacement="inside"
 			className="max-w-full m-0">
 			{(product) => {
-				console.log(product);
 				return (
 					<AutocompleteItem key={product.id} textValue={product.name}>
 						<div className="flex gap-6 items-center h-32  ">

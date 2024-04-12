@@ -12,17 +12,26 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { canSSRGuest } from "@/lib/CanSSRGuest";
+import { apiClient } from "@/services/apiClient";
 
 const signUpSchema = z.object({
+	name: z
+		.string({
+			required_error: "Insira um Nome.",
+		})
+		.min(4, { message: "Insira um nome com pelos menos 4 caracteres!" }),
 	email: z
 		.string({
 			required_error: "Insira um Email",
 			invalid_type_error: "Email Incorreto",
 		})
 		.email({ message: "Insira um email correto." }),
-	password: z.string({
-		required_error: "Insira uma Senha.",
-	}),
+	password: z
+		.string({
+			required_error: "Insira uma Senha.",
+		})
+		.min(8, { message: "Insira uma senha com pelo menos 8 caracteres!" }),
+	confirmPassword: z.string({ required_error: "Confirme Sua Senha!" }),
 });
 
 export default function SignUp() {
@@ -38,42 +47,59 @@ export default function SignUp() {
 		resolver: zodResolver(signUpSchema),
 	});
 
-	async function handleLogin(data) {
-		try {
-			const response = await signIn("credentials", {
-				email: data.email,
-				password: data.password,
-				callbackUrl: "/",
-				redirect: false,
+	async function handleSignUp(data) {
+		if (data.password !== data.confirmPassword) {
+			setError("confirmPassword", {
+				message: "As Senhas não são iguais!",
 			});
-
-			if (response.status === 401) {
-				//setError("email", { message: "Email ou senha incorretos!" });
-				setError("password", { message: "Email ou senha incorretos!" });
-				return;
-			}
-			if (response.status === 200) {
-				router.push("/");
-			}
-		} catch (error) {
-			setError("email", { message: "Falha no Login" });
-			throw error;
+			return;
 		}
+
+		const response = await apiClient.post("/signup", {
+			name: data.name,
+			email: data.email,
+			password: data.confirmPassword,
+		});
+		if (response?.error) {
+			setError("email", { message: response.error });
+			return;
+		}
+
+		router.push("/login");
 	}
 
 	return (
 		<div className="w-full lg:grid h-screen lg:grid-cols-2">
 			<form
-				onSubmit={handleSubmit(handleLogin)}
+				onSubmit={handleSubmit(handleSignUp)}
 				className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
 				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">
 					<div className="grid gap-6 py-6 rounded-t-md text-center bg-palette-primary-main text-palette-base-main">
-						<h1 className="text-3xl font-bold">Cadastre-se</h1>
-						<p className="text-balance text-muted-foreground ">
-							Cadastre-se para fazer suas compras!
-						</p>
+						<h1 className="text-3xl font-bold">Cadastrar</h1>
 					</div>
 					<div className="grid gap-4 px-8">
+						<div className="grid gap-2">
+							<Label htmlFor="name">Nome de Usuário</Label>
+							<Controller
+								name="name"
+								control={control}
+								rules={{ required: "Insira um Nome" }}
+								render={({ field }) => (
+									<>
+										<InputLogin
+											type="text"
+											placeholder="Nome"
+											{...field}
+										/>
+										{errors.name && (
+											<p className="text-palette-base-danger text-sm">
+												{errors.name.message}
+											</p>
+										)}
+									</>
+								)}
+							/>
+						</div>
 						<div className="grid gap-2">
 							<Label htmlFor="email">Email</Label>
 							<Controller
@@ -97,6 +123,7 @@ export default function SignUp() {
 							/>
 						</div>
 						<div className="grid gap-2">
+							<Label>Senha</Label>
 							<Controller
 								name="password"
 								control={control}
@@ -111,6 +138,28 @@ export default function SignUp() {
 										{errors.password && (
 											<p className="text-palette-base-danger text-sm">
 												{errors.password.message}
+											</p>
+										)}
+									</>
+								)}
+							/>
+						</div>
+						<div className="grid gap-2">
+							<Label>Confirme Sua Senha</Label>
+							<Controller
+								name="confirmPassword"
+								control={control}
+								rules={{ required: "Confirme sua Senha!" }}
+								render={({ field }) => (
+									<>
+										<InputLogin
+											type="password"
+											placeholder="Confirme sua Senha!"
+											{...field}
+										/>
+										{errors.confirmPassword && (
+											<p className="text-palette-base-danger text-sm">
+												{errors.confirmPassword.message}
 											</p>
 										)}
 									</>
@@ -143,7 +192,7 @@ export default function SignUp() {
 			</form>
 			<div className="hidden bg-muted lg:block">
 				<Image
-					src="/sapiens.svg"
+					src="/sapienssignup.svg"
 					alt="Image"
 					width="1920"
 					height="1080"

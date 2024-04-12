@@ -21,6 +21,7 @@ const nextAuthOptions = (req, res) => {
 						return null;
 					}
 					try {
+						console.log(credentials);
 						const response = await apiClient.post("/login", {
 							email: credentials.email,
 							password: credentials.password,
@@ -50,7 +51,6 @@ const nextAuthOptions = (req, res) => {
 							"Authorization"
 						] = `Bearer ${authData.token}`;
 
-						console.log("tetste");
 						return {
 							id: authData.id,
 							email: authData.email,

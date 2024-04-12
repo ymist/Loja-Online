@@ -10,6 +10,7 @@ const useStore = create((set) => ({
 	setCategories: (category) => set({ categories: category }),
 	setProducts: (product) => set({ products: product }),
 	setBrands: (brand) => set({ brands: brand }),
+	setUser: (newUser) => set({ user: newUser }),
 
 	user: null,
 	inicialize: async () => {
@@ -20,6 +21,7 @@ const useStore = create((set) => ({
 					Authorization: `Bearer ${token}`,
 				},
 			});
+			console.log(response.data);
 			if (response.status !== 401) {
 				console.log(response.data);
 				const user = response.data;

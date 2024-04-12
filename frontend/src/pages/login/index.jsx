@@ -12,6 +12,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { canSSRGuest } from "@/lib/CanSSRGuest";
+import useStore from "@/data/global_states/useProducts";
 
 const loginSchema = z.object({
 	email: z
@@ -27,6 +28,7 @@ const loginSchema = z.object({
 
 export default function Login() {
 	const router = useRouter();
+	const inicialize = useStore((state) => state.inicialize);
 	const {
 		handleSubmit,
 		control,
@@ -53,6 +55,7 @@ export default function Login() {
 				return;
 			}
 			if (response.status === 200) {
+				await inicialize();
 				router.push("/");
 			}
 		} catch (error) {
