@@ -2,7 +2,7 @@ import { DetailUserService } from "../../services/users/DetailUserService.js";
 
 class DetailUserController {
 	async handle(req, res) {
-		const { user_id } = req.body;
+		const user_id  = req.user_id;
 
 		const detailUserService = new DetailUserService();
 		console.log(user_id);
