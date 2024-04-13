@@ -21,9 +21,7 @@ const useStore = create((set) => ({
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			if (response.status !== 401) {
-				console.log(response.data);
 				const user = response.data;
 				set({ user: user });
 			} else {
