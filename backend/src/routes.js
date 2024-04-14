@@ -55,6 +55,7 @@ import { UpdateOrderDeliveredController } from "./controllers/order/DeliveredOrd
 import { ListAllOrdersController } from "./controllers/order/ListAllOrdersController.js";
 import { DetailOrderService } from "./services/order/DetailOrderService.js";
 import { DetailOrderController } from "./controllers/order/DetailOrderController.js";
+import { DetailProductController } from "./controllers/product/DetailProductController.js";
 
 const routes = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -114,6 +115,7 @@ routes.post(
 	new CreateProductController().handle,
 );
 routes.get("/products", new ListAllProductsController().handle);
+routes.get("/product/:id", new DetailProductController().handle);
 routes.put(
 	"/admin/edit-product/:product_id",
 	productUpload.array("files"),
