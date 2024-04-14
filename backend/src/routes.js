@@ -53,7 +53,6 @@ import { CancelOrderController } from "./controllers/order/CancelOrderController
 import { DeliverOrderController } from "./controllers/order/DeliverOrderController.js";
 import { UpdateOrderDeliveredController } from "./controllers/order/DeliveredOrderController.js";
 import { ListAllOrdersController } from "./controllers/order/ListAllOrdersController.js";
-import { DetailOrderService } from "./services/order/DetailOrderService.js";
 import { DetailOrderController } from "./controllers/order/DetailOrderController.js";
 import { DetailProductController } from "./controllers/product/DetailProductController.js";
 

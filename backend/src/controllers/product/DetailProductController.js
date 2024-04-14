@@ -1,4 +1,4 @@
-import { DetailProductService } from "../../services/product/DetailProductService";
+import { DetailProductService } from "../../services/product/DetailProductService.js";
 
 export class DetailProductController {
 	async handle(req, res) {
