@@ -10,9 +10,11 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useRouter } from "next/navigation";
 
 export function CarouselCardsProducts({ products }) {
 	const isDesktop = useMediaQuery("(min-width: 900px)");
+	const router = useRouter();
 	return (
 		<Carousel
 			opts={{
@@ -26,7 +28,13 @@ export function CarouselCardsProducts({ products }) {
 							key={`${i}`}
 							className="basis-8/12 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 flex justify-center">
 							{products?.map((item, index) => (
-								<CardProduct key={index} product={item} />
+								<CardProduct
+									key={index}
+									onClick={() => {
+										router.push(`/product/${item.id}`);
+									}}
+									product={item}
+								/>
 							))}
 						</CarouselItem>
 					</React.Fragment>
