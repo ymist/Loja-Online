@@ -26,7 +26,7 @@
 		"clsx": "^2.1.0",
 		"cmdk": "^1.0.0",
 		"embla-carousel-autoplay": "^8.0.1",
-		"embla-carousel-react": "^8.0.1",
+		"embla-carousel-react": "^8.0.2",
 		"framer-motion": "^11.0.25",
 		"jwt-decode": "^4.0.0",
 		"keen-slider": "^6.8.6",
