@@ -8,6 +8,6 @@ export class DetailProductController {
 
 		const product = await detailProduct.execute({ id });
 
-		return product;
+		return res.json(product);
 	}
 }
