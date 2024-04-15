@@ -6,6 +6,10 @@ export class DetailProductService {
 			where: {
 				id: product_id,
 			},
+			include: {
+				brand: true,
+				category: true,
+			},
 		});
 		if (!product) {
 			return { error: "Produto Nao Encontrado!" };
