@@ -16,25 +16,9 @@ import CarouselBanner from "@/components/Swipper/CarouselBanner";
 export default function Page() {
 	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;
 	const categoriesMenu = useStore((state) => state.categories);
-	const setCategoriesMenu = useStore((state) => state.setCategories);
 	const brands = useStore((state) => state.brands);
-	const user = useStore((state) => state.user);
-	const setBrands = useStore((state) => state.setBrands);
 	const products = useStore((state) => state.products);
-	const setAllProducts = useStore((state) => state.setProducts);
-	console.log(user);
-
-	useEffect(() => {
-		const response = async () => {
-			const productsResponse = await apiClient.get("/products");
-			const categories = await apiClient.get("/categories");
-			const listBrands = await apiClient.get("/brands");
-			setBrands(listBrands.data);
-			setAllProducts(productsResponse.data);
-			setCategoriesMenu(categories.data);
-		};
-		response();
-	}, []);
+	console.log(products);
 
 	return (
 		<>
@@ -42,7 +26,7 @@ export default function Page() {
 				<Head>
 					<title>Brisa</title>
 				</Head>
-				<Header items={categoriesMenu} />
+				<Header />
 				<Box
 					sx={{
 						display: "flex",
@@ -68,7 +52,7 @@ export default function Page() {
 							flexWrap: "wrap",
 							gap: "2em",
 						}}>
-						{products.length !== 0 ? (
+						{products?.length !== 0 ? (
 							<>
 								{brands?.map((brand, index) => {
 									const filterProducts = products.filter(

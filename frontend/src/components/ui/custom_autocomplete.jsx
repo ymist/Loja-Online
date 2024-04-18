@@ -10,7 +10,7 @@ export default function CustomAutocomplete({ products }) {
 			size="sm"
 			placeholder="O que você procura?"
 			labelPlacement="inside"
-			className="max-w-full m-0">
+			className="max-w-full m-0 ">
 			{(product) => {
 				return (
 					<AutocompleteItem key={product.id} textValue={product.name}>

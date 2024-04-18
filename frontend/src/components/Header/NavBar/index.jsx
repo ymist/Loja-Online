@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import { useTheme } from "@emotion/react";
 
 import PrimarySearchAppBar from "../Menu";
+import useStore from "@/data/global_states/useProducts";
 const StyledHeader = styled.header`
 	width: 100%;
 	height: min-content;
@@ -47,8 +48,9 @@ const StyledDiv = styled.div`
 	}
 `;
 
-export default function Header({ items }) {
+export default function Header() {
 	const theme = useTheme(); // Obtém o tema usando o hook useTheme do Material-UI
+	const items = useStore((state) => state.categories);
 	return (
 		<StyledHeader theme={theme}>
 			<PrimarySearchAppBar cartCount={10} notifyCount={18} />

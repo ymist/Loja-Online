@@ -15,12 +15,14 @@ const useStore = create((set) => ({
 	user: null,
 	inicialize: async () => {
 		const token = checkJWT();
+
 		if (token) {
 			const response = await apiClient.get("/perfil", {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			});
+
 			if (response.status !== 401) {
 				const user = response.data;
 				set({ user: user });

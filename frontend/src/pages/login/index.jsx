@@ -54,6 +54,7 @@ export default function Login() {
 				setError("password", { message: "Email ou senha incorretos!" });
 				return;
 			}
+			console.log(response);
 			if (response.status === 200) {
 				await inicialize();
 				router.push("/");
