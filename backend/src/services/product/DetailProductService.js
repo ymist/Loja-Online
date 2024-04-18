@@ -1,10 +1,10 @@
 import prismaClient from "../../prisma/index.js";
 
 export class DetailProductService {
-	async execute({ product_id }) {
+	async execute({ id }) {
 		const product = await prismaClient.product.findFirst({
 			where: {
-				id: product_id,
+				id: id,
 			},
 			include: {
 				brand: true,
