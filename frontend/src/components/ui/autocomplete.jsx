@@ -20,11 +20,14 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import useStore from "@/data/global_states/useProducts";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function ComboboxDemo() {
 	const products = useStore((state) => state.products);
 	const [open, setOpen] = React.useState(false);
 	const [value, setValue] = React.useState("");
+	const router = useRouter();
 
 	const [arrayOfProducts, setArrayOfProducts] = React.useState(
 		products.map((product) => {
@@ -63,6 +66,7 @@ export function ComboboxDemo() {
 											: currentValue,
 									);
 									setOpen(false);
+									router.push(`/product/${framework.value}`);
 								}}>
 								<Check
 									className={cn(

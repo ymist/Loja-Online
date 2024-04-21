@@ -23,6 +23,7 @@ const useStore = create((set) => ({
 				},
 			});
 
+			apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
 			if (response.status !== 401) {
 				const user = response.data;
 				set({ user: user });

@@ -1,8 +1,12 @@
+import { addToCart } from "@/data/addToCart";
+import useStore from "@/data/global_states/useProducts";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Rating } from "@mui/material";
 import { useState } from "react";
+
 export default function CardProduct({ product, onClick }) {
 	const [value, setValue] = useState(2);
+	const user = useStore((state) => state.user);
 	return (
 		<div
 			className="card w-64 h-[450px] bg-slate-100 shadow-2xl pb-2 cursor-pointer"
@@ -41,7 +45,9 @@ export default function CardProduct({ product, onClick }) {
 					R$ {product.price}
 				</h3>
 				<div className=" flex items-end justify-center gap-1">
-					<button className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12">
+					<button
+						className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12"
+						onClick={() => addToCart(product.id, user)}>
 						<AddShoppingCartIcon />
 					</button>
 				</div>
