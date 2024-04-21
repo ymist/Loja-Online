@@ -50,7 +50,6 @@ model Address {
   user      User      @relation(fields: [user_id], references: [id])
   user_id    String
 
-  cart Cart[]
   order Order[]
 }
 
@@ -136,8 +135,7 @@ model Cart {
 
   user User @relation(fields: [user_id], references: [id])
   user_id String
-  address Address? @relation(fields: [address_id], references: [id])
-  address_id String?
+
   cartItems CartItem[]
 }
 
