@@ -42,10 +42,10 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@prisma/client@^5.10.2":
-  version "5.10.2"
-  resolved "https://registry.npmjs.org/@prisma/client/-/client-5.10.2.tgz"
-  integrity sha512-ef49hzB2yJZCvM5gFHMxSFL9KYrIP9udpT5rYo0CsHD4P9IKj473MbhU1gjKKftiwWBTIyrt9jukprzZXazyag==
+"@prisma/client@^5.12.1":
+  version "5.12.1"
+  resolved "https://registry.npmjs.org/@prisma/client/-/client-5.12.1.tgz"
+  integrity sha512-6/JnizEdlSBxDIdiLbrBdMW5NqDxOmhXAJaNXiPpgzAPr/nLZResT6MMpbOHLo5yAbQ1Vv5UU8PTPRzb0WIxdA==
 
 "@prisma/debug@5.10.2":
   version "5.10.2"
