@@ -19,7 +19,7 @@ class AddToCartService {
 			});
 		}
 
-		const product = await prismaClient.product.findUnique({
+		const product = await prismaClient.product.findFirst({
 			where: {
 				id: product_id,
 			},

@@ -148,7 +148,7 @@ routes.delete(
 	isAuthToken,
 	new DeleteCartItemController().handle,
 );
-routes.get("/cart/:user_id", isAuthToken, new ListCartItemsController().handle);
+routes.get("/cart", isAuthToken, new ListCartItemsController().handle);
 routes.post("/finish-cart", isAuthToken, new FinishCartController().handle);
 //ORDER
 routes.get(
