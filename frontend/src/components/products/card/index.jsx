@@ -1,12 +1,14 @@
 import { addToCart } from "@/data/addToCart";
 import useStore from "@/data/global_states/useProducts";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import DoneIcon from "@mui/icons-material/Done";
 import { Rating } from "@mui/material";
 import { useState } from "react";
 
 export default function CardProduct({ product, onClick }) {
 	const [value, setValue] = useState(2);
 	const user = useStore((state) => state.user);
+	const cart = useStore((state) => state.cart);
 	return (
 		<div
 			className="card w-64 h-[450px] bg-slate-100 shadow-2xl pb-2 cursor-pointer"
@@ -27,7 +29,11 @@ export default function CardProduct({ product, onClick }) {
 						{product.category.name}
 					</div>
 				</div>
-				<h2 className="card-title font-medium max-h-20 text-[14px]  px-6 py-2">
+				<h2
+					className="card-title font-medium max-h-20 text-[14px]  px-6 py-2"
+					onClick={() => {
+						router.push(`/product/${product.id}`);
+					}}>
 					{product.name}
 				</h2>
 				<Rating
@@ -45,11 +51,17 @@ export default function CardProduct({ product, onClick }) {
 					R$ {product.price}
 				</h3>
 				<div className=" flex items-end justify-center gap-1">
-					<button
-						className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12"
-						onClick={() => addToCart(product.id, user)}>
-						<AddShoppingCartIcon />
-					</button>
+					{cart?.find((cartitem) => cartitem.id === product.id) ? (
+						<button className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12">
+							<DoneIcon />
+						</button>
+					) : (
+						<button
+							className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12"
+							onClick={() => addToCart(product.id, user)}>
+							<AddShoppingCartIcon />
+						</button>
+					)}
 				</div>
 			</div>
 		</div>

@@ -12,7 +12,11 @@ class DetailUserService {
 				email: true,
 				orders: true,
 				address: true,
-				cart: true,
+				cart: {
+					include: {
+						cartItems: true,
+					},
+				},
 			},
 		});
 		return { user };

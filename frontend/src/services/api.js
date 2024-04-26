@@ -5,26 +5,27 @@ export function setupAPIClient(ctx) {
 	let cookies = parseCookies(ctx);
 
 	const api = axios.create({
-		baseURL: "https://loja-online.onrender.com",
+		//baseURL: "https://loja-online.onrender.com",
+		baseURL: "http://localhost:3333",
 	});
 
-	// api.interceptors.response.use(
-	// 	(response) => {
-	// 		return response;
-	// 	},
-	// 	(error) => {
-	// 		if (error.response.status === 401) {
-	// 			//qualquer erro 401 devemos deslogar o usuario
-	// 			if (typeof window !== undefined) {
-	// 				//chamar funcao para deslogar o usuario
-	// 				retunr;
-	// 			} else {
-	// 				return Promise.reject(new AuthTokenError());
-	// 			}
-	// 		}
+	api.interceptors.response.use(
+		(response) => {
+			return response;
+		},
+		(error) => {
+			if (error?.response?.status === 401) {
+				//qualquer erro 401 devemos deslogar o usuario
+				if (typeof window !== undefined) {
+					//chamar funcao para deslogar o usuario
+					retunr;
+				} else {
+					return Promise.reject(new AuthTokenError());
+				}
+			}
 
-	// 		return Promise.reject(error);
-	// 	},
-	// );
+			return Promise.reject(error);
+		},
+	);
 	return api;
 }

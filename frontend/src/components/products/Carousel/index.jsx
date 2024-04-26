@@ -27,23 +27,9 @@ export function CarouselCardsProducts({ products }) {
 						<CarouselItem
 							key={`${i}`}
 							className="basis-8/12 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 flex justify-center">
-							{products?.map(
-								(item, index) => (
-									console.log(item),
-									(
-										<CardProduct
-											key={index}
-											onClick={() => {
-												console.log(item);
-												router.push(
-													`/product/${item.id}`,
-												);
-											}}
-											product={item}
-										/>
-									)
-								),
-							)}
+							{products?.map((item, index) => (
+								<CardProduct key={index} product={item} />
+							))}
 						</CarouselItem>
 					</React.Fragment>
 				))}
