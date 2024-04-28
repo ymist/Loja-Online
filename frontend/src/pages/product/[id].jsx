@@ -10,6 +10,8 @@ import useStore from "@/data/global_states/useProducts";
 import { CarouselCardsProducts } from "@/components/products/Carousel";
 import Footer from "@/components/Footer";
 import { addToCart } from "@/data/addToCart";
+import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
+import { useDisclosure } from "@nextui-org/react";
 
 export default function DetailProduct() {
 	const router = useRouter();
@@ -19,6 +21,12 @@ export default function DetailProduct() {
 	const [product, setProduct] = useState(null);
 	const [value, setValue] = useState(2);
 	const user = useStore((state) => state.user);
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [info, setInfo] = useState();
+
+	const handleOpen = () => {
+		onOpen();
+	};
 
 	useEffect(() => {
 		const fetchProduct = async () => {
@@ -35,6 +43,10 @@ export default function DetailProduct() {
 					setFilterProducts(filter);
 				}
 				setProduct(response.data);
+				setInfo({
+					stock: Number(response.data.stock),
+					product_id: response.data.id,
+				});
 			} catch (error) {
 				console.log(error);
 				return error;
@@ -86,16 +98,32 @@ export default function DetailProduct() {
 								<h3 className="text-success font-bold flex justify-center text-[26px] lg:text-[28px]">
 									R$ {product?.price}
 								</h3>
-								<div className="flex items-end justify-center gap-1 mt-4 lg:mt-0 ">
-									<button
-										className="btn w-full btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main lg:w-10/12"
-										onClick={() =>
-											addToCart(product.id, user)
-										}>
-										Adicionar ao Carrinho
-										<AddShoppingCartIcon />
-									</button>
-								</div>
+								{user.cart[0].cartItems.find(
+									(item) => item.id !== product.id,
+								) ? (
+									<div className="flex items-end justify-center gap-1 mt-4 lg:mt-0 ">
+										<button
+											className="btn w-full btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main lg:w-10/12"
+											onClick={() => {
+												handleOpen();
+												//addToCart(product.id, user)
+											}}>
+											Adicionar ao Carrinho
+											<AddShoppingCartIcon />
+										</button>
+									</div>
+								) : (
+									<div className="flex items-end justify-center gap-1 mt-4 lg:mt-0 ">
+										<button
+											className="btn w-full btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main lg:w-10/12"
+											onClick={() => {
+												//addToCart(product.id, user)
+											}}>
+											Item Já Adicionado ao Carrinho
+											<AddShoppingCartIcon />
+										</button>
+									</div>
+								)}
 							</div>
 						</div>
 					</main>
@@ -126,6 +154,11 @@ export default function DetailProduct() {
 							</div>
 						)}
 					</div>
+					<ModalAddQuantity
+						info={info}
+						isOpen={isOpen}
+						onClose={onClose}
+					/>
 				</>
 			) : (
 				<div className="w-full h-[50vh] flex justify-center items-center ">

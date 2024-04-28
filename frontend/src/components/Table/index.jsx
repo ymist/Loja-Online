@@ -19,7 +19,7 @@ import ModalChangeQuantity from "../ui/ModalChangeQuantity";
 
 export default function TableCart({ products, user }) {
 	const router = useRouter();
-	console.log(user);
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [info, setInfo] = useState(0);
 
@@ -35,12 +35,9 @@ export default function TableCart({ products, user }) {
 		products.reduce((acc, product) => {
 			const { id, ...rest } = product;
 			const existingProduct = acc[id];
+			console.log(product);
 
-			if (!existingProduct) {
-				acc[id] = { id, ...rest, quantity: 1 };
-			} else {
-				existingProduct.quantity++;
-			}
+			acc[id] = { id, ...rest };
 
 			return acc;
 		}, {}),
@@ -122,7 +119,14 @@ export default function TableCart({ products, user }) {
 	];
 
 	return (
-		<Paper sx={{ width: "100%", borderRadius: "4px" }} elevation={6}>
+		<Paper
+			sx={{
+				width: "100%",
+				borderRadius: "4px",
+				maxHeight: "65vh",
+				overflow: "auto",
+			}}
+			elevation={6}>
 			<Table aria-label="Tabela de produtos">
 				<TableHeader
 					columns={columns}
@@ -139,7 +143,7 @@ export default function TableCart({ products, user }) {
 					)}
 				</TableHeader>
 				<TableBody>
-					{uniqueProducts.map((product) => (
+					{products.map((product) => (
 						<TableRow key={product.id}>
 							{columns.map((column) => (
 								<TableCell key={column.uid}>

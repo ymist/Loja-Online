@@ -26,6 +26,7 @@ export default function DetailCart() {
 					const updatedProduct = {
 						...product.data,
 						cartItemId: item.id,
+						quantity: item.quantity,
 					};
 					setCart((prev) => [...prev, updatedProduct]);
 				});
@@ -38,7 +39,7 @@ export default function DetailCart() {
 	return (
 		<main>
 			<Header />
-			<div className="w-screen min-h-screen p-5 flex">
+			<div className="w-screen max-h-[80vh] overflow-auto p-5 flex">
 				<div className="w-3/5 h-full flex flex-col items-center gap-4 ">
 					<Paper
 						elevation={6}

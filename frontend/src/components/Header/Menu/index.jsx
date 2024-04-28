@@ -18,11 +18,13 @@ import LoginIcon from "@mui/icons-material/Login";
 import TemporaryDrawer from "../Drawer";
 import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
+import { useRouter } from "next/router";
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const products = useStore((state) => state.products);
 	const categories = useStore((state) => state.categories);
 	const brands = useStore((state) => state.brands);
 	const user = useStore((state) => state.user);
+	const router = useRouter();
 	const [drawerOpen, setDrawerOpen] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -89,7 +91,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 				<IconButton
 					size="large"
 					aria-label="show 4 new mails"
-					color="inherit">
+					color="inherit"
+					onClick={() => router.push("/cart")}>
 					<Badge
 						badgeContent={user?.cart?.[0]?.cartItems.length}
 						color="error">
@@ -201,7 +204,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							color="inherit">
 							<Badge
 								badgeContent={user?.cart?.[0]?.cartItems.length}
-								color="error">
+								color="error"
+								onClick={() => router.push("/cart")}>
 								<ShoppingCartIcon />
 							</Badge>
 						</IconButton>
