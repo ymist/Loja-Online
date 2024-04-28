@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Table,
 	TableHeader,
@@ -7,17 +7,41 @@ import {
 	TableRow,
 	TableCell,
 	Tooltip,
+	Input,
+	useDisclosure,
 } from "@nextui-org/react";
 import { EyeIcon } from "./EyeIcon";
 import { DeleteIcon } from "./DeleteIcon";
+import { Paper } from "@mui/material";
+import { useRouter } from "next/router";
+import { EditIcon } from "./EditIcon";
+import ModalChangeQuantity from "../ui/ModalChangeQuantity";
 
-export default function TableCart({ products }) {
-	// Consolidar itens duplicados
+export default function TableCart({ products, user }) {
+	const router = useRouter();
+	console.log(user);
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [info, setInfo] = useState(0);
+
+	const handleOpen = (itemStock, cartItemId) => {
+		setInfo({
+			stock: Number(itemStock),
+			cartItemId: cartItemId,
+		});
+		onOpen();
+	};
+
 	const uniqueProducts = Object.values(
 		products.reduce((acc, product) => {
 			const { id, ...rest } = product;
-			if (!acc[id]) acc[id] = { ...rest, quantity: 0 };
-			acc[id].quantity++;
+			const existingProduct = acc[id];
+
+			if (!existingProduct) {
+				acc[id] = { id, ...rest, quantity: 1 };
+			} else {
+				existingProduct.quantity++;
+			}
+
 			return acc;
 		}, {}),
 	);
@@ -31,7 +55,8 @@ export default function TableCart({ products }) {
 					<img
 						src={"/tmp_products/" + cellValue[0]}
 						alt={product.name}
-						className="w-16 h-16 object-cover rounded-md"
+						className="w-16 h-16 object-cover rounded-md cursor-pointer "
+						onClick={() => router.push("/product/" + product.id)}
 					/>
 				);
 			case "name":
@@ -39,12 +64,32 @@ export default function TableCart({ products }) {
 					<div className="flex items-center gap-4">{cellValue}</div>
 				);
 			case "price":
-				return <span>R$ {cellValue}</span>;
+				return (
+					<span className="flex justify-center items-center">
+						R$ {cellValue}
+					</span>
+				);
 			case "actions":
 				return (
 					<div className="relative flex items-center gap-2">
+						<Tooltip content="Alterar Quantidade">
+							<span
+								className="text-lg text-default-400 cursor-pointer active:opacity-50  "
+								onClick={() =>
+									handleOpen(
+										product.stock,
+										product.cartItemId,
+									)
+								}>
+								<EditIcon />
+							</span>
+						</Tooltip>
 						<Tooltip content="Detalhes">
-							<span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+							<span
+								onClick={() =>
+									router.push("/product/" + product.id)
+								}
+								className="text-lg text-default-400 cursor-pointer active:opacity-50">
 								<EyeIcon />
 							</span>
 						</Tooltip>
@@ -56,7 +101,13 @@ export default function TableCart({ products }) {
 					</div>
 				);
 			case "quantity":
-				return <span className="text-center">{cellValue}</span>;
+				return (
+					<span className="flex justify-center items-center cursor-pointer ">
+						<h2 className="  rounded-md text-palette-primary-dark bg-palette-primary-light/30 font-semibold px-2 py-1 ">
+							{cellValue}
+						</h2>
+					</span>
+				);
 			default:
 				return cellValue;
 		}
@@ -71,25 +122,40 @@ export default function TableCart({ products }) {
 	];
 
 	return (
-		<Table aria-label="Tabela de produtos">
-			<TableHeader columns={columns}>
-				{(column) => (
-					<TableColumn key={column.uid} align="start">
-						{column.name}
-					</TableColumn>
-				)}
-			</TableHeader>
-			<TableBody>
-				{uniqueProducts.map((product) => (
-					<TableRow key={product.id}>
-						{columns.map((column) => (
-							<TableCell key={column.uid}>
-								{renderCell(product, column.uid)}
-							</TableCell>
-						))}
-					</TableRow>
-				))}
-			</TableBody>
-		</Table>
+		<Paper sx={{ width: "100%", borderRadius: "4px" }} elevation={6}>
+			<Table aria-label="Tabela de produtos">
+				<TableHeader
+					columns={columns}
+					style={{
+						background:
+							"linear-gradient(90deg, rgba(244,244,244,1) 0%, rgba(239,239,239,1) 49%)",
+					}}>
+					{(column) => (
+						<TableColumn key={column.uid}>
+							<span className="flex justify-center items-center">
+								{column.name}
+							</span>
+						</TableColumn>
+					)}
+				</TableHeader>
+				<TableBody>
+					{uniqueProducts.map((product) => (
+						<TableRow key={product.id}>
+							{columns.map((column) => (
+								<TableCell key={column.uid}>
+									{renderCell(product, column.uid)}
+								</TableCell>
+							))}
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
+
+			<ModalChangeQuantity
+				info={info}
+				onClose={onClose}
+				isOpen={isOpen}
+			/>
+		</Paper>
 	);
 }

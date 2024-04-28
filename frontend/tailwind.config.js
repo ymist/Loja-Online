@@ -71,6 +71,7 @@ module.exports = {
 				},
 			},
 		},
+		fontFamily: {},
 	},
 	plugins: [
 		require("tailwindcss-animate"),

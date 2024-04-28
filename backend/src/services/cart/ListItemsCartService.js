@@ -8,14 +8,16 @@ class ListCartItemsService {
 			where: {
 				user_id: user_id,
 			},
+			include: {
+				cartItems: true,
+			},
 		});
-		console.log(cart);
 
 		if (!cart) {
 			return [];
 		}
 
-		return cart.cartItems;
+		return cart;
 	}
 }
 

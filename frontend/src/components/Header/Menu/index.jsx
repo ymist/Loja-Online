@@ -90,7 +90,9 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					size="large"
 					aria-label="show 4 new mails"
 					color="inherit">
-					<Badge badgeContent={user?.cart.length} color="error">
+					<Badge
+						badgeContent={user?.cart?.[0]?.cartItems.length}
+						color="error">
 						<ShoppingCartIcon />
 					</Badge>
 				</IconButton>
@@ -198,7 +200,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							aria-label="show 4 new mails"
 							color="inherit">
 							<Badge
-								badgeContent={user?.cart.length}
+								badgeContent={user?.cart?.[0]?.cartItems.length}
 								color="error">
 								<ShoppingCartIcon />
 							</Badge>
