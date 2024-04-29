@@ -7,8 +7,12 @@ import {
 	TableRow,
 	TableCell,
 	Tooltip,
-	Input,
 	useDisclosure,
+	Modal,
+	ModalContent,
+	ModalHeader,
+	ModalBody,
+	Button,
 } from "@nextui-org/react";
 import { EyeIcon } from "./EyeIcon";
 import { DeleteIcon } from "./DeleteIcon";
@@ -16,32 +20,67 @@ import { Paper } from "@mui/material";
 import { useRouter } from "next/router";
 import { EditIcon } from "./EditIcon";
 import ModalChangeQuantity from "../ui/ModalChangeQuantity";
+import { apiClient } from "@/services/apiClient";
+import { toast } from "react-toastify";
+import useStore from "@/data/global_states/useProducts";
 
 export default function TableCart({ products, user }) {
 	const router = useRouter();
+	const setUser = useStore((state) => state.setUser);
 
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [info, setInfo] = useState(0);
+	const {
+		isOpen: isOpenModalEdit,
+		onOpen: onOpenModalEdit,
+		onClose: onCloseModalEdit,
+	} = useDisclosure();
+	const {
+		isOpen: isOpenModalDelete,
+		onOpen: onOpenModalDelete,
+		onClose: onCloseModalDelete,
+	} = useDisclosure();
+	const [info, setInfo] = useState({});
+	const [infoDelete, setInfoDelete] = useState({});
+
+	const handleOpenDelete = (id) => {
+		setInfoDelete({
+			cartItem_id: id,
+		});
+		onOpenModalDelete();
+	};
 
 	const handleOpen = (itemStock, cartItemId) => {
 		setInfo({
 			stock: Number(itemStock),
 			cartItemId: cartItemId,
 		});
-		onOpen();
+		onOpenModalEdit();
 	};
 
-	const uniqueProducts = Object.values(
-		products.reduce((acc, product) => {
-			const { id, ...rest } = product;
-			const existingProduct = acc[id];
-			console.log(product);
+	const handleDelete = async (body) => {
+		const deleteItem = await apiClient.delete(
+			"/delete-cart-item/" + body.cartItem_id,
+		);
 
-			acc[id] = { id, ...rest };
+		if (deleteItem.status === 200) {
+			const updCart = await apiClient.get("/cart", {
+				user_id: user.id,
+			});
+			if (updCart.status === 200) {
+				user.cart[0] = updCart.data;
+				user.cart[0];
+				setUser(user);
 
-			return acc;
-		}, {}),
-	);
+				onCloseModalDelete();
+				toast.success("Produto deletado com sucesso!");
+				setTimeout(() => {
+					location.reload();
+				}, 3000);
+			} else {
+				onCloseModalDelete();
+				toast.error("Erro ao deletar produto!");
+			}
+		}
+	};
 
 	const renderCell = React.useCallback((product, columnKey) => {
 		const cellValue = product[columnKey];
@@ -91,7 +130,11 @@ export default function TableCart({ products, user }) {
 							</span>
 						</Tooltip>
 						<Tooltip color="danger" content="Excluir produto">
-							<span className="text-lg text-danger cursor-pointer active:opacity-50">
+							<span
+								className="text-lg text-danger cursor-pointer active:opacity-50"
+								onClick={() => {
+									handleOpenDelete(product.cartItemId);
+								}}>
 								<DeleteIcon />
 							</span>
 						</Tooltip>
@@ -144,7 +187,7 @@ export default function TableCart({ products, user }) {
 				</TableHeader>
 				<TableBody>
 					{products.map((product) => (
-						<TableRow key={product.id}>
+						<TableRow key={product.cartItemId}>
 							{columns.map((column) => (
 								<TableCell key={column.uid}>
 									{renderCell(product, column.uid)}
@@ -157,9 +200,45 @@ export default function TableCart({ products, user }) {
 
 			<ModalChangeQuantity
 				info={info}
-				onClose={onClose}
-				isOpen={isOpen}
+				onClose={onCloseModalEdit}
+				isOpen={isOpenModalEdit}
 			/>
+
+			{isOpenModalDelete && (
+				<Modal
+					backdrop="blur"
+					isOpen={isOpenModalDelete}
+					onClose={onCloseModalDelete}>
+					<ModalContent>
+						<ModalHeader className="flex gap-1 text-justify">
+							Deseja{" "}
+							<span className="text-palette-base-danger italic font-medium ">
+								DELETAR
+							</span>{" "}
+							esse produto do seu carrinho?
+						</ModalHeader>
+						<ModalBody>
+							<div className="p-4">
+								<Button
+									onClick={() => {
+										handleDelete(infoDelete);
+									}}
+									className="w-full text-palette-base-main cursor-pointer"
+									color="danger">
+									Excluir Produto!
+								</Button>
+								<Button
+									variant="ghost"
+									color="default"
+									className="w-full mt-4"
+									onClick={onCloseModalDelete}>
+									Cancelar
+								</Button>
+							</div>
+						</ModalBody>
+					</ModalContent>
+				</Modal>
+			)}
 		</Paper>
 	);
 }

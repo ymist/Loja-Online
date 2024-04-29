@@ -7,6 +7,8 @@ import { newTheme } from "@/utils/theme";
 import useStore from "@/data/global_states/useProducts";
 import { useEffect } from "react";
 import { apiClient } from "@/services/apiClient";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }) {
 	const inicialize = useStore((state) => state.inicialize);
@@ -32,6 +34,17 @@ function MyApp({ Component, pageProps }) {
 				<NextUIProvider>
 					<ThemeProvider theme={newTheme}>
 						<Component {...pageProps} />
+						<ToastContainer
+							position="top-right"
+							autoClose={5000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick
+							rtl={false}
+							pauseOnFocusLoss
+							pauseOnHover
+							theme="colored"
+						/>
 					</ThemeProvider>
 				</NextUIProvider>
 			</AuthProvider>

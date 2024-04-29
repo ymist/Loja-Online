@@ -58,6 +58,7 @@ module.exports = {
 					dark: "#000",
 					gray500: "#c2c2c2",
 					danger: "red",
+					gold: "#fd9e02",
 				},
 			},
 			text: {

@@ -3,12 +3,17 @@ import useStore from "@/data/global_states/useProducts";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import DoneIcon from "@mui/icons-material/Done";
 import { Rating } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function CardProduct({ product, onClick }) {
-	const [value, setValue] = useState(2);
+	const router = useRouter();
+	const [value, setValue] = useState(4);
 	const user = useStore((state) => state.user);
 	const cart = useStore((state) => state.cart);
+	const teste = cart?.find((cartitem) => cartitem.id === product.id);
+
 	return (
 		<div
 			className="card w-64 h-[450px] bg-slate-100 shadow-2xl pb-2 cursor-pointer"
@@ -51,8 +56,16 @@ export default function CardProduct({ product, onClick }) {
 					R$ {product.price}
 				</h3>
 				<div className=" flex items-end justify-center gap-1">
-					{cart?.find((cartitem) => cartitem.id === product.id) ? (
-						<button className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12">
+					{user?.cart[0].cartItems?.find(
+						(cartitem) => cartitem.product_id === product.id,
+					) ? (
+						<button
+							className="btn btn-square border-transparent bottom-6  bg-palette-primary-light text-palette-base-main w-11/12"
+							onClick={() =>
+								toast.info(
+									"Esse item ja está no seu carrinho! Verifique Por Favor.",
+								)
+							}>
 							<DoneIcon />
 						</button>
 					) : (

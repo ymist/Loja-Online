@@ -12,6 +12,7 @@ import { apiClient } from "@/services/apiClient";
 import Footer from "@/components/Footer";
 import useStore from "@/data/global_states/useProducts";
 import CarouselBanner from "@/components/Swipper/CarouselBanner";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Page() {
 	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;

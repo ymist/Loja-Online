@@ -13,6 +13,7 @@ import { InputLogin } from "@/components/ui/input_login";
 import { useRouter } from "next/router";
 import { apiClient } from "@/services/apiClient";
 import useStore from "@/data/global_states/useProducts";
+import { toast } from "react-toastify";
 
 const quantitySchema = z.object({
 	quantity: z.string().refine((val) => /^\d+$/.test(val), {
@@ -56,17 +57,21 @@ export default function ModalChangeQuantity({ isOpen, onClose, info }) {
 			cartItem_id: info.cartItemId,
 			quantity: quantity,
 		});
-		console.log(changeCartItem);
-		console.log(user);
-
-		const updCart = await apiClient.get("/cart", {
-			user_id: user.id,
-		});
-		if (updCart.status === 200) {
-			user.cart[0] = updCart.data;
-			setUser(user);
-
-			onClose();
+		if (changeCartItem.status === 200) {
+			const updCart = await apiClient.get("/cart", {
+				user_id: user.id,
+			});
+			if (updCart.status === 200) {
+				user.cart[0] = updCart.data;
+				setUser(user);
+				onClose();
+				toast.success("Quantidade alterada com sucesso!");
+				setTimeout(() => {
+					location.reload();
+				}, 3000);
+			}
+		} else {
+			toast.error("Erro ao mudar a quantidade!");
 		}
 	};
 	const handleChange = async (e) => {

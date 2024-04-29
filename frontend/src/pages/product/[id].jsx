@@ -2,8 +2,8 @@ import Header from "@/components/Header/NavBar";
 import { apiClient } from "@/services/apiClient";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { Box, CircularProgress, Rating } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import { Box, Rating } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import CarouselDetail from "@/components/CarouselDetail/carousel_detail";
 import useStore from "@/data/global_states/useProducts";
@@ -11,7 +11,8 @@ import { CarouselCardsProducts } from "@/components/products/Carousel";
 import Footer from "@/components/Footer";
 import { addToCart } from "@/data/addToCart";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
-import { useDisclosure } from "@nextui-org/react";
+import { Spinner, useDisclosure } from "@nextui-org/react";
+import { toast } from "react-toastify";
 
 export default function DetailProduct() {
 	const router = useRouter();
@@ -98,31 +99,27 @@ export default function DetailProduct() {
 								<h3 className="text-success font-bold flex justify-center text-[26px] lg:text-[28px]">
 									R$ {product?.price}
 								</h3>
-								{user.cart[0].cartItems.find(
-									(item) => item.id !== product.id,
+								{user?.cart[0].cartItems?.find(
+									(cartitem) =>
+										cartitem.product_id === product.id,
 								) ? (
-									<div className="flex items-end justify-center gap-1 mt-4 lg:mt-0 ">
-										<button
-											className="btn w-full btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main lg:w-10/12"
-											onClick={() => {
-												handleOpen();
-												//addToCart(product.id, user)
-											}}>
-											Adicionar ao Carrinho
-											<AddShoppingCartIcon />
-										</button>
-									</div>
+									<button
+										className="btn btn-square border-transparent bottom-6  bg-palette-primary-light text-palette-base-main w-11/12"
+										onClick={() =>
+											toast.info(
+												"Esse item ja está no seu carrinho! Verifique Por Favor.",
+											)
+										}>
+										<DoneIcon />
+									</button>
 								) : (
-									<div className="flex items-end justify-center gap-1 mt-4 lg:mt-0 ">
-										<button
-											className="btn w-full btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main lg:w-10/12"
-											onClick={() => {
-												//addToCart(product.id, user)
-											}}>
-											Item Já Adicionado ao Carrinho
-											<AddShoppingCartIcon />
-										</button>
-									</div>
+									<button
+										className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12"
+										onClick={() =>
+											addToCart(product.id, user)
+										}>
+										<AddShoppingCartIcon />
+									</button>
 								)}
 							</div>
 						</div>
@@ -162,7 +159,7 @@ export default function DetailProduct() {
 				</>
 			) : (
 				<div className="w-full h-[50vh] flex justify-center items-center ">
-					<CircularProgress color="primary" />
+					<Spinner size="lg" color="success" />
 				</div>
 			)}
 			<Footer></Footer>

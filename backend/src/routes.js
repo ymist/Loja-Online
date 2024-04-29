@@ -144,7 +144,7 @@ routes.put(
 	new UpdateCartQuantityController().handle,
 );
 routes.delete(
-	"/delete-cart-item",
+	"/delete-cart-item/:cartItem_id",
 	isAuthToken,
 	new DeleteCartItemController().handle,
 );
