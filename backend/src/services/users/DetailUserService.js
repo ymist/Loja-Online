@@ -13,6 +13,9 @@ class DetailUserService {
 				orders: true,
 				address: true,
 				cart: {
+					where: {
+						active: true,
+					},
 					include: {
 						cartItems: true,
 					},

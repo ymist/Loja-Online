@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-export default function CardProduct({ product, onClick }) {
+export default function CardProduct({ product, onClick, handleOpen }) {
 	const router = useRouter();
 	const [value, setValue] = useState(4);
 	const user = useStore((state) => state.user);
@@ -56,7 +56,7 @@ export default function CardProduct({ product, onClick }) {
 					R$ {product.price}
 				</h3>
 				<div className=" flex items-end justify-center gap-1">
-					{user?.cart[0].cartItems?.find(
+					{user?.cart?.[0]?.cartItems?.find(
 						(cartitem) => cartitem.product_id === product.id,
 					) ? (
 						<button
@@ -71,7 +71,9 @@ export default function CardProduct({ product, onClick }) {
 					) : (
 						<button
 							className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12"
-							onClick={() => addToCart(product.id, user)}>
+							onClick={() =>
+								handleOpen(product.stock, product.id)
+							}>
 							<AddShoppingCartIcon />
 						</button>
 					)}

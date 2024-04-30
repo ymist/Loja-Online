@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { apiClient } from "@/services/apiClient";
 import useStore from "@/data/global_states/useProducts";
 import { addToCart } from "@/data/addToCart";
+import { toast } from "react-toastify";
 
 const quantitySchema = z.object({
 	quantity: z.string().refine((val) => /^\d+$/.test(val), {
@@ -54,7 +55,7 @@ export default function ModalAddQuantity({ isOpen, onClose, info }) {
 		}
 		const addCart = await addToCart(info.product_id, user, quantity);
 
-		if (!addCart.data) {
+		if (addCart.status !== 200) {
 			console.log("Item não adicionado");
 			return;
 		}
@@ -67,6 +68,8 @@ export default function ModalAddQuantity({ isOpen, onClose, info }) {
 			setUser(user);
 
 			onClose();
+
+			toast.success("Item adicionado ao carrinho com sucesso!");
 		}
 	};
 	const handleChange = async (e) => {

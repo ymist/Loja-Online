@@ -11,5 +11,5 @@ export const addToCart = async (id, user, quantity) => {
 		product_id: id,
 		user_id: user.id,
 	});
-	console.log(status);
+	return status;
 };

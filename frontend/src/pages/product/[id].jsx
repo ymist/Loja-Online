@@ -99,7 +99,7 @@ export default function DetailProduct() {
 								<h3 className="text-success font-bold flex justify-center text-[26px] lg:text-[28px]">
 									R$ {product?.price}
 								</h3>
-								{user?.cart[0].cartItems?.find(
+								{user?.cart[0]?.cartItems?.find(
 									(cartitem) =>
 										cartitem.product_id === product.id,
 								) ? (
