@@ -21,7 +21,7 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 			<figure className="h-[180px] mb-3">
 				<img
 					src={`/tmp_products/${product.banner[0]}`}
-					alt="Shoes"
+					alt={product.name}
 					className="h-full"
 				/>
 			</figure>

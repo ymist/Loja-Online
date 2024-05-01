@@ -40,20 +40,14 @@ export function CarouselCardsProducts({ products }) {
 				}}
 				className="w-full lg:w-[80%]">
 				<CarouselContent className="pb-16 pt-8 flex basis-0">
-					{Array.from({ length: 8 }).map((_, i) => (
-						<React.Fragment key={i}>
-							<CarouselItem
-								key={`${i}`}
-								className="basis-8/12 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 flex justify-center">
-								{products?.map((item, index) => (
-									<CardProduct
-										key={index}
-										product={item}
-										handleOpen={handleOpen}
-									/>
-								))}
-							</CarouselItem>
-						</React.Fragment>
+					{products?.map((item, index) => (
+						<CarouselItem className="basis-8/12 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 flex justify-center">
+							<CardProduct
+								key={index}
+								product={item}
+								handleOpen={handleOpen}
+							/>
+						</CarouselItem>
 					))}
 				</CarouselContent>
 				{isDesktop && <CarouselPrevious />}
