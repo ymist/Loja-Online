@@ -44,6 +44,7 @@ class CreateProductService {
 				category_id: true,
 			},
 		});
+		console.log(product);
 
 		return product;
 	}

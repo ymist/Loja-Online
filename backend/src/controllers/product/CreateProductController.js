@@ -6,6 +6,8 @@ class CreateProductController {
 			req.body;
 
 		const createProduct = new CreateProductService();
+
+		console.log("tetsteteteteteettete");
 		if (!req.files || req.files.length === 0) {
 			throw new Error("Nenhum arquivo foi enviado");
 		} else {
