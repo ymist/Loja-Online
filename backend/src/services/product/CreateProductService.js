@@ -18,7 +18,7 @@ class CreateProductService {
 		});
 
 		if (findProduct) {
-			throw new Error("Já existe esse produto cadastrado com esse SKU!");
+			return { error: "Ja existe um produto com esse SKU!" };
 		}
 
 		const product = await prismaClient.product.create({
