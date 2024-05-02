@@ -26,6 +26,10 @@ export default function DetailProduct() {
 	const [info, setInfo] = useState();
 
 	const handleOpen = () => {
+		setInfo({
+			product_id: product.id,
+			stock: Number(product.stock),
+		});
 		onOpen();
 	};
 
@@ -40,8 +44,12 @@ export default function DetailProduct() {
 				const filter = products.filter(
 					(item) => item.brand.id === response.data.brand.id,
 				);
-				if (filter) {
-					setFilterProducts(filter);
+				const secondFilter = filter.filter(
+					(item) => item.id !== response.data.id,
+				);
+
+				if (secondFilter) {
+					setFilterProducts(secondFilter);
 				}
 				setProduct(response.data);
 				setInfo({
@@ -53,8 +61,10 @@ export default function DetailProduct() {
 				return error;
 			}
 		};
-		fetchProduct();
-	}, []);
+		if (id) {
+			fetchProduct();
+		}
+	}, [id]);
 	return (
 		<>
 			<Header />
@@ -115,9 +125,7 @@ export default function DetailProduct() {
 								) : (
 									<button
 										className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12"
-										onClick={() =>
-											addToCart(product.id, user)
-										}>
+										onClick={() => handleOpen()}>
 										<AddShoppingCartIcon />
 									</button>
 								)}

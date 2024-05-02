@@ -69,7 +69,7 @@ export default function DetailCart() {
 			};
 			response();
 		} else {
-			setLoading(false);
+			setLoading(false); // Remova esta linha do bloco if e mova para fora
 		}
 	}, [user]);
 

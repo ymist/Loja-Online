@@ -29,9 +29,16 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 	const [login, setLogin] = React.useState(false);
+	const [cartLength, setCartLength] = React.useState(0);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+	React.useEffect(() => {
+		if (user) {
+			setCartLength(user?.cart?.[0]?.cartItems.length);
+		}
+	}, [user]);
 
 	const handleMenuHamburguer = () => {
 		setDrawerOpen(true);
@@ -93,9 +100,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					aria-label="show 4 new mails"
 					color="inherit"
 					onClick={() => router.push("/cart")}>
-					<Badge
-						badgeContent={user?.cart?.[0]?.cartItems.length}
-						color="error">
+					<Badge badgeContent={cartLength || 0} color="error">
 						<ShoppingCartIcon />
 					</Badge>
 				</IconButton>
@@ -206,7 +211,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							aria-label="show 4 new mails"
 							color="inherit">
 							<Badge
-								badgeContent={user?.cart?.[0]?.cartItems.length}
+								badgeContent={cartLength || 0}
 								color="error"
 								onClick={() => router.push("/cart")}>
 								<ShoppingCartIcon />

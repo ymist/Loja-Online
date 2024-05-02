@@ -82,76 +82,83 @@ export default function TableCart({ products, user }) {
 		}
 	};
 
-	const renderCell = React.useCallback((product, columnKey) => {
-		const cellValue = product[columnKey];
+	const renderCell = React.useCallback(
+		(product, columnKey) => {
+			const cellValue = product[columnKey];
 
-		switch (columnKey) {
-			case "banner":
-				return (
-					<img
-						src={"/tmp_products/" + cellValue[0]}
-						alt={product.name}
-						className="w-16 h-16 object-cover rounded-md cursor-pointer "
-						onClick={() => router.push("/product/" + product.id)}
-					/>
-				);
-			case "name":
-				return (
-					<div className="flex items-center gap-4">{cellValue}</div>
-				);
-			case "price":
-				return (
-					<span className="flex justify-center items-center">
-						R$ {cellValue}
-					</span>
-				);
-			case "actions":
-				return (
-					<div className="relative flex items-center gap-2">
-						<Tooltip content="Alterar Quantidade">
-							<span
-								className="text-lg text-default-400 cursor-pointer active:opacity-50  "
-								onClick={() =>
-									handleOpen(
-										product.stock,
-										product.cartItemId,
-									)
-								}>
-								<EditIcon />
-							</span>
-						</Tooltip>
-						<Tooltip content="Detalhes">
-							<span
-								onClick={() =>
-									router.push("/product/" + product.id)
-								}
-								className="text-lg text-default-400 cursor-pointer active:opacity-50">
-								<EyeIcon />
-							</span>
-						</Tooltip>
-						<Tooltip color="danger" content="Excluir produto">
-							<span
-								className="text-lg text-danger cursor-pointer active:opacity-50"
-								onClick={() => {
-									handleOpenDelete(product.cartItemId);
-								}}>
-								<DeleteIcon />
-							</span>
-						</Tooltip>
-					</div>
-				);
-			case "quantity":
-				return (
-					<span className="flex justify-center items-center cursor-pointer ">
-						<h2 className="  rounded-md text-palette-primary-dark bg-palette-primary-light/30 font-semibold px-2 py-1 ">
+			switch (columnKey) {
+				case "banner":
+					return (
+						<img
+							src={"/tmp_products/" + cellValue[0]}
+							alt={product.name}
+							className="w-16 h-16 object-cover rounded-md cursor-pointer "
+							onClick={() =>
+								router.push("/product/" + product.id)
+							}
+						/>
+					);
+				case "name":
+					return (
+						<div className="flex items-center gap-4">
 							{cellValue}
-						</h2>
-					</span>
-				);
-			default:
-				return cellValue;
-		}
-	}, []);
+						</div>
+					);
+				case "price":
+					return (
+						<span className="flex justify-center items-center">
+							R$ {cellValue}
+						</span>
+					);
+				case "actions":
+					return (
+						<div className="relative flex items-center gap-2">
+							<Tooltip content="Alterar Quantidade">
+								<span
+									className="text-lg text-default-400 cursor-pointer active:opacity-50  "
+									onClick={() =>
+										handleOpen(
+											product.stock,
+											product.cartItemId,
+										)
+									}>
+									<EditIcon />
+								</span>
+							</Tooltip>
+							<Tooltip content="Detalhes">
+								<span
+									onClick={() =>
+										router.push("/product/" + product.id)
+									}
+									className="text-lg text-default-400 cursor-pointer active:opacity-50">
+									<EyeIcon />
+								</span>
+							</Tooltip>
+							<Tooltip color="danger" content="Excluir produto">
+								<span
+									className="text-lg text-danger cursor-pointer active:opacity-50"
+									onClick={() => {
+										handleOpenDelete(product.cartItemId);
+									}}>
+									<DeleteIcon />
+								</span>
+							</Tooltip>
+						</div>
+					);
+				case "quantity":
+					return (
+						<span className="flex justify-center items-center cursor-pointer ">
+							<h2 className="  rounded-md text-palette-primary-dark bg-palette-primary-light/30 font-semibold px-2 py-1 ">
+								{cellValue}
+							</h2>
+						</span>
+					);
+				default:
+					return cellValue;
+			}
+		},
+		[user],
+	);
 
 	const columns = [
 		{ name: "Imagem", uid: "banner" },

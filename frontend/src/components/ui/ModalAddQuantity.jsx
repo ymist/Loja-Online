@@ -53,22 +53,20 @@ export default function ModalAddQuantity({ isOpen, onClose, info }) {
 			router.push("/");
 			return;
 		}
-		const addCart = await addToCart(info.product_id, user, quantity);
+		const addCart = await addToCart(
+			info.product_id,
+			user,
+			quantity,
+			setUser,
+		);
 
-		if (addCart.status !== 200) {
+		if (addCart !== 200) {
 			console.log("Item não adicionado");
-			return;
-		}
-
-		const updCart = await apiClient.get("/cart", {
-			user_id: user.id,
-		});
-		if (updCart.status === 200) {
-			user.cart[0] = updCart.data;
-			setUser(user);
-
 			onClose();
-
+			toast.error("Item não adicionado");
+			return;
+		} else {
+			onClose();
 			toast.success("Item adicionado ao carrinho com sucesso!");
 		}
 	};

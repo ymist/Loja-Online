@@ -3,6 +3,7 @@ import useStore from "@/data/global_states/useProducts";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import DoneIcon from "@mui/icons-material/Done";
 import { Rating } from "@mui/material";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -34,13 +35,11 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 						{product.category.name}
 					</div>
 				</div>
-				<h2
-					className="card-title font-medium max-h-20 text-[14px]  px-6 py-2"
-					onClick={() => {
-						router.push(`/product/${product.id}`);
-					}}>
-					{product.name}
-				</h2>
+				<Link href={`/product/${product.id}`}>
+					<h2 className="card-title font-medium max-h-20 text-[14px]  px-6 py-2">
+						{product.name}
+					</h2>
+				</Link>
 				<Rating
 					name="simple-controlled"
 					size="small"
