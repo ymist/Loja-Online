@@ -118,16 +118,16 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 				<p>Notifications</p>
 			</MenuItem>
 			{user ? (
-				<MenuItem
-					onClick={() => {
-						router.push("/user");
-					}}>
+				<MenuItem>
 					<IconButton
 						size="large"
 						aria-label="account of current user"
 						aria-controls="primary-search-account-menu"
 						aria-haspopup="true"
-						color="inherit">
+						color="inherit"
+						onClick={() => {
+							router.push("/user");
+						}}>
 						<AccountCircle />
 					</IconButton>
 					<p>Perfil</p>

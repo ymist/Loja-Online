@@ -16,7 +16,6 @@ import { toast, ToastContainer } from "react-toastify";
 
 export default function Page() {
 	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;
-	const categoriesMenu = useStore((state) => state.categories);
 	const brands = useStore((state) => state.brands);
 	const products = useStore((state) => state.products);
 	console.log(products);

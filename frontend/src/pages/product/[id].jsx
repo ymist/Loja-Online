@@ -9,10 +9,11 @@ import CarouselDetail from "@/components/CarouselDetail/carousel_detail";
 import useStore from "@/data/global_states/useProducts";
 import { CarouselCardsProducts } from "@/components/products/Carousel";
 import Footer from "@/components/Footer";
-import { addToCart } from "@/data/addToCart";
+
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
 import { Spinner, useDisclosure } from "@nextui-org/react";
 import { toast } from "react-toastify";
+import Head from "next/head";
 
 export default function DetailProduct() {
 	const router = useRouter();
@@ -41,12 +42,8 @@ export default function DetailProduct() {
 				if (response.data?.error) {
 					return <div>pagina nao encontrada</div>;
 				}
-				const filter = products.filter(
-					(item) => item.brand.id === response.data.brand.id,
-				);
-				const secondFilter = filter.filter(
-					(item) => item.id !== response.data.id,
-				);
+				const filter = products.filter((item) => item.brand.id === response.data.brand.id);
+				const secondFilter = filter.filter((item) => item.id !== response.data.id);
 
 				if (secondFilter) {
 					setFilterProducts(secondFilter);
@@ -70,6 +67,9 @@ export default function DetailProduct() {
 			<Header />
 			{product ? (
 				<>
+					<Head>
+						<title>{product.name} - Brisa</title>
+					</Head>
 					<main className="w-screen flex min-h-max items-center mb-8 lg:my-8 flex-col lg:min-h-[500px] lg:items-start gap-6 lg:flex-row lg:justify-evenly  lg:px-[10%] lg:py-[2%] ">
 						<div className="w-full sm:w-[500px] sm:h-[500px] sm:p-16 flex flex-col items-center justify-center border-1 border-palette-base-gray500/50">
 							{/*product?.banner.map((item, i) => {
@@ -85,16 +85,10 @@ export default function DetailProduct() {
 						<div className=" w-[250px] sm:w-[450px]  h-full flex justify-evenly lg:w-5/12 ">
 							<div className="card-body px-0 py-0  h-[250px] lg:h-[500px] flex flex-col justify-evenly gap-4 ">
 								<div className="flex flex-col gap-4">
-									<h2 className="card-title font-medium max-h-20 lg:text-[28px] lg:tracking-8  lg:px-6 py-2">
-										{product?.name}
-									</h2>
+									<h2 className="card-title font-medium max-h-20 lg:text-[28px] lg:tracking-8  lg:px-6 py-2">{product?.name}</h2>
 									<div className="card-actions justify-start lg:pl-6 pt-2">
-										<div className="badge badge-warning p-3 lg:text-[16px]">
-											{product?.brand.name}
-										</div>
-										<div className="badge badge-warning p-3 lg:text-[16px]">
-											{product?.category.name}
-										</div>
+										<div className="badge badge-warning p-3 lg:text-[16px]">{product?.brand.name}</div>
+										<div className="badge badge-warning p-3 lg:text-[16px]">{product?.category.name}</div>
 									</div>
 									<Rating
 										name="simple-controlled"
@@ -106,26 +100,23 @@ export default function DetailProduct() {
 										}}
 									/>
 								</div>
-								<h3 className="text-success font-bold flex justify-center text-[26px] lg:text-[28px]">
-									R$ {product?.price}
-								</h3>
-								{user?.cart[0]?.cartItems?.find(
-									(cartitem) =>
-										cartitem.product_id === product.id,
-								) ? (
+								<h3 className="text-success font-bold flex justify-center text-[26px] lg:text-[28px]">R$ {product?.price}</h3>
+								{user?.cart[0]?.cartItems?.find((cartitem) => cartitem.product_id === product.id) ? (
 									<button
 										className="btn btn-square border-transparent bottom-6  bg-palette-primary-light text-palette-base-main w-11/12"
-										onClick={() =>
-											toast.info(
-												"Esse item ja está no seu carrinho! Verifique Por Favor.",
-											)
-										}>
+										onClick={() => toast.info("Esse item ja está no seu carrinho! Verifique Por Favor.")}>
 										<DoneIcon />
 									</button>
 								) : (
 									<button
 										className="btn btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-11/12"
-										onClick={() => handleOpen()}>
+										onClick={() => {
+											if (user) {
+												handleOpen();
+											} else {
+												router.push("/login");
+											}
+										}}>
 										<AddShoppingCartIcon />
 									</button>
 								)}
@@ -134,12 +125,8 @@ export default function DetailProduct() {
 					</main>
 					<article className="w-screen flex min-h-max items-center mb-8 lg:my-8 flex-col lg:min-h-[500px] lg:items-start gap-6  lg:px-[10%] lg:py-[2%]">
 						<div className="w-3/4 my-8 lg:w-2/4 flex flex-col gap-4">
-							<h1 className="font-bold text-[28px] tracking-wide ">
-								Descrição
-							</h1>
-							<span className="text-[18px] tracking-wide">
-								{product?.description}
-							</span>
+							<h1 className="font-bold text-[28px] tracking-wide ">Descrição</h1>
+							<span className="text-[18px] tracking-wide">{product?.description}</span>
 						</div>
 					</article>
 					<div>
@@ -153,17 +140,11 @@ export default function DetailProduct() {
 									}}>
 									Relacionados
 								</Box>
-								<CarouselCardsProducts
-									products={filterProducts}
-								/>
+								<CarouselCardsProducts products={filterProducts} />
 							</div>
 						)}
 					</div>
-					<ModalAddQuantity
-						info={info}
-						isOpen={isOpen}
-						onClose={onClose}
-					/>
+					<ModalAddQuantity info={info} isOpen={isOpen} onClose={onClose} />
 				</>
 			) : (
 				<div className="w-full h-[50vh] flex justify-center items-center ">

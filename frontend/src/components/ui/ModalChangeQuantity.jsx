@@ -1,11 +1,5 @@
-import React from "react";
-import {
-	Modal,
-	ModalContent,
-	ModalHeader,
-	ModalBody,
-	Button,
-} from "@nextui-org/react";
+import React, { useState } from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, Spinner } from "@nextui-org/react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,9 +18,10 @@ const quantitySchema = z.object({
 
 export default function ModalChangeQuantity({ isOpen, onClose, info }) {
 	const router = useRouter();
+	const inicialize = useStore((state) => state.inicialize);
 	console.log(info);
 	const user = useStore((state) => state.user);
-	const setUser = useStore((state) => state.setUser);
+	const [loading, setLoading] = useState(false);
 	const {
 		handleSubmit,
 		control,
@@ -40,13 +35,14 @@ export default function ModalChangeQuantity({ isOpen, onClose, info }) {
 	});
 
 	const onSubmit = async (data) => {
-		debugger;
+		setLoading(true);
 		const quantity = Number(data.quantity);
 		if (quantity <= 0 || quantity > info.stock) {
 			// Exibir mensagem de erro aqui, se desejar
 			setError("quantity", {
 				message: "Insira um quantidade disponível",
 			});
+			setLoading(false);
 			return;
 		}
 		if (!user?.id) {
@@ -58,20 +54,20 @@ export default function ModalChangeQuantity({ isOpen, onClose, info }) {
 			quantity: quantity,
 		});
 		if (changeCartItem.status === 200) {
-			const updCart = await apiClient.get("/cart", {
-				user_id: user.id,
-			});
-			if (updCart.status === 200) {
-				user.cart[0] = updCart.data;
-				setUser(user);
-				onClose();
-				toast.success("Quantidade alterada com sucesso!");
-				setTimeout(() => {
-					location.reload();
-				}, 3000);
-			}
+			// const updCart = await apiClient.get("/cart", {
+			// 	user_id: user.id,
+			// });
+			// if (updCart.status === 200) {
+			// 	// user.cart[0] = updCart.data;
+			// 	// setUser(user);
+			// 	onClose();
+			// }
+			await inicialize();
+			toast.success("Quantidade alterada com sucesso!");
+			setLoading(false);
 		} else {
 			toast.error("Erro ao mudar a quantidade!");
+			setLoading(false);
 		}
 	};
 	const handleChange = async (e) => {
@@ -101,39 +97,21 @@ export default function ModalChangeQuantity({ isOpen, onClose, info }) {
 						<span>Quantidade Disponível: {info.stock}</span>
 					</ModalHeader>
 					<ModalBody>
-						<form
-							className="p-4 flex flex-col gap-5"
-							onSubmit={handleSubmit(onSubmit)}>
+						<form className="p-4 flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
 							<Controller
 								name="quantity"
 								control={control}
 								render={({ field }) => (
 									<>
-										<InputLogin
-											type="number"
-											placeholder="Insira a quantidade!"
-											onValueChange={handleChange}
-											{...field}
-										/>
-										{errors.quantity && (
-											<p className="text-palette-base-danger text-sm">
-												{errors.quantity.message}
-											</p>
-										)}
+										<InputLogin type="number" placeholder="Insira a quantidade!" onValueChange={handleChange} {...field} />
+										{errors.quantity && <p className="text-palette-base-danger text-sm">{errors.quantity.message}</p>}
 									</>
 								)}
 							/>
-							<Button
-								type="submit"
-								className="w-full text-palette-base-main"
-								color="success">
-								Selecionar Alteração
+							<Button type="submit" className="w-full text-palette-base-main" color="success">
+								{loading ? <Spinner color="default" /> : <span>Confirmar Alteração</span>}
 							</Button>
-							<Button
-								variant="ghost"
-								color="danger"
-								className="w-full flex justify-center items-center"
-								onClick={onClose}>
+							<Button variant="ghost" color="danger" className="w-full flex justify-center items-center" onClick={onClose}>
 								Cancelar Alteração
 							</Button>
 						</form>

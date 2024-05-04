@@ -1,18 +1,7 @@
 import prismaClient from "../../prisma/index.js";
 class EditAddressService {
-	async execute({
-		id,
-		street,
-		number,
-		neighborhood,
-		city,
-		state,
-		complement,
-		country,
-		zipcode,
-		name,
-	}) {
-		const address = await prismaClient.address.findUnique({
+	async execute({ id, street, number, neighborhood, city, state, complement, country, zipcode, name }) {
+		const address = await prismaClient.address.findFirst({
 			where: {
 				id: id,
 			},

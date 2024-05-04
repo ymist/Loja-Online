@@ -67,110 +67,39 @@ routes.post("/create-admin", new CreateAdminController().handle);
 routes.get("/perfil", isAuthToken, new DetailUserController().handle);
 routes.put("/user/:id", isAuthToken, new UpdateUserController().handle);
 //category
-routes.post(
-	"/create-category",
-	isAuthToken,
-	new CreateCategoryController().handle,
-);
+routes.post("/create-category", isAuthToken, new CreateCategoryController().handle);
 routes.get("/categories", new ListCategoryController().handle);
-routes.delete(
-	"/delete-category",
-	isAuthToken,
-	new DeleteCategoryController().handle,
-);
+routes.delete("/delete-category", isAuthToken, new DeleteCategoryController().handle);
 //brands
-routes.post(
-	"/create-brand",
-	isAuthToken,
-	upload.single("file"),
-	new CreateBrandController().handle,
-);
+routes.post("/create-brand", isAuthToken, upload.single("file"), new CreateBrandController().handle);
 routes.get("/brands", new ListBrandController().handle);
-routes.put(
-	"/edit-brand",
-	upload.single("file"),
-	isAuthToken,
-	new EditBrandController().handle,
-);
+routes.put("/edit-brand", upload.single("file"), isAuthToken, new EditBrandController().handle);
 routes.delete("/delete-brand", isAuthToken, new DeleteBrandController().handle);
 //ADDRESS
-routes.post(
-	"/create-address",
-	isAuthToken,
-	new CreateAddressController().handle,
-);
+routes.post("/create-address", isAuthToken, new CreateAddressController().handle);
 routes.get("/list-address", isAuthToken, new ListAddressController().handle);
 routes.put("/edit-address", isAuthToken, new EditAddressController().handle);
-routes.delete(
-	"/delete-address",
-	isAuthToken,
-	new DeleteAddressController().handle,
-);
+routes.delete("/delete-address/:id", isAuthToken, new DeleteAddressController().handle);
 //PRODUCTS
-routes.post(
-	"/admin/create-product",
-	productUpload.array("files"),
-	isAuthToken,
-	new CreateProductController().handle,
-);
+routes.post("/admin/create-product", productUpload.array("files"), isAuthToken, new CreateProductController().handle);
 routes.get("/products", new ListAllProductsController().handle);
 routes.get("/product/:id", new DetailProductController().handle);
-routes.put(
-	"/admin/edit-product/:product_id",
-	productUpload.array("files"),
-	isAuthToken,
-	new EditProductController().handle,
-);
-routes.get(
-	"/products/categories/:category_id",
-	new ListByCategoryController().handle,
-);
+routes.put("/admin/edit-product/:product_id", productUpload.array("files"), isAuthToken, new EditProductController().handle);
+routes.get("/products/categories/:category_id", new ListByCategoryController().handle);
 routes.get("/products/brands/:brand_id", new ListByBrandController().handle);
-routes.put(
-	"/admin/products/stock/:product_id",
-	isAuthToken,
-	new UpdateStockController().handle,
-);
-routes.delete(
-	"/admin/products/delete/:product_id",
-	isAuthToken,
-	new DeleteProductController().handle,
-);
+routes.put("/admin/products/stock/:product_id", isAuthToken, new UpdateStockController().handle);
+routes.delete("/admin/products/delete/:product_id", isAuthToken, new DeleteProductController().handle);
 // CART
 routes.post("/add-to-cart", isAuthToken, new AddToCartController().handle);
-routes.put(
-	"/update-quantity",
-	isAuthToken,
-	new UpdateCartQuantityController().handle,
-);
-routes.delete(
-	"/delete-cart-item/:cartItem_id",
-	isAuthToken,
-	new DeleteCartItemController().handle,
-);
+routes.put("/update-quantity", isAuthToken, new UpdateCartQuantityController().handle);
+routes.delete("/delete-cart-item/:cartItem_id", isAuthToken, new DeleteCartItemController().handle);
 routes.get("/cart", isAuthToken, new ListCartItemsController().handle);
 routes.post("/finish-cart", isAuthToken, new FinishCartController().handle);
 //ORDER
-routes.get(
-	"/orders/:user_id",
-	isAuthToken,
-	new ListOrderByUserController().handle,
-);
-routes.put(
-	"/order/cancel-order/:order_id",
-	isAuthToken,
-	new CancelOrderController().handle,
-);
-routes.put(
-	"/order/out_delivered/:order_id",
-	isAuthToken,
-	new DeliverOrderController().handle,
-);
-routes.put(
-	"/order/delivered/:order_id",
-	isAuthToken,
-	new UpdateOrderDeliveredController().handle,
-);
+routes.get("/orders/:user_id", isAuthToken, new ListOrderByUserController().handle);
+routes.put("/order/cancel-order/:order_id", isAuthToken, new CancelOrderController().handle);
+routes.put("/order/out_delivered/:order_id", isAuthToken, new DeliverOrderController().handle);
+routes.put("/order/delivered/:order_id", isAuthToken, new UpdateOrderDeliveredController().handle);
 routes.get("/orders", isAuthToken, new ListAllOrdersController().handle);
 routes.get("/order/:order_id", isAuthToken, new DetailOrderController().handle);
 export { routes };

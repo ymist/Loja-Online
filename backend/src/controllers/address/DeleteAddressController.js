@@ -2,7 +2,7 @@ import { DeleteAddressService } from "../../services/address/DeleteAddressServic
 
 class DeleteAddressController {
 	async handle(req, res) {
-		const id = req.body.id;
+		const { id } = req.params;
 
 		const deleteAddress = new DeleteAddressService();
 

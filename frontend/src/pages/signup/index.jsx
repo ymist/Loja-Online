@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { InputLogin } from "@/components/ui/input_login";
-import { Button } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 
 import { canSSRGuest } from "@/lib/CanSSRGuest";
 import { apiClient } from "@/services/apiClient";
+import { useState } from "react";
+import Head from "next/head";
 
 const signUpSchema = z.object({
 	name: z
@@ -36,6 +38,7 @@ const signUpSchema = z.object({
 
 export default function SignUp() {
 	const router = useRouter();
+	const [loading, setLoading] = useState(false);
 	const {
 		handleSubmit,
 		control,
@@ -48,10 +51,12 @@ export default function SignUp() {
 	});
 
 	async function handleSignUp(data) {
+		setLoading(true);
 		if (data.password !== data.confirmPassword) {
 			setError("confirmPassword", {
 				message: "As Senhas não são iguais!",
 			});
+			setLoading(false);
 			return;
 		}
 
@@ -61,18 +66,20 @@ export default function SignUp() {
 			password: data.confirmPassword,
 		});
 		if (response?.error) {
+			setLoading(false);
 			setError("email", { message: response.error });
 			return;
 		}
-
+		setLoading(false);
 		router.push("/login");
 	}
 
 	return (
 		<div className="w-full lg:grid h-screen lg:grid-cols-2">
-			<form
-				onSubmit={handleSubmit(handleSignUp)}
-				className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
+			<Head>
+				<title>Cadastrar - Brisa</title>
+			</Head>
+			<form onSubmit={handleSubmit(handleSignUp)} className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
 				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">
 					<div className="grid gap-6 py-6 rounded-t-md text-center bg-palette-primary-main text-palette-base-main">
 						<h1 className="text-3xl font-bold">Cadastrar</h1>
@@ -86,16 +93,8 @@ export default function SignUp() {
 								rules={{ required: "Insira um Nome" }}
 								render={({ field }) => (
 									<>
-										<InputLogin
-											type="text"
-											placeholder="Nome"
-											{...field}
-										/>
-										{errors.name && (
-											<p className="text-palette-base-danger text-sm">
-												{errors.name.message}
-											</p>
-										)}
+										<InputLogin type="text" placeholder="Nome" {...field} />
+										{errors.name && <p className="text-palette-base-danger text-sm">{errors.name.message}</p>}
 									</>
 								)}
 							/>
@@ -108,16 +107,8 @@ export default function SignUp() {
 								rules={{ required: "Insira um Email" }}
 								render={({ field }) => (
 									<>
-										<InputLogin
-											type="email"
-											placeholder="m@exemplo.com"
-											{...field}
-										/>
-										{errors.email && (
-											<p className="text-palette-base-danger text-sm">
-												{errors.email.message}
-											</p>
-										)}
+										<InputLogin type="email" placeholder="m@exemplo.com" {...field} />
+										{errors.email && <p className="text-palette-base-danger text-sm">{errors.email.message}</p>}
 									</>
 								)}
 							/>
@@ -130,16 +121,8 @@ export default function SignUp() {
 								rules={{ required: "Insira uma Senha" }}
 								render={({ field }) => (
 									<>
-										<InputLogin
-											type="password"
-											placeholder="Senha"
-											{...field}
-										/>
-										{errors.password && (
-											<p className="text-palette-base-danger text-sm">
-												{errors.password.message}
-											</p>
-										)}
+										<InputLogin type="password" placeholder="Senha" {...field} />
+										{errors.password && <p className="text-palette-base-danger text-sm">{errors.password.message}</p>}
 									</>
 								)}
 							/>
@@ -152,39 +135,23 @@ export default function SignUp() {
 								rules={{ required: "Confirme sua Senha!" }}
 								render={({ field }) => (
 									<>
-										<InputLogin
-											type="password"
-											placeholder="Confirme sua Senha!"
-											{...field}
-										/>
-										{errors.confirmPassword && (
-											<p className="text-palette-base-danger text-sm">
-												{errors.confirmPassword.message}
-											</p>
-										)}
+										<InputLogin type="password" placeholder="Confirme sua Senha!" {...field} />
+										{errors.confirmPassword && <p className="text-palette-base-danger text-sm">{errors.confirmPassword.message}</p>}
 									</>
 								)}
 							/>
 						</div>
-						<Button
-							type="submit"
-							className="w-full text-palette-base-main "
-							color="success">
-							Cadastrar
+						<Button type="submit" className="w-full text-palette-base-main " color="success">
+							{loading ? <Spinner color="default" /> : <span>Cadastrar</span>}
 						</Button>
-						<Button
-							variant="faded"
-							color="success"
-							className="w-full flex justify-center items-center">
+						<Button variant="faded" color="success" className="w-full flex justify-center items-center">
 							Cadastrar com o Google
 							<GoogleIcon />
 						</Button>
 					</div>
 					<div className="mt-4 text-center text-sm">
 						Já tem uma conta?{" "}
-						<Link
-							href="/login"
-							className="underline text-palette-primary-light">
+						<Link href="/login" className="underline text-palette-primary-light">
 							Entrar
 						</Link>
 					</div>

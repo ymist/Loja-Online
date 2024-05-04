@@ -1,11 +1,5 @@
-import React from "react";
-import {
-	Modal,
-	ModalContent,
-	ModalHeader,
-	ModalBody,
-	Button,
-} from "@nextui-org/react";
+import React, { useState } from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, Spinner } from "@nextui-org/react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +20,8 @@ const quantitySchema = z.object({
 export default function ModalAddQuantity({ isOpen, onClose, info }) {
 	const router = useRouter();
 	const user = useStore((state) => state.user);
-	const setUser = useStore((state) => state.setUser);
+	const inicialize = useStore((state) => state.inicialize);
+	const [loading, setLoading] = useState(false);
 	const {
 		handleSubmit,
 		control,
@@ -40,7 +35,7 @@ export default function ModalAddQuantity({ isOpen, onClose, info }) {
 	});
 
 	const onSubmit = async (data) => {
-		debugger;
+		setLoading(true);
 		const quantity = Number(data.quantity);
 		if (quantity <= 0 || quantity > info.stock) {
 			// Exibir mensagem de erro aqui, se desejar
@@ -53,21 +48,19 @@ export default function ModalAddQuantity({ isOpen, onClose, info }) {
 			router.push("/");
 			return;
 		}
-		const addCart = await addToCart(
-			info.product_id,
-			user,
-			quantity,
-			setUser,
-		);
+		const addCart = await addToCart(info.product_id, user, quantity);
 
 		if (addCart !== 200) {
 			console.log("Item não adicionado");
 			onClose();
 			toast.error("Item não adicionado");
+			setLoading(false);
 			return;
 		} else {
+			await inicialize();
 			onClose();
 			toast.success("Item adicionado ao carrinho com sucesso!");
+			setLoading(false);
 		}
 	};
 	const handleChange = async (e) => {
@@ -97,39 +90,21 @@ export default function ModalAddQuantity({ isOpen, onClose, info }) {
 						<span>Quantidade Disponível: {info.stock}</span>
 					</ModalHeader>
 					<ModalBody>
-						<form
-							className="p-4 flex flex-col gap-5"
-							onSubmit={handleSubmit(onSubmit)}>
+						<form className="p-4 flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
 							<Controller
 								name="quantity"
 								control={control}
 								render={({ field }) => (
 									<>
-										<InputLogin
-											type="number"
-											placeholder="Insira a quantidade!"
-											onValueChange={handleChange}
-											{...field}
-										/>
-										{errors.quantity && (
-											<p className="text-palette-base-danger text-sm">
-												{errors.quantity.message}
-											</p>
-										)}
+										<InputLogin type="number" placeholder="Insira a quantidade!" onValueChange={handleChange} {...field} />
+										{errors.quantity && <p className="text-palette-base-danger text-sm">{errors.quantity.message}</p>}
 									</>
 								)}
 							/>
-							<Button
-								type="submit"
-								className="w-full text-palette-base-main"
-								color="success">
-								Selecionar Quantidade
+							<Button type="submit" className="w-full text-palette-base-main" color="success">
+								{loading ? <Spinner color="default" /> : <span>Selecionar Quantidade</span>}
 							</Button>
-							<Button
-								variant="ghost"
-								color="danger"
-								className="w-full flex justify-center items-center"
-								onClick={onClose}>
+							<Button variant="ghost" color="danger" className="w-full flex justify-center items-center" onClick={onClose}>
 								Cancelar
 							</Button>
 						</form>
