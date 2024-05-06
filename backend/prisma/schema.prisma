@@ -69,7 +69,7 @@ model Product {
   brand_id          String?
   banner            String[]
   SKU               String
-  stock             Int?
+  stock             Int
   cart_item         CartItem[]
   products_on_order ProductOnOrder[]
   brand             Brand?           @relation(fields: [brand_id], references: [id])

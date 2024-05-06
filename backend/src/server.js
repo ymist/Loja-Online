@@ -13,10 +13,7 @@ app.use(routes);
 
 const __dirname = path.resolve();
 app.use("/file", express.static(path.resolve(__dirname, "..", "tmp")));
-app.use(
-	"/files",
-	express.static(path.resolve(__dirname, "..", "tmp_products")),
-);
+app.use("/files", express.static(path.resolve(__dirname, "..", "tmp_products")));
 
 app.use((err, req, res, next) => {
 	if (err instanceof Error) {
@@ -31,4 +28,4 @@ app.use((err, req, res, next) => {
 	});
 });
 
-app.listen(3333, () => console.log("Servidor Online!"));
+app.listen(3333, "0.0.0.0", () => console.log("Servidor Online!"));
