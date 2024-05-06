@@ -42,6 +42,7 @@ const addressSchema = z.object({
 export const AddressFormModal = ({ isOpen, onClose, onOpen }) => {
 	const user = useStore((state) => state.user);
 	const inicialize = useStore((state) => state.inicialize);
+	const [selectValue, setSelectValue] = useState(new Set([]));
 	const [loading, setLoading] = useState(false);
 	const {
 		handleSubmit,
@@ -99,6 +100,7 @@ export const AddressFormModal = ({ isOpen, onClose, onOpen }) => {
 				setValue("street", data.logradouro);
 				setValue("neighborhood", data.bairro);
 				setValue("state", data.uf);
+				setSelectValue(new Set([data.uf]));
 				setValue("city", data.localidade);
 			}
 		}
@@ -215,6 +217,10 @@ export const AddressFormModal = ({ isOpen, onClose, onOpen }) => {
 										{...field}
 										isInvalid={!!errors.state?.message}
 										errorMessage={errors.state?.message}
+										selectedKeys={selectValue}
+										onSelectionChange={(e) => {
+											setSelectValue(e);
+										}}
 										variant="bordered">
 										{estados.map((estado) => (
 											<SelectItem key={estado} value={estado}>

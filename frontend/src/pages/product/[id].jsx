@@ -29,7 +29,7 @@ export default function DetailProduct() {
 	const handleOpen = () => {
 		setInfo({
 			product_id: product.id,
-			stock: Number(product.stock),
+			stock: product.stock,
 		});
 		onOpen();
 	};
@@ -50,7 +50,7 @@ export default function DetailProduct() {
 				}
 				setProduct(response.data);
 				setInfo({
-					stock: Number(response.data.stock),
+					stock: response.data.stock,
 					product_id: response.data.id,
 				});
 			} catch (error) {
@@ -71,7 +71,7 @@ export default function DetailProduct() {
 						<title>{product.name} - Brisa</title>
 					</Head>
 					<main className="w-screen flex min-h-max items-center mb-8 lg:my-8 flex-col lg:min-h-[500px] lg:items-start gap-6 lg:flex-row lg:justify-evenly  lg:px-[10%] lg:py-[2%] ">
-						<div className="w-full sm:w-[500px] sm:h-[500px] sm:p-16 flex flex-col items-center justify-center border-1 border-palette-base-gray500/50">
+						<div className="w-full mt-6 sm:w-[500px] sm:h-[500px] sm:p-16 flex flex-col items-center justify-center border-1 border-palette-base-gray500/50">
 							{/*product?.banner.map((item, i) => {
 					return (
 						<img

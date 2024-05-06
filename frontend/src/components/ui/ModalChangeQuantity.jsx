@@ -19,7 +19,6 @@ const quantitySchema = z.object({
 export default function ModalChangeQuantity({ isOpen, onClose, info }) {
 	const router = useRouter();
 	const inicialize = useStore((state) => state.inicialize);
-	console.log(info);
 	const user = useStore((state) => state.user);
 	const [loading, setLoading] = useState(false);
 	const {

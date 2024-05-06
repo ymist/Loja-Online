@@ -23,13 +23,14 @@ import { SelectorIcon } from "@/components/Table/SelectorIcon";
 import Head from "next/head";
 import { HomeIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export default function DetailCart() {
 	const [cart, setCart] = useState([]);
 	const user = useStore((state) => state.user);
 	const [loading, setLoading] = useState(true);
-	const [isValid, setIsValid] = useState(true);
-	const [value, setValue] = useState("");
+	const inicialize = useStore((state) => state.inicialize);
+	const router = useRouter();
 
 	const { isOpen: isOpenModalConfirmPurchase, onOpen: onOpenModalConfirmPurchase, onClose: onCloseModalConfirmPurchase } = useDisclosure();
 
@@ -45,17 +46,36 @@ export default function DetailCart() {
 		formState: { errors },
 	} = useForm({ mode: "onBlur" });
 
-	const handleConfirmPurchase = (data) => {
-		console.log(data);
-		const existAddress = user.address.find((addr) => addr.id === value.id);
+	const handleConfirmPurchase = async (data) => {
+		setLoading(true);
 
-		if (!existAddress || !value) {
+		const existAddress = user.address.find((addr) => addr.id === data?.address);
+
+		if (!existAddress) {
 			setError("address", { message: "Insira um endereço válido!" });
 			return;
 		}
-		console.log("ksjkdksjd");
+
+		const finishCart = await apiClient.post("/finish-cart", {
+			user_id: user.id,
+			address_id: data.address,
+		});
+
+		if (finishCart.status === 200) {
+			onCloseModalConfirmPurchase();
+			setLoading(false);
+			toast.success("Pedido Criado com sucesso!");
+			await inicialize();
+			router.push("/orders");
+			return;
+		} else {
+			setLoading(false);
+			onCloseModalConfirmPurchase();
+			toast.error("Erro ao gerar pedido, verifique seus daods!");
+			return;
+		}
 	};
-	const router = useRouter();
+
 	useEffect(() => {
 		if (user?.id && user?.cart && user?.cart?.[0]?.cartItems?.length > 0) {
 			setCart([]);
@@ -247,7 +267,6 @@ export default function DetailCart() {
 								<Button
 									className="w-full text-palette-base-main font-medium   cursor-pointer"
 									size="md"
-									disabled={!!user}
 									onClick={() => {
 										handleOpenModal();
 									}}
@@ -285,9 +304,10 @@ export default function DetailCart() {
 												errorMessage={errors.address?.message}>
 												{(item) => (
 													<AutocompleteItem key={item.id} textValue={item.name}>
+														<Divider />
 														<li className="flex justify-center items-center w-full rounded-md h-[84px px-1 gap-2 py-1 md:px-4 md:gap-4 md:py-2 ">
-															<span className="flex items-center text-sm gap-1 md:gap-2">
-																<HomeIcon /> {item.name}
+															<span className="flex flex-col text-ellipsis text-center items-center lg:text-sm gap-1 md:gap-2 w-16 text-[10px] ">
+																<HomeIcon fontSize="small" /> {item.name}{" "}
 															</span>
 															<Divider orientation="vertical" />
 															<div className="w-10/12 flex gap-2 items-center">
@@ -296,7 +316,7 @@ export default function DetailCart() {
 																		{item.street} - {item.number}
 																	</h3>
 																	<span className="text-[12px] truncate whitespace-nowrap">
-																		{item.city} - {item.state}
+																		{item.city} - {item.state}{" "}
 																	</span>
 																	<span className="text-[12px] truncate whitespace-nowrap">{item.zipcode}</span>
 																</div>
@@ -308,13 +328,7 @@ export default function DetailCart() {
 										)}
 									/>
 
-									<Button
-										onClick={() => {
-											handleConfirmPurchase();
-										}}
-										className="w-full text-palette-base-main cursor-pointer"
-										type="submit"
-										color="success">
+									<Button className="w-full text-palette-base-main cursor-pointer" type="submit" color="success">
 										Confirmar Compra!
 									</Button>
 									<Button variant="ghost" color="danger" className="w-full" onClick={onCloseModalConfirmPurchase}>

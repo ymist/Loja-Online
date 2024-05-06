@@ -14,11 +14,13 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 import Image from "next/image";
 import LoginIcon from "@mui/icons-material/Login";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 
 import TemporaryDrawer from "../Drawer";
 import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
 import { useRouter } from "next/router";
+import { useMediaQuery } from "@mui/material";
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const products = useStore((state) => state.products);
 	const categories = useStore((state) => state.categories);
@@ -28,7 +30,6 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const [drawerOpen, setDrawerOpen] = React.useState(false);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-	const [login, setLogin] = React.useState(false);
 	const [cartLength, setCartLength] = React.useState(0);
 
 	const isMenuOpen = Boolean(anchorEl);
@@ -95,43 +96,44 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
 			<MenuItem>
-				<IconButton
-					size="large"
-					aria-label="show 4 new mails"
-					color="inherit"
-					onClick={() => router.push("/cart")}>
+				<IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => router.push("/cart")}>
 					<Badge badgeContent={cartLength || 0} color="error">
 						<ShoppingCartIcon />
 					</Badge>
 				</IconButton>
 				<p>Carrinho</p>
 			</MenuItem>
-			<MenuItem>
-				<IconButton
-					size="large"
-					aria-label="shows new notifications"
-					color="inherit">
-					<Badge badgeContent={notifyCount} color="error">
-						<NotificationsIcon />
-					</Badge>
-				</IconButton>
-				<p>Notifications</p>
-			</MenuItem>
 			{user ? (
-				<MenuItem>
-					<IconButton
-						size="large"
-						aria-label="account of current user"
-						aria-controls="primary-search-account-menu"
-						aria-haspopup="true"
-						color="inherit"
-						onClick={() => {
-							router.push("/user");
-						}}>
-						<AccountCircle />
-					</IconButton>
-					<p>Perfil</p>
-				</MenuItem>
+				<>
+					<MenuItem>
+						<IconButton
+							onClick={() => {
+								router.push("/orders");
+							}}
+							size="large"
+							aria-label="shows new notifications"
+							color="inherit">
+							<Badge badgeContent={user.orders.length} color="error">
+								<ShoppingBagIcon />
+							</Badge>
+						</IconButton>
+						<p>Meus Pedidos</p>
+					</MenuItem>
+					<MenuItem>
+						<IconButton
+							size="large"
+							aria-label="account of current user"
+							aria-controls="primary-search-account-menu"
+							aria-haspopup="true"
+							color="inherit"
+							onClick={() => {
+								router.push("/user");
+							}}>
+							<AccountCircle />
+						</IconButton>
+						<p>Perfil</p>
+					</MenuItem>
+				</>
 			) : (
 				<Link href="/login">
 					<MenuItem>
@@ -149,13 +151,14 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			)}
 		</Menu>
 	);
+	const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
 	return (
 		<Box
 			sx={{
 				flexGrow: 1,
 			}}>
-			<AppBar position="static" color="base" sx={{ padding: "0% 5%" }}>
+			<AppBar position="static" color="bggray" sx={{ padding: isLargeScreen ? "0% 20%" : "0% 5%" }}>
 				<Toolbar>
 					<Box
 						sx={{
@@ -186,12 +189,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 
 						{/* Link para a logo */}
 						<Link href="/" sx={{ mr: "auto" }}>
-							<Image
-								src="/LogoBrisaDesde1976.png"
-								width={120}
-								height={60}
-								alt="Logo Header"
-							/>
+							<Image src="/LogoBrisaDesde1976.png" width={120} height={60} alt="Logo Header" />
 						</Link>
 
 						{/* Restante do conteúdo */}
@@ -206,27 +204,24 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					</Box>
 					<Box sx={{ flexGrow: 1 }} />
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
-						<IconButton
-							size="large"
-							aria-label="show 4 new mails"
-							color="inherit">
-							<Badge
-								badgeContent={cartLength || 0}
-								color="error"
-								onClick={() => router.push("/cart")}>
+						<IconButton size="large" aria-label="show 4 new mails" color="inherit">
+							<Badge badgeContent={cartLength || 0} color="error" onClick={() => router.push("/cart")}>
 								<ShoppingCartIcon />
-							</Badge>
-						</IconButton>
-						<IconButton
-							size="large"
-							aria-label="show 17 new notifications"
-							color="inherit">
-							<Badge badgeContent={notifyCount} color="error">
-								<NotificationsIcon />
 							</Badge>
 						</IconButton>
 						{user ? (
 							<>
+								<IconButton
+									onClick={() => {
+										router.push("/orders");
+									}}
+									size="large"
+									aria-label="show 17 new notifications"
+									color="inherit">
+									<Badge badgeContent={user.orders.length} color="error">
+										<ShoppingBagIcon />
+									</Badge>
+								</IconButton>
 								<IconButton
 									onClick={() => {
 										router.push("/user");
@@ -241,12 +236,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							</>
 						) : (
 							<Link href="/login">
-								<IconButton
-									size="large"
-									aria-label="Entrar"
-									aria-controls="primary-search-account-menu"
-									aria-haspopup="true"
-									color="inherit">
+								<IconButton size="large" aria-label="Entrar" aria-controls="primary-search-account-menu" aria-haspopup="true" color="inherit">
 									<LoginIcon />
 								</IconButton>
 							</Link>
@@ -289,14 +279,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					</Toolbar>
 				</Box>
 			</AppBar>
-			{drawerOpen && (
-				<TemporaryDrawer
-					drawerOpen={drawerOpen}
-					setDrawerOpen={setDrawerOpen}
-					categories={categories}
-					brands={brands}
-				/>
-			)}
+			{drawerOpen && <TemporaryDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} categories={categories} brands={brands} />}
 			{renderMobileMenu}
 			{renderMenu}
 		</Box>

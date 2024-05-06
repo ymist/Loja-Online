@@ -3,24 +3,14 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import CardProduct from "@/components/products/card";
 import { useMediaQuery } from "@mui/material";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useRouter } from "next/navigation";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
 import { useDisclosure } from "@nextui-org/react";
 
 export function CarouselCardsProducts({ products }) {
-	const isDesktop = useMediaQuery("(min-width: 900px)");
-	const {
-		isOpen: isOpenModalAdd,
-		onOpen: onOpenModalAdd,
-		onClose: onCloseModalAdd,
-	} = useDisclosure();
+	const isDesktop = useMediaQuery("(min-width: 1024px)");
+	const { isOpen: isOpenModalAdd, onOpen: onOpenModalAdd, onClose: onCloseModalAdd } = useDisclosure();
 	const [info, setInfo] = React.useState({});
 
 	const handleOpen = (stock, product_id) => {
@@ -42,24 +32,14 @@ export function CarouselCardsProducts({ products }) {
 				<CarouselContent className="pb-16 pt-8 flex basis-0">
 					{products?.map((item, index) => (
 						<CarouselItem className="basis-8/12 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 flex justify-center">
-							<CardProduct
-								key={index}
-								product={item}
-								handleOpen={handleOpen}
-							/>
+							<CardProduct key={index} product={item} handleOpen={handleOpen} />
 						</CarouselItem>
 					))}
 				</CarouselContent>
 				{isDesktop && <CarouselPrevious />}
 				{isDesktop && <CarouselNext />}
 			</Carousel>
-			{isOpenModalAdd && (
-				<ModalAddQuantity
-					info={info}
-					onClose={onCloseModalAdd}
-					isOpen={isOpenModalAdd}
-				/>
-			)}
+			{isOpenModalAdd && <ModalAddQuantity info={info} onClose={onCloseModalAdd} isOpen={isOpenModalAdd} />}
 		</>
 	);
 }

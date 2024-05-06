@@ -10,7 +10,15 @@ class DetailUserService {
 				id: true,
 				name: true,
 				email: true,
-				orders: true,
+				orders: {
+					where: {
+						active: true,
+						cancel: false,
+					},
+					include: {
+						orderItems: true,
+					},
+				},
 				address: true,
 				cart: {
 					where: {

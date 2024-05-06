@@ -11,10 +11,8 @@ const StyledHeader = styled.header`
 	display: flex;
 	flex-direction: column;
 	background-color: "white";
-	color: ${(props) =>
-		props.theme.text.light.primary}; /* Use theme a partir de props */
-	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-		rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+	color: ${(props) => props.theme.text.light.primary}; /* Use theme a partir de props */
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 `;
 
 const StyledDiv = styled.div`
@@ -22,9 +20,7 @@ const StyledDiv = styled.div`
 	height: ${(props) => props.$h || "70px"};
 	color: ${(props) => props.color || "white"};
 	padding: ${(props) => props.$padding || "1rem"};
-	background-color: ${(props) =>
-		props.backgcolor ||
-		props.theme.palette.primary.main}; /* Use theme a partir de props */
+	background-color: ${(props) => props.backgcolor || props.theme.palette.primary.main}; /* Use theme a partir de props */
 	display: flex;
 	flex-direction: ${(props) => props.$flexD || "row"};
 	align-items: center;
@@ -54,20 +50,11 @@ export default function Header() {
 	return (
 		<StyledHeader theme={theme}>
 			<PrimarySearchAppBar cartCount={10} notifyCount={18} />
-			<StyledDiv
-				$h="50px"
-				$gap="5%"
-				$justC="center"
-				$padding="0% 10% 0% 10%"
-				theme={theme}>
+			<StyledDiv $h="50px" $gap="5%" $justC="center" $padding="0% 10% 0% 10%" theme={theme}>
 				{items ? (
 					<>
 						{items.map((item) => {
-							return (
-								<span key={item.id}>
-									{item.name.toUpperCase()}
-								</span>
-							);
+							return <span key={item.id}>{item.name.toUpperCase()}</span>;
 						})}
 					</>
 				) : null}

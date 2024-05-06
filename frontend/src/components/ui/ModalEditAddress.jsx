@@ -230,7 +230,7 @@ export const ModalEditAddress = ({ isOpen, onClose, onOpen, info }) => {
 										{...field}
 										selectedKeys={selectValue}
 										onSelectionChange={(e) => {
-											console.log(e), setSelectValue(e);
+											setSelectValue(e);
 										}}
 										isInvalid={!!errors.state?.message}
 										errorMessage={errors.state?.message}

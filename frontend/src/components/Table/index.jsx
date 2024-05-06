@@ -44,7 +44,7 @@ export default function TableCart({ products, user }) {
 
 	const handleOpen = (itemStock, cartItemId) => {
 		setInfo({
-			stock: Number(itemStock),
+			stock: itemStock,
 			cartItemId: cartItemId,
 		});
 		onOpenModalEdit();

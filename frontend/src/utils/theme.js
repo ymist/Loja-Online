@@ -26,6 +26,9 @@ export const newTheme = createTheme({
 			dark: "#14213d",
 			gray: "#c2c2c2",
 		},
+		bggray: {
+			main: "#f2f3f5",
+		},
 	},
 	text: {
 		dark: {

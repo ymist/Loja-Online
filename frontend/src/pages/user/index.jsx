@@ -283,8 +283,8 @@ export default function UserPage() {
 															<div className="flex flex-col gap-4" key={adr.id}>
 																<Divider />
 																<li className="flex  justify-center items-center w-full rounded-md h-[84px] bg-palette-base-gray100 px-1 gap-2 py-1 md:px-4 md:gap-4 md:py-2 ">
-																	<span className="flex items-center text-sm gap-1 md:gap-2">
-																		<HomeIcon /> {adr.name}{" "}
+																	<span className="flex flex-col text-ellipsis text-center items-center lg:text-sm gap-1 md:gap-2 w-16 text-[10px] ">
+																		<HomeIcon fontSize="small" /> {adr.name}{" "}
 																	</span>
 																	<Divider orientation="vertical" />
 																	<div className="w-10/12 flex gap-2 items-center">
