@@ -5,8 +5,8 @@ export function setupAPIClient(ctx) {
 	let cookies = parseCookies(ctx);
 	//sasas
 	const api = axios.create({
-		//baseURL: "https://loja-online.onrender.com",
-		baseURL: "http://localhost:3333",
+		baseURL: "https://loja-online.onrender.com",
+		//baseURL: "http://localhost:3333",
 	});
 
 	api.interceptors.response.use(
