@@ -4,6 +4,7 @@ class CreateAddressService {
 	async execute({ user_id, street, neighborhood, city, number, state, complement, country, zipcode, name }) {
 		const addressUnique = await prismaClient.address.findFirst({
 			where: {
+				user_id: user_id,
 				zipcode: zipcode,
 				number: number,
 			},

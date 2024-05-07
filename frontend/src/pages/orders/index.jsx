@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header/NavBar";
 import useStore from "@/data/global_states/useProducts";
+import { canSSRAuth } from "@/lib/CanSSRAuth";
 import { ShoppingBagRounded } from "@mui/icons-material";
 import { useMediaQuery } from "@mui/material";
 import { Avatar, AvatarGroup, Divider } from "@nextui-org/react";
@@ -110,3 +111,8 @@ export default function OrdersPage() {
 		</div>
 	);
 }
+export const getServerSideProps = canSSRAuth(async (context) => {
+	return {
+		props: {},
+	};
+});

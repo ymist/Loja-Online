@@ -28,4 +28,4 @@ app.use((err, req, res, next) => {
 	});
 });
 
-app.listen(3333, "0.0.0.0", () => console.log("Servidor Online!"));
+app.listen(3333, () => console.log("Servidor Online!"));

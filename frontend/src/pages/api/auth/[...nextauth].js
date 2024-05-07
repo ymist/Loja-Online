@@ -21,11 +21,12 @@ const nextAuthOptions = (req, res) => {
 						return null;
 					}
 					try {
-						console.log(credentials);
+						console.log("testett");
 						const response = await apiClient.post("/login", {
 							email: credentials.email,
 							password: credentials.password,
 						});
+						console.log(response);
 
 						if (response.status !== 200 || response.data?.error) {
 							throw new Error(response.data.error);
@@ -37,19 +38,12 @@ const nextAuthOptions = (req, res) => {
 							return null;
 						}
 
-						setCookie(
-							{ res },
-							"@lojaonline.token",
-							authData.token,
-							{
-								maxAge: 30 * 24 * 60 * 60, // 30 days
-								path: "/",
-							},
-						);
+						setCookie({ res }, "@lojaonline.token", authData.token, {
+							maxAge: 30 * 24 * 60 * 60, // 30 days
+							path: "/",
+						});
 
-						apiClient.defaults.headers[
-							"Authorization"
-						] = `Bearer ${authData.token}`;
+						apiClient.defaults.headers["Authorization"] = `Bearer ${authData.token}`;
 
 						return {
 							id: authData.id,

@@ -8,7 +8,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { canSSRGuest } from "@/lib/CanSSRGuest";
@@ -52,10 +52,12 @@ export default function Login() {
 				callbackUrl: "/",
 				redirect: false,
 			});
+			console.log(response);
 
 			if (response.status === 401) {
 				//setError("email", { message: "Email ou senha incorretos!" });
 				setError("password", { message: "Email ou senha incorretos!" });
+
 				setLoading(false);
 				return;
 			}
