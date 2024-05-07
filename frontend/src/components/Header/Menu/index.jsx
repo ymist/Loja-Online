@@ -113,7 +113,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							size="large"
 							aria-label="shows new notifications"
 							color="inherit">
-							<Badge badgeContent={user.orders.length} color="error">
+							<Badge badgeContent={user.Order.length} color="error">
 								<ShoppingBagIcon />
 							</Badge>
 						</IconButton>
@@ -218,7 +218,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 									size="large"
 									aria-label="show 17 new notifications"
 									color="inherit">
-									<Badge badgeContent={user.orders.length} color="error">
+									<Badge badgeContent={user.Order.length} color="error">
 										<ShoppingBagIcon />
 									</Badge>
 								</IconButton>

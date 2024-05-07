@@ -20,15 +20,15 @@ export default function OrderPage() {
 
 	useEffect(() => {
 		if (user) {
-			const orderExist = user?.orders?.find((orderFind) => orderFind.id === order_id);
+			const orderExist = user?.Order?.find((orderFind) => orderFind.id === order_id);
 			if (!orderExist) {
 				router.push("/error-404/");
 				return;
 			}
-			if (user?.orders) {
+			if (user?.Order) {
 				// Mapear os pedidos do usuário
 				console.log(order_id, user);
-				const order = user.orders.find((orderFind) => orderFind.id === order_id);
+				const order = user.Order.find((orderFind) => orderFind.id === order_id);
 				if (!order) {
 					router.push("/error-404/");
 					return;

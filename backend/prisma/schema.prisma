@@ -17,7 +17,7 @@ model User {
   is_admin    Boolean   @default(false)
   address     Address[]
   cart        Cart[]
-  Order       Order[]
+  order       Order[]
 
   @@map("users")
 }
@@ -35,7 +35,7 @@ model Address {
   user_id      String
   name         String
   user         User    @relation(fields: [user_id], references: [id])
-  Order        Order[]
+  order        Order[]
 }
 
 model Category {

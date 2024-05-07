@@ -22,9 +22,9 @@ export default function OrdersPage() {
 	const isSmallScreen = useMediaQuery("(max-width:1023px)");
 
 	useEffect(() => {
-		if (user?.orders) {
+		if (user?.Order) {
 			// Mapear os pedidos do usuário
-			const orderDetailsArray = user.orders.map((order) => {
+			const orderDetailsArray = user.Order.map((order) => {
 				// Mapear os itens do pedido
 				const items = order.orderItems.map((item) => {
 					// Encontrar o produto correspondente usando o product_id
