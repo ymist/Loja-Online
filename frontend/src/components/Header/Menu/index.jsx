@@ -113,7 +113,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							size="large"
 							aria-label="shows new notifications"
 							color="inherit">
-							<Badge badgeContent={user.Order.length} color="error">
+							<Badge badgeContent={user.order.length} color="error">
 								<ShoppingBagIcon />
 							</Badge>
 						</IconButton>
@@ -137,12 +137,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			) : (
 				<Link href="/login">
 					<MenuItem>
-						<IconButton
-							size="large"
-							aria-label="account of current user"
-							aria-controls="primary-search-account-menu"
-							aria-haspopup="true"
-							color="inherit">
+						<IconButton size="large" aria-label="account of current user" aria-controls="primary-search-account-menu" aria-haspopup="true" color="inherit">
 							<LoginIcon />
 						</IconButton>
 						<p>Entrar</p>
@@ -218,7 +213,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 									size="large"
 									aria-label="show 17 new notifications"
 									color="inherit">
-									<Badge badgeContent={user.Order.length} color="error">
+									<Badge badgeContent={user.order.length} color="error">
 										<ShoppingBagIcon />
 									</Badge>
 								</IconButton>
@@ -243,13 +238,7 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 						)}
 					</Box>
 					<Box sx={{ display: { xs: "flex", md: "none" } }}>
-						<IconButton
-							size="large"
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit">
+						<IconButton size="large" aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
 							<MoreIcon />
 						</IconButton>
 					</Box>

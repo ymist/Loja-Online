@@ -22,9 +22,9 @@ export default function OrdersPage() {
 	const isSmallScreen = useMediaQuery("(max-width:1023px)");
 
 	useEffect(() => {
-		if (user?.Order) {
+		if (user?.order) {
 			// Mapear os pedidos do usuário
-			const orderDetailsArray = user.Order.map((order) => {
+			const orderDetailsArray = user.order.map((order) => {
 				// Mapear os itens do pedido
 				const items = order.orderItems.map((item) => {
 					// Encontrar o produto correspondente usando o product_id
@@ -56,8 +56,8 @@ export default function OrdersPage() {
 				<title>Meus Pedidos - Brisa</title>
 			</Head>
 			<Header />
-			<main className="w-full bg-palette-base-gray-500 h-full pb-[5%] pt-[2%] px-[1%] lg:px-[20%] ">
-				<div className="shadow-2xl p-3 bg-palette-base-gray-400 rounded-lg w-full h-full flex flex-col gap-4">
+			<main className="w-full bg-palette-base-gray-500 min-h-full pb-[5%] pt-[2%] px-[1%] lg:px-[20%] ">
+				<div className="shadow-2xl p-3 bg-palette-base-gray-400 rounded-lg w-full min-h-full flex flex-col gap-4">
 					<h2 className="text-xl font-medium text-palette-base-gray-900 w-full flex gap-2 items-center p-2 ">
 						<ShoppingBagRounded fontSize="large" />
 						Meus Pedidos
@@ -74,18 +74,9 @@ export default function OrdersPage() {
 										}}
 										key={order.id}>
 										<div className="w-full flex items-center">
-											<AvatarGroup
-												color="default"
-												className="lg:ml-4 flex justify-start w-20 lg:w-28"
-												isBordered
-												max={isSmallScreen ? 1 : 2}>
+											<AvatarGroup color="default" className="lg:ml-4 flex justify-start w-20 lg:w-28" isBordered max={isSmallScreen ? 1 : 2}>
 												{order?.items.map((item) => (
-													<Avatar
-														size="sm"
-														className="text-palette-base-main"
-														key={item?.product?.id}
-														src={`/tmp_products/${item?.product?.banner[0]}`}
-													/>
+													<Avatar size="sm" className="text-palette-base-main" key={item?.product?.id} src={`/tmp_products/${item?.product?.banner[0]}`} />
 												))}
 											</AvatarGroup>
 											<Divider orientation="vertical" />
@@ -94,10 +85,8 @@ export default function OrdersPage() {
 													Pedido {order?.id.split("-")[2].toUpperCase()}
 													{order?.id.split("-")[3].toUpperCase()}
 												</span>
-												<span className="ml-2 text-[12px] lg:text-[16px]   text-palette-base-gray-900 font-light ">
-													{order?.items[0]?.product?.name}
-												</span>
-												<span className="text-[14px] font-medium ml-2 text-success-600">A Caminho</span>
+												<span className="ml-2 text-[12px] lg:text-[16px]   text-palette-base-gray-900 font-light ">{order?.items[0]?.product?.name}</span>
+												<span className="text-[14px] font-medium ml-2 text-success-600">Aguardando Pagamento</span>
 											</div>
 										</div>
 									</li>

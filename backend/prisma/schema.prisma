@@ -112,7 +112,7 @@ model CartItem {
 }
 
 model Order {
-  id             String           @id
+  id             String           @id @default(uuid())
   active         Boolean          @default(true)
   delivered      Boolean          @default(false)
   paid           Boolean          @default(false)

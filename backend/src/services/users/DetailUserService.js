@@ -2,6 +2,7 @@ import prismaClient from "../../prisma/index.js";
 
 class DetailUserService {
 	async execute(user_id) {
+		console.log(user_id);
 		const user = await prismaClient.user.findFirst({
 			where: {
 				id: user_id,
@@ -10,7 +11,7 @@ class DetailUserService {
 				id: true,
 				name: true,
 				email: true,
-				Order: {
+				order: {
 					where: {
 						active: true,
 						cancel: false,
