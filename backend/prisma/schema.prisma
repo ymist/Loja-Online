@@ -17,7 +17,7 @@ model User {
   is_admin    Boolean   @default(false)
   address     Address[]
   cart        Cart[]
-  orders      Order[]
+  Order       Order[]
 
   @@map("users")
 }
@@ -35,7 +35,7 @@ model Address {
   user_id      String
   name         String
   user         User    @relation(fields: [user_id], references: [id])
-  order        Order[]
+  Order        Order[]
 }
 
 model Category {
@@ -69,34 +69,13 @@ model Product {
   brand_id          String?
   banner            String[]
   SKU               String
-  stock             Int
+  stock             Int?
   cart_item         CartItem[]
   products_on_order ProductOnOrder[]
   brand             Brand?           @relation(fields: [brand_id], references: [id])
   category          Category         @relation(fields: [category_id], references: [id])
 
   @@map("products")
-}
-
-model Order {
-  id             String           @id @default(uuid())
-  active         Boolean          @default(true)
-  delivered      Boolean          @default(false)
-  paid           Boolean          @default(false)
-  delivery_date  DateTime?
-  payment_date   DateTime?
-  created_at     DateTime?        @default(now())
-  modified_at    DateTime?        @default(now())
-  user_id        String
-  address_id     String?
-  cancel         Boolean          @default(false)
-  out_delivery   Boolean          @default(false)
-  delivered_date DateTime?
-  address        Address?         @relation(fields: [address_id], references: [id])
-  user           User             @relation(fields: [user_id], references: [id])
-  orderItems     ProductOnOrder[]
-
-  @@map("orders")
 }
 
 model ProductOnOrder {
@@ -130,4 +109,23 @@ model CartItem {
   product_id  String
   cart        Cart      @relation(fields: [cart_id], references: [id])
   product     Product   @relation(fields: [product_id], references: [id])
+}
+
+model Order {
+  id             String           @id
+  active         Boolean          @default(true)
+  delivered      Boolean          @default(false)
+  paid           Boolean          @default(false)
+  delivery_date  DateTime?
+  payment_date   DateTime?
+  created_at     DateTime?        @default(now())
+  modified_at    DateTime?        @default(now())
+  user_id        String
+  address_id     String?
+  cancel         Boolean          @default(false)
+  out_delivery   Boolean          @default(false)
+  delivered_date DateTime?
+  Address        Address?         @relation(fields: [address_id], references: [id])
+  users          User             @relation(fields: [user_id], references: [id])
+  orderItems     ProductOnOrder[]
 }
