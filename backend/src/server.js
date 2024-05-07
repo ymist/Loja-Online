@@ -9,6 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const port = process.env.PORT || 3333;
+
 app.use(routes);
 
 const __dirname = path.resolve();
@@ -28,4 +30,4 @@ app.use((err, req, res, next) => {
 	});
 });
 
-app.listen(3333, () => console.log("Servidor Online!"));
+app.listen(port, () => console.log("Servidor Online!"));
