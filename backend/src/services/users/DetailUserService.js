@@ -10,7 +10,7 @@ class DetailUserService {
 				id: true,
 				name: true,
 				email: true,
-				orders: {
+				Order: {
 					where: {
 						active: true,
 						cancel: false,
