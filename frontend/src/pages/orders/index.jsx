@@ -57,7 +57,7 @@ export default function OrdersPage() {
 			</Head>
 			<Header />
 			<main className="w-full bg-palette-base-gray-500 min-h-full pb-[5%] pt-[2%] px-[1%] lg:px-[20%] ">
-				<div className="shadow-2xl p-3 bg-palette-base-gray-400 rounded-lg w-full min-h-full flex flex-col gap-4">
+				<div className="shadow-2xl p-3 bg-palette-base-gray-100 rounded-lg w-full min-h-full flex flex-col gap-4">
 					<h2 className="text-xl font-medium text-palette-base-gray-900 w-full flex gap-2 items-center p-2 ">
 						<ShoppingBagRounded fontSize="large" />
 						Meus Pedidos

@@ -19,7 +19,6 @@ import {
 	Spinner,
 	useDisclosure,
 } from "@nextui-org/react";
-import { SelectorIcon } from "@/components/Table/SelectorIcon";
 import Head from "next/head";
 import { HomeIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
@@ -29,6 +28,7 @@ export default function DetailCart() {
 	const [cart, setCart] = useState([]);
 	const user = useStore((state) => state.user);
 	const [loading, setLoading] = useState(true);
+	const [loadingButton, setLoadingButton] = useState(false)
 	const inicialize = useStore((state) => state.inicialize);
 	const router = useRouter();
 
@@ -47,7 +47,7 @@ export default function DetailCart() {
 	} = useForm({ mode: "onBlur" });
 
 	const handleConfirmPurchase = async (data) => {
-		setLoading(true);
+		setLoadingButton(true);
 
 		const existAddress = user.address.find((addr) => addr.id === data?.address);
 
@@ -63,13 +63,13 @@ export default function DetailCart() {
 
 		if (finishCart.status === 200) {
 			onCloseModalConfirmPurchase();
-			setLoading(false);
+			setLoadingButton(false);
 			toast.success("Pedido Criado com sucesso!");
 			await inicialize();
 			router.push("/orders");
 			return;
 		} else {
-			setLoading(false);
+			setLoadingButton(false);
 			onCloseModalConfirmPurchase();
 			toast.error("Erro ao gerar pedido, verifique seus daods!");
 			return;
@@ -328,9 +328,14 @@ export default function DetailCart() {
 										)}
 									/>
 
+									{loadingButton? (
+										<Spinner color="success" />
+									) :(
+
 									<Button className="w-full text-palette-base-main cursor-pointer" type="submit" color="success">
 										Confirmar Compra!
 									</Button>
+									)}
 									<Button variant="ghost" color="danger" className="w-full" onClick={onCloseModalConfirmPurchase}>
 										Cancelar
 									</Button>

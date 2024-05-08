@@ -43,7 +43,7 @@ export const AddressFormModal = ({ isOpen, onClose, onOpen }) => {
 	const user = useStore((state) => state.user);
 	const inicialize = useStore((state) => state.inicialize);
 	const [selectValue, setSelectValue] = useState(new Set([]));
-	const [loading, setLoading] = useState(false);
+	const [loadingButton, setLoadingButton] = useState(false);
 	const {
 		handleSubmit,
 		control,
@@ -57,7 +57,7 @@ export const AddressFormModal = ({ isOpen, onClose, onOpen }) => {
 	});
 
 	const onSubmit = async (data) => {
-		setLoading(true);
+		setLoadingButton(true);
 		data.user_id = user.id;
 		data.country = "Brasil";
 		data.complement = data.complement || "";
@@ -66,16 +66,16 @@ export const AddressFormModal = ({ isOpen, onClose, onOpen }) => {
 
 		if (createAddress.status === 200) {
 			toast.success("Endereço criado com sucesso!");
-			setLoading(false);
+			setLoadingButton(false);
 			onClose();
 			await inicialize();
 			return;
 		} else if (createAddress.data?.err) {
-			setLoading(false);
+			setLoadingButton(false);
 			toast.info("Esse endereço já está cadastrado!");
 			return;
 		} else {
-			setLoading(false);
+			setLoadingButton(false);
 			toast.error("Erro ao cadastrar endereço, verifique seus dados!");
 			return;
 		}
@@ -246,7 +246,7 @@ export const AddressFormModal = ({ isOpen, onClose, onOpen }) => {
 							/>
 							<Divider />
 							<Button type="submit" color="success" className="text-palette-base-main">
-								{loading ? <Spinner color="default" /> : <span>Confirmar</span>}
+								{loadingButton ? <Spinner color="default" /> : <span>Confirmar</span>}
 							</Button>
 						</form>
 					</ModalBody>

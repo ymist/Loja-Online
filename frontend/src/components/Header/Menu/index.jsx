@@ -95,8 +95,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			}}
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
-			<MenuItem>
-				<IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => router.push("/cart")}>
+			<MenuItem onClick={() => router.push("/cart")} >
+				<IconButton size="large" aria-label="show 4 new mails" color="inherit" >
 					<Badge badgeContent={cartLength || 0} color="error">
 						<ShoppingCartIcon />
 					</Badge>
@@ -105,11 +105,11 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			</MenuItem>
 			{user ? (
 				<>
-					<MenuItem>
-						<IconButton
-							onClick={() => {
+					<MenuItem  onClick={() => {
 								router.push("/orders");
-							}}
+							}} >
+						<IconButton
+							
 							size="large"
 							aria-label="shows new notifications"
 							color="inherit">
@@ -119,16 +119,16 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 						</IconButton>
 						<p>Meus Pedidos</p>
 					</MenuItem>
-					<MenuItem>
+					<MenuItem onClick={() => {
+								router.push("/user");
+							}} >
 						<IconButton
 							size="large"
 							aria-label="account of current user"
 							aria-controls="primary-search-account-menu"
 							aria-haspopup="true"
 							color="inherit"
-							onClick={() => {
-								router.push("/user");
-							}}>
+							>
 							<AccountCircle />
 						</IconButton>
 						<p>Perfil</p>
@@ -199,8 +199,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					</Box>
 					<Box sx={{ flexGrow: 1 }} />
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
-						<IconButton size="large" aria-label="show 4 new mails" color="inherit">
-							<Badge badgeContent={cartLength || 0} color="error" onClick={() => router.push("/cart")}>
+						<IconButton size="large" onClick={() => router.push("/cart")} aria-label="show 4 new mails" color="inherit">
+							<Badge badgeContent={cartLength || 0} color="error" >
 								<ShoppingCartIcon />
 							</Badge>
 						</IconButton>
