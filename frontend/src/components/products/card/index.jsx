@@ -2,6 +2,7 @@ import useStore from "@/data/global_states/useProducts";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import DoneIcon from "@mui/icons-material/Done";
 import { Rating } from "@mui/material";
+import { Tooltip } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -25,7 +26,11 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 					<div className="badge badge-warning text-[11px]">{product.category.name}</div>
 				</div>
 				<Link href={`/product/${product.id}`}>
-					<h2 className="card-title font-medium max-h-20 text-[14px]  px-6 py-2">{product.name}</h2>
+					<Tooltip placement="bottom" content={product.name}>
+						<h2 className="card-title font-medium max-h-24 text-[14px]  hover:underline line-clamp-4 overflow-hidden text-ellipsis px-6 py-2">
+							{product.name}
+						</h2>
+					</Tooltip>
 				</Link>
 				<Rating
 					name="simple-controlled"

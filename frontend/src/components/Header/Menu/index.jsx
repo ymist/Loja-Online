@@ -21,6 +21,7 @@ import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "@mui/material";
+import { Tooltip } from "@nextui-org/react";
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const products = useStore((state) => state.products);
 	const categories = useStore((state) => state.categories);
@@ -95,8 +96,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			}}
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
-			<MenuItem onClick={() => router.push("/cart")} >
-				<IconButton size="large" aria-label="show 4 new mails" color="inherit" >
+			<MenuItem onClick={() => router.push("/cart")}>
+				<IconButton size="large" aria-label="show 4 new mails" color="inherit">
 					<Badge badgeContent={cartLength || 0} color="error">
 						<ShoppingCartIcon />
 					</Badge>
@@ -105,30 +106,27 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			</MenuItem>
 			{user ? (
 				<>
-					<MenuItem  onClick={() => {
-								router.push("/orders");
-							}} >
-						<IconButton
-							
-							size="large"
-							aria-label="shows new notifications"
-							color="inherit">
+					<MenuItem
+						onClick={() => {
+							router.push("/orders");
+						}}>
+						<IconButton size="large" aria-label="shows new notifications" color="inherit">
 							<Badge badgeContent={user.order.length} color="error">
 								<ShoppingBagIcon />
 							</Badge>
 						</IconButton>
 						<p>Meus Pedidos</p>
 					</MenuItem>
-					<MenuItem onClick={() => {
-								router.push("/user");
-							}} >
+					<MenuItem
+						onClick={() => {
+							router.push("/user");
+						}}>
 						<IconButton
 							size="large"
 							aria-label="account of current user"
 							aria-controls="primary-search-account-menu"
 							aria-haspopup="true"
-							color="inherit"
-							>
+							color="inherit">
 							<AccountCircle />
 						</IconButton>
 						<p>Perfil</p>
@@ -137,7 +135,12 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			) : (
 				<Link href="/login">
 					<MenuItem>
-						<IconButton size="large" aria-label="account of current user" aria-controls="primary-search-account-menu" aria-haspopup="true" color="inherit">
+						<IconButton
+							size="large"
+							aria-label="account of current user"
+							aria-controls="primary-search-account-menu"
+							aria-haspopup="true"
+							color="inherit">
 							<LoginIcon />
 						</IconButton>
 						<p>Entrar</p>
@@ -199,46 +202,65 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					</Box>
 					<Box sx={{ flexGrow: 1 }} />
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
-						<IconButton size="large" onClick={() => router.push("/cart")} aria-label="show 4 new mails" color="inherit">
-							<Badge badgeContent={cartLength || 0} color="error" >
-								<ShoppingCartIcon />
-							</Badge>
-						</IconButton>
+						<Tooltip content="Carrinho">
+							<IconButton size="large" onClick={() => router.push("/cart")} aria-label="show 4 new mails" color="inherit">
+								<Badge badgeContent={cartLength || 0} color="error">
+									<ShoppingCartIcon />
+								</Badge>
+							</IconButton>
+						</Tooltip>
 						{user ? (
 							<>
-								<IconButton
-									onClick={() => {
-										router.push("/orders");
-									}}
-									size="large"
-									aria-label="show 17 new notifications"
-									color="inherit">
-									<Badge badgeContent={user.order.length} color="error">
-										<ShoppingBagIcon />
-									</Badge>
-								</IconButton>
-								<IconButton
-									onClick={() => {
-										router.push("/user");
-									}}
-									size="large"
-									aria-label="account of current user"
-									aria-controls="primary-search-account-menu"
-									aria-haspopup="true"
-									color="inherit">
-									<AccountCircle />
-								</IconButton>
+								<Tooltip content="Meus Pedidos">
+									<IconButton
+										onClick={() => {
+											router.push("/orders");
+										}}
+										size="large"
+										aria-label="show 17 new notifications"
+										color="inherit">
+										<Badge badgeContent={user.order.length} color="error">
+											<ShoppingBagIcon />
+										</Badge>
+									</IconButton>
+								</Tooltip>
+								<Tooltip content="Perfil">
+									<IconButton
+										onClick={() => {
+											router.push("/user");
+										}}
+										size="large"
+										aria-label="account of current user"
+										aria-controls="primary-search-account-menu"
+										aria-haspopup="true"
+										color="inherit">
+										<AccountCircle />
+									</IconButton>
+								</Tooltip>
 							</>
 						) : (
-							<Link href="/login">
-								<IconButton size="large" aria-label="Entrar" aria-controls="primary-search-account-menu" aria-haspopup="true" color="inherit">
-									<LoginIcon />
-								</IconButton>
-							</Link>
+							<Tooltip content="Entrar">
+								<Link href="/login">
+									<IconButton
+										size="large"
+										aria-label="Entrar"
+										aria-controls="primary-search-account-menu"
+										aria-haspopup="true"
+										color="inherit">
+										<LoginIcon />
+									</IconButton>
+								</Link>
+							</Tooltip>
 						)}
 					</Box>
 					<Box sx={{ display: { xs: "flex", md: "none" } }}>
-						<IconButton size="large" aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+						<IconButton
+							size="large"
+							aria-label="show more"
+							aria-controls={mobileMenuId}
+							aria-haspopup="true"
+							onClick={handleMobileMenuOpen}
+							color="inherit">
 							<MoreIcon />
 						</IconButton>
 					</Box>

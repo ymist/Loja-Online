@@ -28,7 +28,7 @@ export default function DetailCart() {
 	const [cart, setCart] = useState([]);
 	const user = useStore((state) => state.user);
 	const [loading, setLoading] = useState(true);
-	const [loadingButton, setLoadingButton] = useState(false)
+	const [loadingButton, setLoadingButton] = useState(false);
 	const inicialize = useStore((state) => state.inicialize);
 	const router = useRouter();
 
@@ -304,7 +304,6 @@ export default function DetailCart() {
 												errorMessage={errors.address?.message}>
 												{(item) => (
 													<AutocompleteItem key={item.id} textValue={item.name}>
-														<Divider />
 														<li className="flex justify-center items-center w-full rounded-md h-[84px px-1 gap-2 py-1 md:px-4 md:gap-4 md:py-2 ">
 															<span className="flex flex-col text-ellipsis text-center items-center lg:text-sm gap-1 md:gap-2 w-16 text-[10px] ">
 																<HomeIcon fontSize="small" /> {item.name}{" "}
@@ -328,14 +327,9 @@ export default function DetailCart() {
 										)}
 									/>
 
-									{loadingButton? (
-										<Spinner color="success" />
-									) :(
-
 									<Button className="w-full text-palette-base-main cursor-pointer" type="submit" color="success">
-										Confirmar Compra!
+										{loadingButton ? <Spinner color="success" /> : <span>Confirmar Compra!</span>}
 									</Button>
-									)}
 									<Button variant="ghost" color="danger" className="w-full" onClick={onCloseModalConfirmPurchase}>
 										Cancelar
 									</Button>

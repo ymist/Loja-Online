@@ -5,6 +5,7 @@ import { canSSRAuth } from "@/lib/CanSSRAuth";
 import { ShoppingBagRounded } from "@mui/icons-material";
 import { useMediaQuery } from "@mui/material";
 import { Avatar, AvatarGroup, Divider } from "@nextui-org/react";
+import { ShoppingBag } from "lucide-react";
 
 import Head from "next/head";
 import Link from "next/link";
@@ -63,9 +64,9 @@ export default function OrdersPage() {
 						Meus Pedidos
 					</h2>
 					<Divider />
-					<ul className=" w-full flex flex-col h-full gap-4">
-						{orderDetails.length > 0 &&
-							orderDetails.map((order) => (
+					{orderDetails.length > 0 ? (
+						<ul className=" w-full flex flex-col h-full gap-4">
+							{orderDetails?.map((order) => (
 								<>
 									<li
 										className="w-full flex cursor-pointer"
@@ -74,9 +75,18 @@ export default function OrdersPage() {
 										}}
 										key={order.id}>
 										<div className="w-full flex items-center">
-											<AvatarGroup color="default" className="lg:ml-4 flex justify-start w-20 lg:w-28" isBordered max={isSmallScreen ? 1 : 2}>
+											<AvatarGroup
+												color="default"
+												className="lg:ml-4 flex justify-start w-20 lg:w-28"
+												isBordered
+												max={isSmallScreen ? 1 : 2}>
 												{order?.items.map((item) => (
-													<Avatar size="sm" className="text-palette-base-main" key={item?.product?.id} src={`/tmp_products/${item?.product?.banner[0]}`} />
+													<Avatar
+														size="sm"
+														className="text-palette-base-main"
+														key={item?.product?.id}
+														src={`/tmp_products/${item?.product?.banner[0]}`}
+													/>
 												))}
 											</AvatarGroup>
 											<Divider orientation="vertical" />
@@ -85,7 +95,9 @@ export default function OrdersPage() {
 													Pedido {order?.id.split("-")[2].toUpperCase()}
 													{order?.id.split("-")[3].toUpperCase()}
 												</span>
-												<span className="ml-2 text-[12px] lg:text-[16px]   text-palette-base-gray-900 font-light ">{order?.items[0]?.product?.name}</span>
+												<span className="ml-2 text-[12px] lg:text-[16px]   text-palette-base-gray-900 font-light ">
+													{order?.items[0]?.product?.name}
+												</span>
 												<span className="text-[14px] font-medium ml-2 text-success-600">Aguardando Pagamento</span>
 											</div>
 										</div>
@@ -93,7 +105,13 @@ export default function OrdersPage() {
 									<Divider />
 								</>
 							))}
-					</ul>
+						</ul>
+					) : (
+						<div className="w-full h-96 flex flex-col gap-6  justify-center items-center">
+							<ShoppingBag size={80} />
+							<span className="text-2xl  ">Sem Pedidos</span>
+						</div>
+					)}
 				</div>
 			</main>
 			<Footer />
