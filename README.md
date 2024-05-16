@@ -2,6 +2,9 @@
 
 Este repositório contém o código-fonte para uma loja online, desenvolvida utilizando diversas tecnologias para proporcionar uma experiência de compra intuitiva. Abaixo estão as principais tecnologias utilizadas e uma visão geral das funcionalidades da loja online:
 
+## Teste e dê seu Feedback
+**Acesse:** https://loja-online-theta.vercel.app/
+
 ## Tecnologias Utilizadas
 - **Frontend:** 🚀
   - Next.js
