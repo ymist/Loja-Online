@@ -16,10 +16,10 @@ Este repositório contém o código-fonte para uma loja online, desenvolvida uti
   - Prisma
   
 - **UI Styles:** ✨
- - NextUI
- - MaterialUI
- - DaisyUI
- - Sapiens
+  - NextUI
+  - MaterialUI
+  - DaisyUI
+  - Sapiens
 
 ## Funcionalidades 🧵
 
