@@ -110,7 +110,7 @@ export default function DetailCart() {
 							return total + objeto.quantity;
 						}, 0) +
 						")"}{" "}
-					- Brisa
+					- uShop
 				</title>
 			</Head>
 			<main className="h-screen overflow-auto">

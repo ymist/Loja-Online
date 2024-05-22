@@ -29,7 +29,10 @@ export default function CarouselDetail({ images }) {
 						<CarouselItem key={index} className="pl-0 h-[450px]">
 							<div className="w-full border-none h-full">
 								<Card className="h-full border-none">
-									<img className="object-contain  w-full h-full border-none" src={`/tmp_products/${image}`} />
+									<img
+										className="object-contain  w-full h-full border-none"
+										src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`}
+									/>
 								</Card>
 							</div>
 						</CarouselItem>

@@ -187,7 +187,8 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 
 						{/* Link para a logo */}
 						<Link href="/" sx={{ mr: "auto" }}>
-							<Image src="/LogoBrisaDesde1976.png" width={120} height={60} alt="Logo Header" />
+							{/*<Image src="/LogoBrisaDesde1976.png" width={120} height={60} alt="Logo Header" />*/}
+							<h1 className="font-bold text-3xl text-palette-primary-dark">uShop</h1>
 						</Link>
 
 						{/* Restante do conteúdo */}

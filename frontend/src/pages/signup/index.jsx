@@ -77,7 +77,7 @@ export default function SignUp() {
 	return (
 		<div className="w-full lg:grid h-screen lg:grid-cols-2">
 			<Head>
-				<title>Cadastrar - Brisa</title>
+				<title>Cadastrar - uShop</title>
 			</Head>
 			<form onSubmit={handleSubmit(handleSignUp)} className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
 				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">

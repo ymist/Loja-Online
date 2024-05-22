@@ -18,17 +18,18 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 	return (
 		<div className="card w-64 h-[450px] bg-slate-100 shadow-2xl pb-2 cursor-pointer" onClick={onClick}>
 			<figure className="h-[180px] mb-3">
-				<img src={`/tmp_products/${product.banner[0]}`} alt={product.banner[0]} className="h-full" />
+				<img src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`} alt={product.banner[0]} className="h-full" />
 			</figure>
 			<div className="card-body px-0 py-0 min-h-min flex justify-between flex-col">
 				<div className="card-actions justify-start pl-6 pt-2">
-					<div className="badge badge-warning text-[11px]">{product.brand.name}</div>
-					<div className="badge badge-warning text-[11px]">{product.category.name}</div>
+					<div className="badge badge-warning text-[11px]">{/*product.brand.name*/} Marca</div>
+					<div className="badge badge-warning text-[11px]">{/*product.category.name*/} Categoria</div>
 				</div>
 				<Link href={`/product/${product.id}`}>
-					<Tooltip placement="bottom" content={product.name}>
+					<Tooltip placement="bottom" content={"Produto " + product?.id.split("-")[2].toUpperCase()}>
 						<h2 className="card-title font-medium max-h-24 text-[14px]  hover:underline line-clamp-4 overflow-hidden text-ellipsis px-6 py-2">
-							{product.name}
+							{/*product.name*/}
+							Produto {product?.id.split("-")[2].toUpperCase()}{" "}
 						</h2>
 					</Tooltip>
 				</Link>

@@ -54,7 +54,7 @@ export default function OrdersPage() {
 	return (
 		<div className="h-[87.7vh]">
 			<Head>
-				<title>Meus Pedidos - Brisa</title>
+				<title>Meus Pedidos - uShop</title>
 			</Head>
 			<Header />
 			<main className="w-full bg-palette-base-gray-500 min-h-full pb-[5%] pt-[2%] px-[1%] lg:px-[20%] ">
@@ -85,7 +85,7 @@ export default function OrdersPage() {
 														size="sm"
 														className="text-palette-base-main"
 														key={item?.product?.id}
-														src={`/tmp_products/${item?.product?.banner[0]}`}
+														src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`}
 													/>
 												))}
 											</AvatarGroup>
@@ -96,7 +96,7 @@ export default function OrdersPage() {
 													{order?.id.split("-")[3].toUpperCase()}
 												</span>
 												<span className="ml-2 text-[12px] lg:text-[16px]   text-palette-base-gray-900 font-light ">
-													{order?.items[0]?.product?.name}
+													Produto {order?.items[0]?.product?.id.split("-")[2].toUpperCase()}{" "}
 												</span>
 												<span className="text-[14px] font-medium ml-2 text-success-600">Aguardando Pagamento</span>
 											</div>

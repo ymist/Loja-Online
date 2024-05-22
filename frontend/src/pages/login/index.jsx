@@ -76,7 +76,7 @@ export default function Login() {
 	return (
 		<div className="w-full lg:grid h-screen lg:grid-cols-2">
 			<Head>
-				<title>Entrar - Brisa</title>
+				<title>Entrar - uShop</title>
 			</Head>
 			<form onSubmit={handleSubmit(handleLogin)} className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
 				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">

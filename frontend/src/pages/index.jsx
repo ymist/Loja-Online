@@ -24,7 +24,7 @@ export default function Page() {
 		<>
 			<div>
 				<Head>
-					<title>Brisa</title>
+					<title>uShop</title>
 				</Head>
 				<Header />
 				<Box
@@ -55,26 +55,20 @@ export default function Page() {
 						{products?.length !== 0 ? (
 							<>
 								{brands?.map((brand, index) => {
-									const filterProducts = products.filter(
-										(product) =>
-											product.brand.id === brand.id,
-									);
+									const filterProducts = products.filter((product) => product.brand.id === brand.id);
 									if (filterProducts.length > 0) {
 										return (
-											<div
-												key={index}
-												className="flex items-center justify-center w-[100%] flex-col">
+											<div key={index} className="flex items-center justify-center w-[100%] flex-col">
 												<Box
 													sx={{
 														fontWeight: "200",
 														fontSize: "32px",
 														paddingTop: "24px",
 													}}>
-													{brand.name}
+													{/*brand.name*/}
+													{"Marca " + (index + 1)}
 												</Box>
-												<CarouselCardsProducts
-													products={filterProducts}
-												/>
+												<CarouselCardsProducts products={filterProducts} />
 											</div>
 										);
 									}
@@ -82,18 +76,14 @@ export default function Page() {
 							</>
 						) : (
 							<div className="flex justify-evenly w-11/12">
-								{Array.from({ length: skeletonNumber }).map(
-									(_, index) => (
-										<div
-											key={index}
-											className="flex flex-col gap-4 w-48 pt-4">
-											<div className="skeleton bg-neutral-content h-32 w-full"></div>
-											<div className="skeleton bg-neutral-content h-4 w-28"></div>
-											<div className="skeleton bg-neutral-content h-4 w-full"></div>
-											<div className="skeleton bg-neutral-content h-4 w-full"></div>
-										</div>
-									),
-								)}
+								{Array.from({ length: skeletonNumber }).map((_, index) => (
+									<div key={index} className="flex flex-col gap-4 w-48 pt-4">
+										<div className="skeleton bg-neutral-content h-32 w-full"></div>
+										<div className="skeleton bg-neutral-content h-4 w-28"></div>
+										<div className="skeleton bg-neutral-content h-4 w-full"></div>
+										<div className="skeleton bg-neutral-content h-4 w-full"></div>
+									</div>
+								))}
 							</div>
 						)}
 					</Box>

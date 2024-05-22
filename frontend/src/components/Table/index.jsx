@@ -75,7 +75,7 @@ export default function TableCart({ products, user }) {
 				case "banner":
 					return (
 						<img
-							src={"/tmp_products/" + cellValue[0]}
+							src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`}
 							alt={product.name}
 							className="w-8 h-8 lg:w-16 lg:h-16 object-cover rounded-md cursor-pointer "
 							onClick={() => router.push("/product/" + product.id)}

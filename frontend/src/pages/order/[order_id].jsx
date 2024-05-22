@@ -64,7 +64,7 @@ export default function OrderPage() {
 	return (
 		<div className="min-h-[60vh]">
 			<Head>
-				<title>Pedido - Brisa</title>
+				<title>Pedido - uShop</title>
 			</Head>
 			<Header />
 			{loading ? (
@@ -90,10 +90,10 @@ export default function OrderPage() {
 									{orderDetails?.items?.map((product) => {
 										return (
 											<li className="w-full h-24 rounded-md h flex items-center gap-2 p-3 bg-palette-base-gray-500">
-												<img className="w-12 h-12" src={`/tmp_products/${product.product?.banner[0]}`} />
+												<img className="w-12 h-12" src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`} />
 												<div className="">
 													<h2 className="font-medium text-left max-w-[60%] line-clamp-2 text-[12px] sm:text-[16px] sm:line-clamp-none sm:max-w-none ">
-														{product.product?.name}
+														Produto {product?.product?.id.split("-")[2].toUpperCase()}{" "}
 													</h2>
 													<h2 className="text-[12px]">Quantidade: {product.quantity}</h2>
 												</div>

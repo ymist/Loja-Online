@@ -115,7 +115,7 @@ export default function UserPage() {
 	return (
 		<div className="h-screen">
 			<Head>
-				<title>Perfil - Brisa</title>
+				<title>Perfil - uShop</title>
 			</Head>
 			<Header />
 			<main className="bg-palette-base-gray500/20 h-full ">
