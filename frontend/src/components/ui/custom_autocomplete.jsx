@@ -25,8 +25,8 @@ export default function CustomAutocomplete({ products }) {
 							/>
 							<div className="flex flex-col">
 								<span className="text-small">{"Produto " + product?.id.split("-")[2].toUpperCase()}</span>
-								<span className="text-tiny text-default-400">{"Marca" + index + 1}</span>
-								<span className="text-tiny text-default-400">{"Categoria" + index + 1}</span>
+								<span className="text-tiny text-default-400">{"Marca" + 1}</span>
+								<span className="text-tiny text-default-400">{"Categoria" + 1}</span>
 							</div>
 						</div>
 					</AutocompleteItem>
