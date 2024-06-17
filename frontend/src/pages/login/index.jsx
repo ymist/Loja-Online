@@ -15,6 +15,7 @@ import { canSSRGuest } from "@/lib/CanSSRGuest";
 import useStore from "@/data/global_states/useProducts";
 import { useState } from "react";
 import Head from "next/head";
+import BackButton from "@/components/ui/back_button";
 
 const loginSchema = z.object({
 	email: z
@@ -78,6 +79,7 @@ export default function Login() {
 			<Head>
 				<title>Entrar - uShop</title>
 			</Head>
+			<BackButton />
 			<form onSubmit={handleSubmit(handleLogin)} className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
 				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">
 					<div className="grid gap-6 py-6 rounded-t-md text-center bg-palette-primary-main text-palette-base-main">

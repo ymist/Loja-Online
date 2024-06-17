@@ -5,6 +5,7 @@ import { useTheme } from "@emotion/react";
 
 import PrimarySearchAppBar from "../Menu";
 import useStore from "@/data/global_states/useProducts";
+import { useRouter } from "next/router";
 const StyledHeader = styled.header`
 	width: 100%;
 	height: min-content;
@@ -47,6 +48,7 @@ const StyledDiv = styled.div`
 export default function Header() {
 	const theme = useTheme(); // Obtém o tema usando o hook useTheme do Material-UI
 	const items = useStore((state) => state.categories);
+	const router = useRouter();
 	return (
 		<StyledHeader theme={theme}>
 			<PrimarySearchAppBar cartCount={10} notifyCount={18} />
@@ -54,7 +56,11 @@ export default function Header() {
 				{items ? (
 					<>
 						{items.map((item) => {
-							return <span key={item.id}>{item.name.toUpperCase()}</span>;
+							return (
+								<span onClick={() => router.push("/search_products")} key={item.id}>
+									{item.name.toUpperCase()}
+								</span>
+							);
 						})}
 					</>
 				) : null}

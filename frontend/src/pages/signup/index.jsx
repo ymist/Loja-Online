@@ -8,13 +8,13 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { canSSRGuest } from "@/lib/CanSSRGuest";
 import { apiClient } from "@/services/apiClient";
 import { useState } from "react";
 import Head from "next/head";
+import BackButton from "@/components/ui/back_button";
 
 const signUpSchema = z.object({
 	name: z
@@ -79,6 +79,7 @@ export default function SignUp() {
 			<Head>
 				<title>Cadastrar - uShop</title>
 			</Head>
+			<BackButton />
 			<form onSubmit={handleSubmit(handleSignUp)} className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
 				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">
 					<div className="grid gap-6 py-6 rounded-t-md text-center bg-palette-primary-main text-palette-base-main">
