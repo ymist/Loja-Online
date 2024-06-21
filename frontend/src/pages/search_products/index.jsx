@@ -1,10 +1,11 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header/NavBar";
 import CardProduct from "@/components/products/card";
 import { AccordionList } from "@/components/ui/accordion_list";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
 import { RadioLayout } from "@/components/ui/radiolayout";
 import useStore from "@/data/global_states/useProducts";
-import { Divider, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
+import { Divider, Pagination, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
@@ -18,6 +19,10 @@ export default function SearchProducts() {
 	const [activeBrandFilters, setActiveBrandFilters] = useState(new Set());
 	const [filteredProducts, setFilteredProducts] = useState(products);
 	const { isOpen: isOpenModalAdd, onOpen: onOpenModalAdd, onClose: onCloseModalAdd } = useDisclosure();
+	const [info, setInfo] = useState({});
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 16;
+
 	const filters = [
 		{
 			label: "Popular",
@@ -40,8 +45,20 @@ export default function SearchProducts() {
 			value: "highprice",
 		},
 	];
-	const [info, setInfo] = useState({});
-	console.log(filteredProducts);
+
+	const indexOfLastProduct = currentPage * itemsPerPage;
+	const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+	const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+	const handlePageChange = (page) => {
+		window.scrollTo({
+			top: "selectedFrame.offsetTop",
+			left: 0,
+			behavior: "smooth",
+		});
+		setCurrentPage(page);
+	};
+
 	useEffect(() => {
 		applyFilters();
 	}, [activeCategoryFilters, activeBrandFilters, products]);
@@ -115,7 +132,7 @@ export default function SearchProducts() {
 							</div>
 						</div>
 						<div className="flex flex-grow">
-							<div className="w-1/4">
+							<div className="w-1/6">
 								<AccordionList
 									toogleCategoryFilter={toogleCategoryFilter}
 									toogleBrandFilter={toogleBrandFilter}
@@ -123,12 +140,27 @@ export default function SearchProducts() {
 									brands={brands}
 								/>
 							</div>
-							<div className="flex-grow p-4 flex flex-wrap">
-								{filteredProducts.map((product) => (
-									<span className="my-4 mx-3">
-										<CardProduct product={product} handleOpen={handleOpen} />
-									</span>
-								))}
+							<div className="flex flex-col gap-4 w-full">
+								<div
+									className={`flex-grow p-4 grid gap-4 ${
+										selectedLayout === "2" ? "grid-cols-2" : selectedLayout === "3" ? "grid-cols-3" : "grid-cols-4"
+									}`}>
+									{currentProducts.map((product) => (
+										<div key={product.id} className="my-4">
+											<CardProduct product={product} handleOpen={handleOpen} />
+										</div>
+									))}
+								</div>
+								<div className="w-full flex justify-center">
+									<Pagination
+										isCompact
+										color="success"
+										showControls
+										total={Math.ceil(filteredProducts.length / itemsPerPage)}
+										initialPage={1}
+										onChange={handlePageChange}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -139,6 +171,7 @@ export default function SearchProducts() {
 					<Spinner color="success" />
 				</div>
 			)}
+			<Footer />
 		</div>
 	);
 }

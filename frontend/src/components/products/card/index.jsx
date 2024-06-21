@@ -14,8 +14,8 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 	const user = useStore((state) => state.user);
 
 	return (
-		<div className="card w-64 h-[450px] bg-slate-100 shadow-2xl pb-2 cursor-pointer" onClick={onClick}>
-			<figure className="h-[180px] mb-3">
+		<div className="card w-full h-full bg-slate-100 shadow-2xl pb-2 cursor-pointer" onClick={onClick}>
+			<figure className="max-h-[250px] mb-3">
 				{/* <img src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`} alt={product.banner[0]} className="h-full" /> */}
 				<img src={`/tmp_products/${product.banner[0]}`} alt={product.banner[0]} className="h-full" />
 			</figure>

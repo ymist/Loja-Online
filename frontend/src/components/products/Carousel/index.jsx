@@ -32,7 +32,9 @@ export function CarouselCardsProducts({ products }) {
 				<CarouselContent className="pb-16 pt-8 flex basis-0">
 					{products?.map((item, index) => (
 						<CarouselItem className="basis-8/12 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 flex justify-center">
-							<CardProduct key={index} product={item} handleOpen={handleOpen} />
+							<span className="w-64 h-[450px]">
+								<CardProduct key={index} product={item} handleOpen={handleOpen} />
+							</span>
 						</CarouselItem>
 					))}
 				</CarouselContent>
