@@ -18,6 +18,7 @@ export default function SearchProducts() {
 	const [activeCategoryFilters, setActiveCategoryFilters] = useState(new Set());
 	const [activeBrandFilters, setActiveBrandFilters] = useState(new Set());
 	const [filteredProducts, setFilteredProducts] = useState(products);
+	const [value, setValue] = useState({ min: 0, max: 0 });
 	const { isOpen: isOpenModalAdd, onOpen: onOpenModalAdd, onClose: onCloseModalAdd } = useDisclosure();
 	const [info, setInfo] = useState({});
 	const [currentPage, setCurrentPage] = useState(1);
@@ -60,8 +61,9 @@ export default function SearchProducts() {
 	};
 
 	useEffect(() => {
+		setCurrentPage(1);
 		applyFilters();
-	}, [activeCategoryFilters, activeBrandFilters, products]);
+	}, [activeCategoryFilters, activeBrandFilters, products, value]);
 
 	const toogleBrandFilter = (brand) => {
 		const newFilters = new Set(activeBrandFilters);
@@ -95,6 +97,13 @@ export default function SearchProducts() {
 			filtered = filtered.filter((product) => activeBrandFilters.has(product.brand.name));
 		}
 
+		if (value.min != 0) {
+			filtered = filtered.filter((product) => Number(product.price.replace(",", ".")) >= value.min);
+		}
+
+		if (value.max != 0) {
+			filtered = filtered.filter((product) => Number(product.price.replace(",", ".")) <= value.max);
+		}
 		setFilteredProducts(filtered);
 	};
 
@@ -112,65 +121,69 @@ export default function SearchProducts() {
 				<title>Produtos - uShop</title>
 			</Head>
 			<Header />
-			{products.length > 0 ? (
-				<main className="flex justify-center flex-col w-full gap-4 lg:w-3/5 p-4">
-					<h1 className="text-2xl tracking-widest text-palette-base-gray-900 flex justify-center items-center gap-3 font-semibold">PRODUTOS</h1>
-					<div className="flex flex-col">
-						<div className="w-full">
-							<div className="w-full gap-3 bg-gray-300 p-4 bg-palette-base-gray-400 flex flex-row-reverse items-center">
-								<Select size="sm" onSelectionChange={setSelectedFilter} selectedKeys={selectedFilter} className="w-[125px] text-sm">
-									{filters.map((item) => (
-										<SelectItem key={item.value}>{item.label}</SelectItem>
-									))}
-								</Select>
-								<Divider orientation="vertical" />
-								<RadioLayout value={selectedLayout} setValue={setSelectedLayout} />
-								<Divider orientation="vertical" />
-								<span className="text-palette-base-gray-900 text-sm font-normal">
-									<b>{filteredProducts.length}</b> Produtos
-								</span>
-							</div>
-						</div>
-						<div className="flex flex-grow">
-							<div className="w-1/6">
-								<AccordionList
-									toogleCategoryFilter={toogleCategoryFilter}
-									toogleBrandFilter={toogleBrandFilter}
-									categories={categories}
-									brands={brands}
-								/>
-							</div>
-							<div className="flex flex-col gap-4 w-full">
-								<div
-									className={`flex-grow p-4 grid gap-4 ${
-										selectedLayout === "2" ? "grid-cols-2" : selectedLayout === "3" ? "grid-cols-3" : "grid-cols-4"
-									}`}>
-									{currentProducts.map((product) => (
-										<div key={product.id} className="my-4">
-											<CardProduct product={product} handleOpen={handleOpen} />
-										</div>
-									))}
-								</div>
-								<div className="w-full flex justify-center">
-									<Pagination
-										isCompact
-										color="success"
-										showControls
-										total={Math.ceil(filteredProducts.length / itemsPerPage)}
-										initialPage={1}
-										onChange={handlePageChange}
-									/>
-								</div>
-							</div>
+			<main className="flex justify-center flex-col w-full gap-4 lg:w-3/5 p-4">
+				<h1 className="text-2xl tracking-widest text-palette-base-gray-900 flex justify-center items-center gap-3 font-semibold">PRODUTOS</h1>
+				<div className="flex flex-col">
+					<div className="w-full">
+						<div className="w-full gap-3 bg-gray-300 p-4 bg-palette-base-gray-400 flex flex-row-reverse items-center">
+							<Select size="sm" onSelectionChange={setSelectedFilter} selectedKeys={selectedFilter} className="w-[125px] text-sm">
+								{filters.map((item) => (
+									<SelectItem key={item.value}>{item.label}</SelectItem>
+								))}
+							</Select>
+							<Divider orientation="vertical" />
+							<RadioLayout value={selectedLayout} setValue={setSelectedLayout} />
+							<Divider orientation="vertical" />
+							<span className="text-palette-base-gray-900 text-sm font-normal">
+								<b>{filteredProducts?.length}</b> Produtos
+							</span>
 						</div>
 					</div>
-					{isOpenModalAdd && <ModalAddQuantity info={info} onClose={onCloseModalAdd} isOpen={isOpenModalAdd} />}
-				</main>
-			) : (
-				<div className="h-screen flex justify-center items-center">
-					<Spinner color="success" />
+					<div className="flex flex-grow">
+						<div className="w-1/6">
+							<AccordionList
+								toogleCategoryFilter={toogleCategoryFilter}
+								toogleBrandFilter={toogleBrandFilter}
+								categories={categories}
+								brands={brands}
+								value={value}
+								setValue={setValue}
+							/>
+						</div>
+						<div className="flex flex-col gap-4 w-full">
+							{filteredProducts.length !== 0 ? (
+								<>
+									<div
+										className={`flex-grow p-4 grid gap-4 ${
+											selectedLayout === "2" ? "grid-cols-2" : selectedLayout === "3" ? "grid-cols-3" : "grid-cols-4"
+										}`}>
+										{currentProducts.map((product) => (
+											<div key={product.id} className="my-4">
+												<CardProduct product={product} handleOpen={handleOpen} />
+											</div>
+										))}
+									</div>
+									<div className="w-full flex justify-center">
+										<Pagination
+											isCompact
+											color="success"
+											showControls
+											total={Math.ceil(filteredProducts.length / itemsPerPage)}
+											initialPage={1}
+											onChange={handlePageChange}
+										/>
+									</div>
+								</>
+							) : (
+								<div className="flex justify-center my-32 items-center">
+									<Spinner color="success" />
+								</div>
+							)}
+						</div>
+					</div>
 				</div>
-			)}
+				{isOpenModalAdd && <ModalAddQuantity info={info} onClose={onCloseModalAdd} isOpen={isOpenModalAdd} />}
+			</main>
 			<Footer />
 		</div>
 	);

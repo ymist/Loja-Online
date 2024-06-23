@@ -1,11 +1,9 @@
-import useStore from "@/data/global_states/useProducts";
 import { Accordion, AccordionItem, Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
 import React from "react";
 
-export const AccordionList = ({ categories, brands, toogleCategoryFilter, toogleBrandFilter }) => {
+export const AccordionList = ({ categories, brands, toogleCategoryFilter, toogleBrandFilter, value, setValue }) => {
 	const [selectedBrands, setSelectedBrands] = React.useState([]);
 	const [selectedCategories, setSelectedCategories] = React.useState([]);
-	const [value, setValue] = React.useState({ min: "", max: "" });
 
 	return (
 		<Accordion selectionMode="multiple">

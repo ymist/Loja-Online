@@ -1,18 +1,15 @@
 "use client";
 import Head from "next/head";
-import React, { useEffect } from "react";
 //images and styles
 
 //components
 import Header from "@/components/Header/NavBar";
-import { Box, useMediaQuery } from "@mui/material";
 import { CarouselCardsProducts } from "@/components/products/Carousel";
+import { Box, useMediaQuery } from "@mui/material";
 
-import { apiClient } from "@/services/apiClient";
 import Footer from "@/components/Footer";
-import useStore from "@/data/global_states/useProducts";
 import CarouselBanner from "@/components/Swipper/CarouselBanner";
-import { toast, ToastContainer } from "react-toastify";
+import useStore from "@/data/global_states/useProducts";
 
 export default function Page() {
 	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;
