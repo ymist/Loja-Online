@@ -1,7 +1,7 @@
 import Image from "next/image";
 export default function Footer() {
 	return (
-		<footer className="footer footer-center p-10  bg-text-dark-grey_900 text-palette-base-main ">
+		<footer className="footer footer-center p-10 self-end bg-text-dark-grey_900 text-palette-base-main ">
 			<aside className="flex flex-col gap-4">
 				{/* <Image src="/LogoBrisaDesde1976.png" alt="Brisa" width={120} height={60} /> */}
 				<h1 className="font-bold text-3xl text-palette-primary-dark">uShop</h1>

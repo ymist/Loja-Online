@@ -57,7 +57,16 @@ export default function Header() {
 					<>
 						{items.map((item) => {
 							return (
-								<span onClick={() => router.push("/search_products")} key={item.id}>
+								<span
+									onClick={() =>
+										router.push({
+											pathname: "/search_products",
+											query: {
+												category: item.name,
+											},
+										})
+									}
+									key={item.id}>
 									{item.name.toUpperCase()}
 								</span>
 							);

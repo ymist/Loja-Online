@@ -7,15 +7,18 @@ import { RadioLayout } from "@/components/ui/radiolayout";
 import useStore from "@/data/global_states/useProducts";
 import { Divider, Pagination, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
 import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function SearchProducts() {
 	const products = useStore((state) => state.products);
-	const categories = useStore((state) => state.categories);
-	const brands = useStore((state) => state.brands);
+	const router = useRouter();
+	const { category, brand, search } = router.query;
 	const [selectedLayout, setSelectedLayout] = useState("2");
 	const [selectedFilter, setSelectedFilter] = useState(new Set(["popular"]));
-	const [activeCategoryFilters, setActiveCategoryFilters] = useState(new Set());
+	const [activeCategoryFilters, setActiveCategoryFilters] = useState(category ? new Set([category]) : new Set([]));
+
 	const [activeBrandFilters, setActiveBrandFilters] = useState(new Set());
 	const [filteredProducts, setFilteredProducts] = useState(products);
 	const [value, setValue] = useState({ min: 0, max: 0 });
@@ -63,7 +66,7 @@ export default function SearchProducts() {
 	useEffect(() => {
 		setCurrentPage(1);
 		applyFilters();
-	}, [activeCategoryFilters, activeBrandFilters, products, value]);
+	}, [activeCategoryFilters, activeBrandFilters, products, value, selectedFilter]);
 
 	const toogleBrandFilter = (brand) => {
 		const newFilters = new Set(activeBrandFilters);
@@ -90,6 +93,41 @@ export default function SearchProducts() {
 	const applyFilters = () => {
 		let filtered = products;
 
+		console.log(selectedFilter.has("az"));
+		if (selectedFilter.has("az")) {
+			filtered = [...filtered].sort((a, b) => {
+				if (a.name.toLowerCase() < b.name.toLowerCase()) {
+					return -1;
+				}
+				if (a.name.toLowerCase() > b.name.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+		} else if (selectedFilter.has("lowprice")) {
+			filtered = [...filtered].sort((a, b) => {
+				const priceA = Number(a.price.replace(",", "."));
+				const priceB = Number(b.price.replace(",", "."));
+				return priceA - priceB;
+			});
+		} else if (selectedFilter.has("highprice")) {
+			filtered = [...filtered].sort((a, b) => {
+				const priceA = Number(a.price.replace(",", "."));
+				const priceB = Number(b.price.replace(",", "."));
+				return priceB - priceA;
+			});
+		} else if (selectedFilter.has("news")) {
+			filtered = [...filtered].sort((a, b) => {
+				const dateA = new Date(a.created_at);
+				const dateB = new Date(b.created_at);
+				return dateB - dateA; // Ordena do mais novo para o mais antigo
+			});
+		} else if (selectedFilter.has("popular")) {
+			filtered = [...filtered].sort((a, b) => {
+				return a.stock - b.stock;
+			}); // Ordenação aleatória
+		}
+
 		if (activeCategoryFilters.size > 0) {
 			filtered = filtered.filter((product) => activeCategoryFilters.has(product.category.name));
 		}
@@ -104,6 +142,8 @@ export default function SearchProducts() {
 		if (value.max != 0) {
 			filtered = filtered.filter((product) => Number(product.price.replace(",", ".")) <= value.max);
 		}
+
+		console.log(filtered);
 		setFilteredProducts(filtered);
 	};
 
@@ -116,17 +156,22 @@ export default function SearchProducts() {
 	};
 
 	return (
-		<div className="min-h-screen flex flex-col items-center">
+		<div className="min-h-screen grid ">
 			<Head>
 				<title>Produtos - uShop</title>
 			</Head>
 			<Header />
-			<main className="flex justify-center flex-col w-full gap-4 lg:w-3/5 p-4">
+			<main className="flex flex-col w-full min-h-full justify-self-center gap-4 lg:w-[95%] p-4">
 				<h1 className="text-2xl tracking-widest text-palette-base-gray-900 flex justify-center items-center gap-3 font-semibold">PRODUTOS</h1>
 				<div className="flex flex-col">
 					<div className="w-full">
 						<div className="w-full gap-3 bg-gray-300 p-4 bg-palette-base-gray-400 flex flex-row-reverse items-center">
-							<Select size="sm" onSelectionChange={setSelectedFilter} selectedKeys={selectedFilter} className="w-[125px] text-sm">
+							<Select
+								size="sm"
+								aria-label="select-filters"
+								onSelectionChange={setSelectedFilter}
+								selectedKeys={selectedFilter}
+								className="w-[125px] text-sm">
 								{filters.map((item) => (
 									<SelectItem key={item.value}>{item.label}</SelectItem>
 								))}
@@ -144,10 +189,10 @@ export default function SearchProducts() {
 							<AccordionList
 								toogleCategoryFilter={toogleCategoryFilter}
 								toogleBrandFilter={toogleBrandFilter}
-								categories={categories}
-								brands={brands}
 								value={value}
 								setValue={setValue}
+								activeBrandFilters={activeBrandFilters}
+								activeCategoryFilters={activeCategoryFilters}
 							/>
 						</div>
 						<div className="flex flex-col gap-4 w-full">
@@ -175,8 +220,9 @@ export default function SearchProducts() {
 									</div>
 								</>
 							) : (
-								<div className="flex justify-center my-32 items-center">
-									<Spinner color="success" />
+								<div className="flex flex-col gap-6 my-32 items-center">
+									<Image src="/assets/images/search_not_found.png" alt="search_not_found" width={220} height={220} />
+									<h2 className="font-medium tracking-widest text-palette-base-gray-900 text-xl">Busca Não Encontrada</h2>
 								</div>
 							)}
 						</div>

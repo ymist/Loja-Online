@@ -1,55 +1,82 @@
+import useStore from "@/data/global_states/useProducts";
 import { Accordion, AccordionItem, Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
 import React from "react";
 
-export const AccordionList = ({ categories, brands, toogleCategoryFilter, toogleBrandFilter, value, setValue }) => {
-	const [selectedBrands, setSelectedBrands] = React.useState([]);
-	const [selectedCategories, setSelectedCategories] = React.useState([]);
+export const AccordionList = ({ toogleCategoryFilter, toogleBrandFilter, value, setValue, activeCategoryFilters, activeBrandFilters }) => {
+	const categories = useStore((state) => state.categories);
+	const brands = useStore((state) => state.brands);
+
+	// Função para manipular a seleção de filtros de categoria
+	const handleCategoryChange = (values) => {
+		// Criar um novo conjunto com os filtros selecionados
+		const newFilters = new Set(values);
+		// Comparar com os filtros ativos para determinar quais foram removidos
+		activeCategoryFilters.forEach((category) => {
+			if (!newFilters.has(category)) {
+				toogleCategoryFilter(category); // Remover filtro
+			}
+		});
+		// Adicionar novos filtros selecionados
+		values.forEach((category) => {
+			if (!activeCategoryFilters.has(category)) {
+				toogleCategoryFilter(category); // Adicionar filtro
+			}
+		});
+	};
+
+	// Função para manipular a seleção de filtros de marca
+	const handleBrandChange = (values) => {
+		// Criar um novo conjunto com os filtros selecionados
+		const newFilters = new Set(values);
+		// Comparar com os filtros ativos para determinar quais foram removidos
+		activeBrandFilters.forEach((brand) => {
+			if (!newFilters.has(brand)) {
+				toogleBrandFilter(brand); // Remover filtro
+			}
+		});
+		// Adicionar novos filtros selecionados
+		values.forEach((brand) => {
+			if (!activeBrandFilters.has(brand)) {
+				toogleBrandFilter(brand); // Adicionar filtro
+			}
+		});
+	};
 
 	return (
 		<Accordion selectionMode="multiple">
 			<AccordionItem key="1" aria-label="category" title={<p className="font-medium tracking-widest text-medium ">CATEGORIA</p>}>
-				<CheckboxGroup color="default" onValueChange={setSelectedCategories} value={selectedCategories}>
-					{categories?.map((category) => {
-						return (
-							<Checkbox
-								onChange={(e) => {
-									toogleCategoryFilter(e.target.value);
-								}}
-								value={category.name}>
-								<span className="text-sm">{category.name}</span>
-							</Checkbox>
-						);
-					})}
+				<CheckboxGroup
+					color="default"
+					aria-label="categories-checkboxes"
+					value={Array.from(activeCategoryFilters)}
+					onValueChange={handleCategoryChange}>
+					{categories?.map((category) => (
+						<Checkbox key={category.id} aria-label="categories-checkbox" value={category.name}>
+							<span className="text-sm">{category.name}</span>
+						</Checkbox>
+					))}
 				</CheckboxGroup>
 			</AccordionItem>
 			<AccordionItem key="2" aria-label="brands" title={<p className="font-medium tracking-widest text-medium ">MARCA</p>}>
-				<CheckboxGroup color="default" onValueChange={setSelectedBrands} value={selectedBrands}>
-					{brands?.map((brands) => {
-						return (
-							<Checkbox
-								onChange={(e) => {
-									toogleBrandFilter(e.target.value);
-								}}
-								value={brands.name}>
-								<span className="text-sm">{brands.name}</span>
-							</Checkbox>
-						);
-					})}
+				<CheckboxGroup color="default" aria-label="brands-checkboxes" value={Array.from(activeBrandFilters)} onValueChange={handleBrandChange}>
+					{brands?.map((brand) => (
+						<Checkbox key={brand.id} aria-label="brands-checkbox" value={brand.name}>
+							<span className="text-sm">{brand.name}</span>
+						</Checkbox>
+					))}
 				</CheckboxGroup>
 			</AccordionItem>
 			<AccordionItem key="3" aria-label="prices" title={<p className="font-medium tracking-widest text-medium ">PREÇO</p>}>
 				<Input
 					type="number"
-					label="Minímo:"
+					label="Mínimo:"
 					className="mb-10"
 					variant="bordered"
 					placeholder="0.00"
 					labelPlacement="outside"
 					value={value.min}
 					onValueChange={(e) => {
-						setValue((prev) => {
-							return { ...prev, min: e };
-						});
+						setValue((prev) => ({ ...prev, min: e }));
 					}}
 					startContent={
 						<div className="pointer-events-none flex items-center">
@@ -65,9 +92,7 @@ export const AccordionList = ({ categories, brands, toogleCategoryFilter, toogle
 					labelPlacement="outside"
 					value={value.max}
 					onValueChange={(e) => {
-						setValue((prev) => {
-							return { ...prev, max: e };
-						});
+						setValue((prev) => ({ ...prev, max: e }));
 					}}
 					startContent={
 						<div className="pointer-events-none flex items-center">

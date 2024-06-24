@@ -138,7 +138,7 @@ export default function DetailCart() {
 								<TableCart products={cart} user={user} />
 							) : (
 								<Paper elevation={6} className="w-full h-[60vh] flex flex-col gap-6 justify-center items-center">
-									<img src="/ecommerce-cart (1).svg" className="w-[60%] h-[60%] mr-4" />
+									<img src="/assets/svg/ecommerce-cart (1).svg" className="w-[60%] h-[60%] mr-4" />
 
 									<h1 className="text-palette-primary-dark font-light sm: text-3xl lg:text-5xl ">Carrinho Vazio</h1>
 								</Paper>
@@ -150,7 +150,7 @@ export default function DetailCart() {
 								sx={{
 									background: "linear-gradient(90deg, rgba(244,244,244,1) 0%, rgba(239,239,239,1) 49%)",
 								}}>
-								<img src="/sapiens.svg" className="w-[70%] h-[70%]" />
+								<img src="/assets/svg/sapiens.svg" className="w-[70%] h-[70%]" />
 								<h1 className="text-palette-primary-dark font-light sm:text-2xl lg:text-5xl ">Faça login para ver seu carrinho!</h1>
 								<Button
 									onClick={() => {

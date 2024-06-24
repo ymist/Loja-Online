@@ -160,7 +160,7 @@ export default function SignUp() {
 			</form>
 			<div className="hidden bg-muted lg:block">
 				<Image
-					src="/sapienssignup.svg"
+					src="/assets/svg/sapienssignup.svg"
 					alt="Image"
 					width="1920"
 					height="1080"
