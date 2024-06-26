@@ -6,6 +6,7 @@ import { useTheme } from "@emotion/react";
 import PrimarySearchAppBar from "../Menu";
 import useStore from "@/data/global_states/useProducts";
 import { useRouter } from "next/router";
+import { FlyoutItems } from "@/components/ui/flyout_items";
 const StyledHeader = styled.header`
 	width: 100%;
 	height: min-content;
@@ -56,20 +57,7 @@ export default function Header() {
 				{items ? (
 					<>
 						{items.map((item) => {
-							return (
-								<span
-									onClick={() =>
-										router.push({
-											pathname: "/search_products",
-											query: {
-												category: item.name,
-											},
-										})
-									}
-									key={item.id}>
-									{item.name.toUpperCase()}
-								</span>
-							);
+							return <FlyoutItems category={item} />;
 						})}
 					</>
 				) : null}

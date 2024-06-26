@@ -5,7 +5,7 @@ import { AccordionList } from "@/components/ui/accordion_list";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
 import { RadioLayout } from "@/components/ui/radiolayout";
 import useStore from "@/data/global_states/useProducts";
-import { Divider, Pagination, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
+import { Divider, Input, Pagination, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 export default function SearchProducts() {
 	const products = useStore((state) => state.products);
 	const router = useRouter();
-	const { category, brand, search } = router.query;
+	const { category, brand, searchQuery, filter } = router.query;
 	const [selectedLayout, setSelectedLayout] = useState("2");
 	const [selectedFilter, setSelectedFilter] = useState(new Set(["popular"]));
 	const [activeCategoryFilters, setActiveCategoryFilters] = useState(category ? new Set([category]) : new Set([]));
@@ -26,6 +26,7 @@ export default function SearchProducts() {
 	const [info, setInfo] = useState({});
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 16;
+	const [search, setSearch] = useState(searchQuery);
 
 	const filters = [
 		{
@@ -66,7 +67,22 @@ export default function SearchProducts() {
 	useEffect(() => {
 		setCurrentPage(1);
 		applyFilters();
-	}, [activeCategoryFilters, activeBrandFilters, products, value, selectedFilter]);
+	}, [activeCategoryFilters, activeBrandFilters, products, value, selectedFilter, search]);
+
+	useEffect(() => {
+		// Atualize os filtros de categoria e marca com base em router.query
+		if (category) {
+			setActiveCategoryFilters(new Set([category]));
+		}
+		if (brand) {
+			setActiveBrandFilters(new Set([brand]));
+		}
+		if (filter) {
+			setSelectedFilter(new Set([filter]));
+		}
+
+		applyFilters();
+	}, [router.query]);
 
 	const toogleBrandFilter = (brand) => {
 		const newFilters = new Set(activeBrandFilters);
@@ -75,7 +91,6 @@ export default function SearchProducts() {
 		} else {
 			newFilters.add(brand);
 		}
-		console.log(newFilters);
 		setActiveBrandFilters(newFilters);
 	};
 
@@ -86,14 +101,12 @@ export default function SearchProducts() {
 		} else {
 			newFilters.add(category);
 		}
-		console.log(newFilters);
 		setActiveCategoryFilters(newFilters);
 	};
 
 	const applyFilters = () => {
 		let filtered = products;
 
-		console.log(selectedFilter.has("az"));
 		if (selectedFilter.has("az")) {
 			filtered = [...filtered].sort((a, b) => {
 				if (a.name.toLowerCase() < b.name.toLowerCase()) {
@@ -142,8 +155,14 @@ export default function SearchProducts() {
 		if (value.max != 0) {
 			filtered = filtered.filter((product) => Number(product.price.replace(",", ".")) <= value.max);
 		}
+		if (search) {
+			const searchLower = search.toLowerCase();
+			filtered = filtered.filter((product) => {
+				const newSearch = (product.name + product.category.name + product.brand.name).toLowerCase();
+				return newSearch.includes(searchLower);
+			});
+		}
 
-		console.log(filtered);
 		setFilteredProducts(filtered);
 	};
 
@@ -164,8 +183,8 @@ export default function SearchProducts() {
 			<main className="flex flex-col w-full min-h-full justify-self-center gap-4 lg:w-[95%] p-4">
 				<h1 className="text-2xl tracking-widest text-palette-base-gray-900 flex justify-center items-center gap-3 font-semibold">PRODUTOS</h1>
 				<div className="flex flex-col">
-					<div className="w-full">
-						<div className="w-full gap-3 bg-gray-300 p-4 bg-palette-base-gray-400 flex flex-row-reverse items-center">
+					<div className="w-full flex flex-row-reverse justify-between items-center bg-palette-base-gray-400 p-4">
+						<div className="w-full gap-3 bg-gray-300 flex flex-row-reverse items-center">
 							<Select
 								size="sm"
 								aria-label="select-filters"
@@ -183,6 +202,15 @@ export default function SearchProducts() {
 								<b>{filteredProducts?.length}</b> Produtos
 							</span>
 						</div>
+						<Input
+							type="text"
+							size="sm"
+							label="O que você precisa?"
+							className="w-3/5 shadow-xl"
+							variant="flat"
+							value={search}
+							onValueChange={setSearch}
+						/>
 					</div>
 					<div className="flex flex-grow">
 						<div className="w-1/6">
