@@ -9,7 +9,7 @@ export default function BackButton() {
 		router.back();
 	};
 	return (
-		<Button isIconOnly color="success" onClick={backPage} variant="flat" size="sm" className="fixed shadow-medium bg-palette-base-main m-3 rounded-xl">
+		<Button isIconOnly color="success" onClick={backPage} variant="flat" size="sm" className="relative shadow-medium bg-palette-base-main m-3 rounded-xl">
 			<Undo2 size={18} strokeWidth={2} />
 		</Button>
 	);

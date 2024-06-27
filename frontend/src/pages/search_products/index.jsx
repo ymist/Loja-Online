@@ -175,7 +175,7 @@ export default function SearchProducts() {
 	};
 
 	return (
-		<div className="min-h-screen grid ">
+		<div className="min-h-screen grid">
 			<Head>
 				<title>Produtos - uShop</title>
 			</Head>

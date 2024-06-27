@@ -6,15 +6,22 @@ import { Tooltip } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
+import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 export default function CardProduct({ product, onClick, handleOpen }) {
 	const router = useRouter();
 	const [value, setValue] = useState(4);
 	const user = useStore((state) => state.user);
 
 	return (
-		<div className="card w-full h-full bg-slate-100 shadow-2xl pb-2 cursor-pointer" onClick={onClick}>
+		<motion.div
+			className="card w-full h-full bg-slate-100 shadow-2xl pb-2 cursor-pointer"
+			onClick={onClick}
+			initial={{ opacity: 0, scale: 0.5 }}
+			animate={{ opacity: 1, scale: 1 }}
+			transition={{ duration: 0.5 }}>
 			<figure className="max-h-[250px] mb-3">
 				{/* <img src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`} alt={product.banner[0]} className="h-full" /> */}
 				<img src={`/tmp_products/${product.banner[0]}`} alt={product.banner[0]} className="h-full" />
@@ -32,13 +39,17 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 						</h2>
 					</Tooltip>
 				</Link>
+
 				<Rating
 					name="simple-controlled"
 					size="small"
 					sx={{
 						padding: " 0px 1.5em",
 					}}
+					icon={<StarRateRoundedIcon fontSize="inherit" />}
+					emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
 					value={value}
+					className="lg:pl-6"
 					onChange={(event, newValue) => {
 						setValue(newValue);
 					}}
@@ -66,6 +77,6 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 					)}
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 }

@@ -16,6 +16,7 @@ import useStore from "@/data/global_states/useProducts";
 import { useState } from "react";
 import Head from "next/head";
 import BackButton from "@/components/ui/back_button";
+import { motion } from "framer-motion";
 
 const loginSchema = z.object({
 	email: z
@@ -79,9 +80,15 @@ export default function Login() {
 			<Head>
 				<title>Entrar - uShop</title>
 			</Head>
-			<BackButton />
+			<div className="absolute top-2 left-2">
+				<BackButton />
+			</div>
 			<form onSubmit={handleSubmit(handleLogin)} className="lg:flex lg:items-center lg:justify-center bg-palette-base-gray500/45">
-				<div className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main">
+				<motion.div
+					className="grid lg:w-[450px] gap-6 rounded-md pb-4 bg-palette-base-main"
+					initial={{ opacity: 0, scale: 0.5 }}
+					animate={{ opacity: 1, scale: 1 }}
+					transition={{ duration: 0.5 }}>
 					<div className="grid gap-6 py-6 rounded-t-md text-center bg-palette-primary-main text-palette-base-main">
 						<h1 className="text-3xl font-bold">Entrar</h1>
 						<p className="text-balance text-muted-foreground ">Entre com o seu Email e Senha ou Crie sua Conta</p>
@@ -134,9 +141,13 @@ export default function Login() {
 							Cadastrar-se
 						</Link>
 					</div>
-				</div>
+				</motion.div>
 			</form>
-			<div className="hidden bg-muted lg:block">
+			<motion.div
+				initial={{ opacity: 0, scale: 0.5 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{ duration: 0.5 }}
+				className="hidden bg-muted lg:block">
 				<Image
 					src="/assets/svg/sapiens.svg"
 					alt="Image"
@@ -144,7 +155,7 @@ export default function Login() {
 					height="1080"
 					className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
 				/>
-			</div>
+			</motion.div>
 		</div>
 	);
 }

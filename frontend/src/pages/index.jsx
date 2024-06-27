@@ -10,20 +10,21 @@ import { Box, useMediaQuery } from "@mui/material";
 import Footer from "@/components/Footer";
 import CarouselBanner from "@/components/Swipper/CarouselBanner";
 import useStore from "@/data/global_states/useProducts";
+import { Card, Skeleton } from "@nextui-org/react";
 
 export default function Page() {
-	const skeletonNumber = useMediaQuery("(min-width: 450px)") ? 4 : 1;
+	const skeletonNumber = useMediaQuery("(min-width: 600px)") ? 8 : 4;
 	const brands = useStore((state) => state.brands);
 	const products = useStore((state) => state.products);
 	console.log(products);
 
 	return (
-		<>
-			<div>
-				<Head>
-					<title>uShop</title>
-				</Head>
-				<Header />
+		<div className="min-h-screen w-screen flex flex-col justify-between">
+			<Head>
+				<title>uShop</title>
+			</Head>
+			<Header />
+			<main className="flex flex-col min-h-[800px] w-full">
 				<Box
 					sx={{
 						display: "flex",
@@ -72,22 +73,45 @@ export default function Page() {
 								})}
 							</>
 						) : (
-							<div className="flex justify-evenly w-11/12">
+							<div className="flex flex-wrap gap-6 justify-center lg:w-10/12">
 								{Array.from({ length: skeletonNumber }).map((_, index) => (
-									<div key={index} className="flex flex-col gap-4 w-48 pt-4">
-										<div className="skeleton bg-neutral-content h-32 w-full"></div>
-										<div className="skeleton bg-neutral-content h-4 w-28"></div>
-										<div className="skeleton bg-neutral-content h-4 w-full"></div>
-										<div className="skeleton bg-neutral-content h-4 w-full"></div>
-									</div>
+									// <div key={index} className="flex flex-col gap-4 w-48 pt-4">
+									// 	<div className="skeleton bg-neutral-content h-32 w-full"></div>
+									// 	<div className="skeleton bg-neutral-content h-4 w-28"></div>
+									// 	<div className="skeleton bg-neutral-content h-4 w-full"></div>
+									// 	<div className="skeleton bg-neutral-content h-4 w-full"></div>
+									// </div>
+									<Card className="w-[250px]  space-y-5 p-6 shadow-xl" key={index} radius="lg">
+										<Skeleton isLoaded={true} className="rounded-lg">
+											<div className="h-24 rounded-lg bg-palette-base-gray-600/60"></div>
+										</Skeleton>
+										<div className="space-y-3">
+											<Skeleton isLoaded={true} className="w-3/5 rounded-lg">
+												<div className="h-3 w-full rounded-lg bg-palette-base-gray-600/60"></div>
+											</Skeleton>
+											<Skeleton isLoaded={true} className="w-4/5 rounded-lg">
+												<div className="h-3 w-full rounded-lg bg-palette-base-gray-600/60"></div>
+											</Skeleton>
+											<Skeleton isLoaded={true} className="w-2/5 rounded-lg">
+												<div className="h-3 w-full rounded-lg bg-palette-base-gray-600/60"></div>
+											</Skeleton>
+
+											<Skeleton isLoaded={true} className="w-3/5 rounded-lg">
+												<div className="h-3 w-full rounded-lg bg-palette-base-gray-600/60"></div>
+											</Skeleton>
+											<Skeleton isLoaded={true} className="w-4/5 rounded-lg">
+												<div className="h-3 w-full rounded-lg bg-palette-base-gray-600/60"></div>
+											</Skeleton>
+										</div>
+									</Card>
 								))}
 							</div>
 						)}
 					</Box>
 				</Box>
+			</main>
 
-				<Footer />
-			</div>
-		</>
+			<Footer />
+		</div>
 	);
 }

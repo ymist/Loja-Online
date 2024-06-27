@@ -6,6 +6,7 @@ import useStore from "@/data/global_states/useProducts";
 import TableCart from "@/components/Table";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Paper } from "@mui/material";
+import { motion } from "framer-motion";
 import {
 	Autocomplete,
 	AutocompleteItem,
@@ -23,6 +24,7 @@ import Head from "next/head";
 import { HomeIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import BackButton from "@/components/ui/back_button";
 
 export default function DetailCart() {
 	const [cart, setCart] = useState([]);
@@ -101,7 +103,7 @@ export default function DetailCart() {
 	}, [user]);
 
 	return (
-		<>
+		<div className="min-h-screen bg-palette-base-gray-500">
 			<Head>
 				<title>
 					Carrinho{" "}
@@ -115,9 +117,9 @@ export default function DetailCart() {
 			</Head>
 			<main className="h-screen overflow-auto">
 				<Header />
-				<div className="w-screen min-h-screen lg:h-full py-5 overflow-auto md:p-5 bg-palette-base-gray500/30  flex lg:gap-12 ">
-					<div className="w-full lg:w-3/5 h-full flex flex-col items-center gap-4 ">
-						<Paper
+				<div className="w-screen min-h-screen lg:h-full py-10 overflow-auto md:p-5 flex lg:gap-12 ">
+					<div className="w-full h-full flex flex-col items-center gap-4 ">
+						{/* <Paper
 							elevation={6}
 							sx={{
 								width: "100%",
@@ -128,7 +130,7 @@ export default function DetailCart() {
 								<ShoppingCartIcon />
 								Carrinho
 							</h1>
-						</Paper>
+						</Paper> */}
 						{loading ? (
 							<Paper elevation={6} className="w-full h-[60vh] flex flex-col gap-6 justify-center items-center">
 								<Spinner size="lg" color="success" />
@@ -144,24 +146,36 @@ export default function DetailCart() {
 								</Paper>
 							)
 						) : (
-							<Paper
-								elevation={6}
-								className="w-full h-[60vh] flex flex-col gap-6 justify-center items-center py-10 "
-								sx={{
-									background: "linear-gradient(90deg, rgba(244,244,244,1) 0%, rgba(239,239,239,1) 49%)",
-								}}>
-								<img src="/assets/svg/sapiens.svg" className="w-[70%] h-[70%]" />
-								<h1 className="text-palette-primary-dark font-light sm:text-2xl lg:text-5xl ">Faça login para ver seu carrinho!</h1>
-								<Button
-									onClick={() => {
-										router.push("/login");
-									}}
-									size=""
-									className="w-auto px-24 text-palette-base-main cursor-pointer"
-									color="success">
-									Fazer Login
-								</Button>
-							</Paper>
+							<div className=" w-full lg:w-4/6  bg-palette-base-gray-200 rounded-md">
+								<BackButton />
+								<div className="flex flex-col gap-8 justify-center items-center py-10">
+									<motion.img
+										src="/assets/svg/sapiens.svg"
+										className="w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] 2xl:w-[40%] 2xl:h-[40%] "
+										initial={{ opacity: 0, scale: 0.5 }}
+										animate={{ opacity: 1, scale: 1 }}
+										transition={{ duration: 0.5 }}
+									/>
+									<motion.h1
+										className="text-palette-base-gray-800 tracking-normal font-normal text-2xl lg:text-4xl"
+										initial={{ opacity: 0, scale: 0.5 }}
+										animate={{ opacity: 1, scale: 1 }}
+										transition={{ duration: 0.5 }}>
+										Faça login para ver seu carrinho!
+									</motion.h1>
+									<motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
+										<Button
+											onClick={() => {
+												router.push("/login");
+											}}
+											size=""
+											className="w-auto px-24 text-palette-base-main cursor-pointer"
+											color="success">
+											Fazer Login
+										</Button>
+									</motion.div>
+								</div>
+							</div>
 						)}
 					</div>
 					{cart.length > 0 && (
@@ -339,6 +353,6 @@ export default function DetailCart() {
 					</Modal>
 				)}
 			</main>
-		</>
+		</div>
 	);
 }

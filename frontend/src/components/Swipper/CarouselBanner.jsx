@@ -1,13 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useMediaQuery } from "@mui/material";
 
 export default function CarouselBanner() {
@@ -21,16 +15,12 @@ export default function CarouselBanner() {
 
 	// Função para avançar para o próximo slide
 	const nextSlide = () => {
-		setCurrentSlide((prevSlide) =>
-			prevSlide === images.length - 1 ? 0 : prevSlide + 1,
-		);
+		setCurrentSlide((prevSlide) => (prevSlide === images.length - 1 ? 0 : prevSlide + 1));
 	};
 
 	// Função para retroceder para o slide anterior
 	const previousSlide = () => {
-		setCurrentSlide((prevSlide) =>
-			prevSlide === 0 ? images.length - 1 : prevSlide - 1,
-		);
+		setCurrentSlide((prevSlide) => (prevSlide === 0 ? images.length - 1 : prevSlide - 1));
 	};
 
 	return (
@@ -40,11 +30,8 @@ export default function CarouselBanner() {
 					{images.map((image, index) => (
 						<CarouselItem key={index} className="pl-0">
 							<div className="w-full border-none">
-								<Card className="sm:h-[40vw] md:h-[20vw] h-[55vw] border-none">
-									<img
-										className="object-cover w-full h-full border-none"
-										src={image}
-									/>
+								<Card className="sm:h-[40vw] md:h-[20vw] h-[45vw] border-none">
+									<img className="object-cover w-full h-full border-none" src={image} />
 								</Card>
 							</div>
 						</CarouselItem>
