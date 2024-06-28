@@ -9,18 +9,15 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
-import Image from "next/image";
 import LoginIcon from "@mui/icons-material/Login";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-
-import TemporaryDrawer from "../Drawer";
+import { motion } from "framer-motion";
 import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
 import { useRouter } from "next/router";
-import { useMediaQuery } from "@mui/material";
+import { Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery } from "@mui/material";
 import { Tooltip } from "@nextui-org/react";
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const products = useStore((state) => state.products);
@@ -41,6 +38,9 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			setCartLength(user?.cart?.[0]?.cartItems.length);
 		}
 	}, [user]);
+	const toggleDrawer = (newOpen) => () => {
+		setDrawerOpen(newOpen);
+	};
 
 	const handleMenuHamburguer = () => {
 		setDrawerOpen(true);
@@ -291,7 +291,35 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					</Toolbar>
 				</Box>
 			</AppBar>
-			{drawerOpen && <TemporaryDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} categories={categories} brands={brands} />}
+
+			<motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+				{/* <TemporaryDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} categories={categories} brands={brands} /> */}
+				<Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+					<Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+						<div className="divider divider-neutral opacity-60 text-palette-base-dark ">Categorias</div>
+						<List>
+							{categories.map((text, index) => (
+								<ListItem key={text.id} disablePadding>
+									<ListItemButton>
+										<ListItemText primary={text.name} />
+									</ListItemButton>
+								</ListItem>
+							))}
+						</List>
+						<div className="divider  divider-neutral opacity-60 text-palette-base-dark ">Marcas</div>
+						<List>
+							{brands.map((text, index) => (
+								<ListItem key={text.id} disablePadding>
+									<ListItemButton>
+										<ListItemText primary={text.name} />
+									</ListItemButton>
+								</ListItem>
+							))}
+						</List>
+					</Box>
+				</Drawer>
+			</motion.div>
+
 			{renderMobileMenu}
 			{renderMenu}
 		</Box>

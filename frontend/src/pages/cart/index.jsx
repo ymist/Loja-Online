@@ -148,10 +148,10 @@ export default function DetailCart() {
 						) : (
 							<div className=" w-full lg:w-4/6  bg-palette-base-gray-200 rounded-md">
 								<BackButton />
-								<div className="flex flex-col gap-8 justify-center items-center py-10">
+								<div className="flex flex-col gap-8 justify-center items-center pb-10">
 									<motion.img
 										src="/assets/svg/sapiens.svg"
-										className="w-[80%] h-[80%] sm:w-[70%] sm:h-[70%] 2xl:w-[40%] 2xl:h-[40%] "
+										className="w-[80%] h-[80%] sm:w-[45%] sm:h-[45%] 2xl:w-[40%] 2xl:h-[40%] "
 										initial={{ opacity: 0, scale: 0.5 }}
 										animate={{ opacity: 1, scale: 1 }}
 										transition={{ duration: 0.5 }}
