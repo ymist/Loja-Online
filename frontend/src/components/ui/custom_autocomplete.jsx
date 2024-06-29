@@ -40,7 +40,7 @@ export default function CustomAutocomplete({ products }) {
 				return (
 					<AutocompleteItem
 						key={product.id}
-						textValue={`${product.name}, ${product.category.name}, ${product.brand.name}`}
+						textValue={`${product.name}, ${product.categories[0].category.name}, ${product.brand.name}`}
 						onClick={() => router.push(`/product/${product.id}`)}>
 						<div className="flex gap-6 items-center h-32  ">
 							<Image
@@ -54,7 +54,7 @@ export default function CustomAutocomplete({ products }) {
 								{/* <span className="text-tiny text-default-400">{"Marca" + 1}</span>
 								<span className="text-tiny text-default-400">{"Categoria" + 1}</span> */}
 								<span className="text-small">{product.name}</span>
-								<span className="text-tiny text-default-400">{product.category.name}</span>
+								<span className="text-tiny text-default-400">{product.categories[0].category.name}</span>
 								<span className="text-tiny text-default-400">{product.brand.name}</span>
 							</div>
 						</div>

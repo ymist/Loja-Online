@@ -5,7 +5,11 @@ class ListAllProductsService {
 		const products = await prismaClient.product.findMany({
 			include: {
 				brand: true,
-				category: true,
+				categories: {
+					include: {
+						category: true,
+					},
+				},
 			},
 		});
 		return products;

@@ -6,8 +6,8 @@ export function setupAPIClient(ctx) {
 	//sasas
 	const api = axios.create({
 		//baseURL: "https://loja-online.onrender.com",
-		//baseURL: "http://localhost:3333",
-		baseURL: "https://loja-online-production-ab7e.up.railway.app",
+		baseURL: "http://localhost:3333",
+		//baseURL: "https://loja-online-production-ab7e.up.railway.app",
 	});
 
 	api.interceptors.response.use(

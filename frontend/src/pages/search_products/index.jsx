@@ -158,7 +158,7 @@ export default function SearchProducts() {
 		if (search) {
 			const searchLower = search.toLowerCase();
 			filtered = filtered.filter((product) => {
-				const newSearch = (product.name + product.category.name + product.brand.name).toLowerCase();
+				const newSearch = (product.name + product.categories[0].category.name + product.brand.name).toLowerCase();
 				return newSearch.includes(searchLower);
 			});
 		}

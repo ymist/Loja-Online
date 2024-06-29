@@ -1,16 +1,19 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/new"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  url      = env("POSTGRES_PRISMA_URL_RAILWAY")
 }
 
 model User {
   id          String    @id @default(uuid())
   name        String
-  email       String
+  email       String    @unique
+  cpf         String?   @unique
+  phone       String?
   password    String
   created_at  DateTime? @default(now())
   modified_at DateTime? @default(now())
@@ -18,16 +21,19 @@ model User {
   address     Address[]
   cart        Cart[]
   order       Order[]
+  comments    Comments[]
 
   @@map("users")
+  @@index([email], name: "user_email_idx")
+  @@index([cpf], name: "user_cpf_idx")
 }
 
 model Address {
   id           String  @id @default(uuid())
   street       String
-  number       String
+  number       Int?
   neighborhood String
-  complement   String
+  complement   String?
   city         String
   state        String
   country      String
@@ -35,7 +41,19 @@ model Address {
   user_id      String
   name         String
   user         User    @relation(fields: [user_id], references: [id])
-  order        Order[]
+}
+
+model Comments {
+  id          String  @id @default(uuid())
+  title       String
+  rating      Int
+  description String
+  product_id  String
+  user_id     String
+  images      String[]
+
+  product Product @relation(fields: [product_id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
 }
 
 model Category {
@@ -43,7 +61,7 @@ model Category {
   name        String
   created_at  DateTime? @default(now())
   modified_at DateTime? @default(now())
-  products    Product[]
+  products    ProductCategory[]
 
   @@map("categories")
 }
@@ -56,6 +74,8 @@ model Brand {
   created_at  DateTime? @default(now())
   modified_at DateTime? @default(now())
   products    Product[]
+
+  @@map("brands")
 }
 
 model Product {
@@ -65,21 +85,33 @@ model Product {
   description       String
   created_at        DateTime?        @default(now())
   modified_at       DateTime?        @default(now())
-  category_id       String
   brand_id          String?
   banner            String[]
   SKU               String
   stock             Int?
   cart_item         CartItem[]
   products_on_order ProductOnOrder[]
+  comments          Comments[]
   brand             Brand?           @relation(fields: [brand_id], references: [id])
-  category          Category         @relation(fields: [category_id], references: [id])
+  categories        ProductCategory[]
 
   @@map("products")
+  @@index([name], name: "product_name_idx")
+}
+
+model ProductCategory {
+  product_id   String
+  category_id  String
+  product      Product  @relation(fields: [product_id], references: [id])
+  category     Category @relation(fields: [category_id], references: [id])
+
+  @@id([product_id, category_id])
+  @@map("product_categories")
 }
 
 model ProductOnOrder {
   product_id      String
+  price           Int?
   order_id        String
   quantity        Int
   order           Order   @relation(fields: [order_id], references: [id])
@@ -116,16 +148,59 @@ model Order {
   active         Boolean          @default(true)
   delivered      Boolean          @default(false)
   paid           Boolean          @default(false)
-  delivery_date  DateTime?
   payment_date   DateTime?
+  cancel         Boolean          @default(false)
+  out_delivery   Boolean          @default(false)
+  delivery_date  DateTime?
+  delivered_date DateTime?
   created_at     DateTime?        @default(now())
   modified_at    DateTime?        @default(now())
   user_id        String
-  address_id     String?
-  cancel         Boolean          @default(false)
-  out_delivery   Boolean          @default(false)
-  delivered_date DateTime?
-  Address        Address?         @relation(fields: [address_id], references: [id])
+  street         String?
+  number         Int?
+  neighborhood   String?
+  complement     String?
+  city           String?
+  state          String?
+  country        String?
+  zipcode        String?
+  name           String?
+  grand_total    Int?
   users          User             @relation(fields: [user_id], references: [id])
   orderItems     ProductOnOrder[]
+  payments       Payment[]
+
+  @@map("orders")
+  @@index([user_id], name: "order_user_idx")
+}
+
+model PaymentMethod {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  created_at  DateTime @default(now())
+  modified_at DateTime @default(now())
+  payments    Payment[]
+}
+
+model Payment {
+  id              String     @id @default(uuid())
+  order_id        String
+  payment_method_id String
+  amount          Float
+  currency        String
+  status          PaymentStatus
+  created_at      DateTime   @default(now())
+  modified_at     DateTime   @default(now())
+  order           Order      @relation(fields: [order_id], references: [id])
+  paymentMethod   PaymentMethod @relation(fields: [payment_method_id], references: [id])
+
+  @@index([order_id], name: "payment_order_idx")
+  @@index([payment_method_id], name: "payment_method_idx")
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
 }
