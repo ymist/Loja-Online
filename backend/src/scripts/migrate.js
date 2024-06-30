@@ -55,7 +55,7 @@ async function migrateData() {
 		}*/
 
 		// Migração de Orders (incluindo cálculo do grand total)
-		const orders = await prismaOld.order.findMany({ include: { orderItems: true } });
+		/*const orders = await prismaOld.order.findMany({ include: { orderItems: true } });
 
 		for (const order of orders) {
 			// Criar a ordem no novo banco de dados sem o campo orderItems
@@ -126,7 +126,99 @@ async function migrateData() {
 		//	await prismaNew.payment.create({ data: payment });
 		//}
 
-		console.log("Migração concluída com sucesso!");
+		console.log("Migração concluída com sucesso!");*/
+
+		/*{
+		const oldOrders = await prismaOld.order.findMany();
+
+		for (let oldOrder of oldOrders) {
+			if (oldOrder.address_id) {
+				let addressOld = await prismaOld.address.findFirst({
+					where: {
+						id: oldOrder.address_id,
+					},
+				});
+
+					id: '7a493461-3be4-453c-8227-9f1d074e5406',
+					street: 'Rua Manoel Gonçalves',
+					number: '48',
+					neighborhood: 'Jardim Residencial Nova Veneza',
+					complement: 'SOBRADO',
+					city: 'Indaiatuba',
+					state: 'SP',
+					country: 'Brasil',
+					zipcode: '13348780',
+					user_id: 'f29e2b87-f4db-4411-8762-f53fe60bd37e',
+					name: 'Trabalho'
+					let respUpd = await prismaNew.order.update({
+						where: {
+							id: oldOrder.id,
+						},
+						data: {
+							street: addressOld.street,
+							number: Number(addressOld.number),
+							neighborhood: addressOld.neighborhood,
+							complement: addressOld.complement || null,
+							city: addressOld.city,
+							state: addressOld.state,
+							country: addressOld.country,
+							zipcode: addressOld.zipcode,
+							name: addressOld.name,
+						},
+					});
+					console.log(respUpd);
+				}
+			}
+			}*/
+		/*const orderItems = await prismaNew.productOnOrder.findMany();
+		for (let item of orderItems) {
+			const product = await prismaNew.product.findFirst({
+				where: {
+					id: item.product_id,
+				},
+			});
+
+			let price = Number(product.price.replace(",", ".") * item.quantity);
+
+			const respUpd = await prismaNew.productOnOrder.update({
+				where: {
+					product_id_order_id: {
+						product_id: product.id,
+						order_id: item.order_id,
+					},
+				},
+				data: {
+					price: price,
+				},
+			});
+
+			console.log(respUpd);
+		}
+			*/
+		const order = await prismaNew.order.findMany({
+			include: {
+				orderItems: true,
+			},
+		});
+		for (let item of order) {
+			let grandTotal = 0;
+			for (let orderItem of item.orderItems) {
+				grandTotal = +orderItem.price;
+			}
+
+			console.log(grandTotal);
+
+			const respUpd = await prismaNew.order.update({
+				where: {
+					id: item.id,
+				},
+				data: {
+					grand_total: grandTotal,
+				},
+			});
+
+			console.log(respUpd);
+		}
 	} catch (error) {
 		console.error("Erro durante a migração:", error);
 	} finally {

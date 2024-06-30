@@ -111,7 +111,7 @@ model ProductCategory {
 
 model ProductOnOrder {
   product_id      String
-  price           Int?
+  price           Float?
   order_id        String
   quantity        Int
   order           Order   @relation(fields: [order_id], references: [id])
@@ -165,7 +165,7 @@ model Order {
   country        String?
   zipcode        String?
   name           String?
-  grand_total    Int?
+  grand_total    Float?
   users          User             @relation(fields: [user_id], references: [id])
   orderItems     ProductOnOrder[]
   payments       Payment[]
