@@ -139,11 +139,17 @@ export default function DetailCart() {
 							cart.length > 0 ? (
 								<TableCart products={cart} user={user} />
 							) : (
-								<Paper elevation={6} className="w-full h-[60vh] flex flex-col gap-6 justify-center items-center">
-									<img src="/assets/svg/ecommerce-cart (1).svg" className="w-[60%] h-[60%] mr-4" />
-
-									<h1 className="text-palette-primary-dark font-light sm: text-3xl lg:text-5xl ">Carrinho Vazio</h1>
-								</Paper>
+								<div className="w-full h-[60vh] flex flex-col gap-6 justify-center items-center">
+									{/* <img src="/assets/svg/ecommerce-cart (1).svg" className="w-[60%] h-[60%] mr-4" /> */}
+									<img src="/assets/svg/emptycart.svg" className="w-[60%] h-[60%] mr-4" />
+									<motion.h1
+										className="text-palette-base-gray-800 tracking-normal font-normal text-3xl lg:text-5xl"
+										initial={{ opacity: 0, scale: 0.5 }}
+										animate={{ opacity: 1, scale: 1 }}
+										transition={{ duration: 0.5 }}>
+										Carrinho Vazio
+									</motion.h1>
+								</div>
 							)
 						) : (
 							<div className=" w-full lg:w-4/6  bg-palette-base-gray-200 rounded-md">

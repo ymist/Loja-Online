@@ -29,7 +29,7 @@ class CancelOrderService {
 			},
 			data: {
 				cancel: true,
-				active: true,
+				active: false,
 				delivered: false,
 				out_delivery: false,
 			},

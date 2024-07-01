@@ -12,7 +12,13 @@ class ListAllProductsService {
 				},
 			},
 		});
-		return products;
+		// Transformar os dados para incluir apenas a categoria e não a tabela intermediária
+		const transformedProducts = products.map((product) => ({
+			...product,
+			categories: product.categories.map((pc) => pc.category),
+		}));
+
+		return transformedProducts;
 	}
 }
 

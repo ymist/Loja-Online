@@ -6,6 +6,7 @@ import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
 import { RadioLayout } from "@/components/ui/radiolayout";
 import useStore from "@/data/global_states/useProducts";
 import { Divider, Input, Pagination, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -26,7 +27,8 @@ export default function SearchProducts() {
 	const [info, setInfo] = useState({});
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 16;
-	const [search, setSearch] = useState(searchQuery);
+	const [search, setSearch] = useState(searchQuery || "");
+	console.log(search);
 
 	const filters = [
 		{
@@ -66,6 +68,7 @@ export default function SearchProducts() {
 
 	useEffect(() => {
 		setCurrentPage(1);
+
 		applyFilters();
 	}, [activeCategoryFilters, activeBrandFilters, products, value, selectedFilter, search]);
 
@@ -80,7 +83,7 @@ export default function SearchProducts() {
 		if (filter) {
 			setSelectedFilter(new Set([filter]));
 		}
-
+		setSearch(searchQuery || "");
 		applyFilters();
 	}, [router.query]);
 
@@ -142,23 +145,24 @@ export default function SearchProducts() {
 		}
 
 		if (activeCategoryFilters.size > 0) {
-			filtered = filtered.filter((product) => activeCategoryFilters.has(product.category.name));
+			filtered = filtered.filter((product) => product.categories.some((category) => activeCategoryFilters.has(category.name)));
 		}
 		if (activeBrandFilters.size > 0) {
 			filtered = filtered.filter((product) => activeBrandFilters.has(product.brand.name));
 		}
 
-		if (value.min != 0) {
+		if (value.min !== 0) {
 			filtered = filtered.filter((product) => Number(product.price.replace(",", ".")) >= value.min);
 		}
 
-		if (value.max != 0) {
+		if (value.max !== 0) {
 			filtered = filtered.filter((product) => Number(product.price.replace(",", ".")) <= value.max);
 		}
+
 		if (search) {
 			const searchLower = search.toLowerCase();
 			filtered = filtered.filter((product) => {
-				const newSearch = (product.name + product.categories[0].category.name + product.brand.name).toLowerCase();
+				const newSearch = (product.name + product.categories.map((category) => category.name + ", ") + product.brand.name).toLowerCase();
 				return newSearch.includes(searchLower);
 			});
 		}
@@ -248,10 +252,14 @@ export default function SearchProducts() {
 									</div>
 								</>
 							) : (
-								<div className="flex flex-col gap-6 my-32 items-center">
+								<motion.div
+									initial={{ opacity: 0, scale: 0.5 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{ duration: 0.5 }}
+									className="flex flex-col gap-6 my-32 items-center">
 									<Image src="/assets/images/search_not_found.png" alt="search_not_found" width={220} height={220} />
 									<h2 className="font-medium tracking-widest text-palette-base-gray-900 text-xl">Busca Não Encontrada</h2>
-								</div>
+								</motion.div>
 							)}
 						</div>
 					</div>

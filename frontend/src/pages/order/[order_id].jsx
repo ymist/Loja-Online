@@ -42,16 +42,16 @@ export default function OrderPage() {
 					return {
 						product: product,
 						quantity: item.quantity,
+						price: item.price,
 					};
 				});
 
-				const address = user.address.find((adr) => adr.id === order.address_id);
 				// Retornar um objeto com as informações do pedido
 				const orderDetailJson = {
 					id: order.id,
+					order: order,
 					created_at: order.created_at,
 					items,
-					address: address,
 				};
 
 				// Definir o estado com as informações dos pedidos
@@ -62,17 +62,17 @@ export default function OrderPage() {
 	}, [user, order_id]);
 
 	return (
-		<div className="min-h-[60vh]">
+		<div className="h-screen flex flex-col justify-between">
 			<Head>
 				<title>Pedido - uShop</title>
 			</Head>
 			<Header />
 			{loading ? (
-				<div className="w-full h-[60vh] flex justify-center items-center ">
+				<div className="w-full h-full flex justify-center items-center ">
 					<Spinner color="success" className="m-auto" />
 				</div>
 			) : (
-				<main className="w-full min-h-[60vh] bg-palette-base-gray-500 py-[3%]  px-2% lg:px-[15%]">
+				<main className="w-full h-full bg-palette-base-gray-500 py-[3%]  px-2% lg:px-[15%]">
 					<div className="flex flex-col gap-4 min-h-60 p-2 py-4 sm:p-6 w-full shadow-lg rounded-lg bg-palette-base-gray-100">
 						{orderDetails ? (
 							<>
@@ -99,7 +99,7 @@ export default function OrderPage() {
 												</div>
 												<div className="w-full">
 													<h2 className="text-end text-palette-base-gray-900 font-bold">
-														R$ {(product.quantity * Number(product.product?.price.replace(",", "."))).toFixed(2)}
+														R$ {`${(product.quantity * product.price).toFixed(2)}`}
 													</h2>
 												</div>
 											</li>
@@ -110,10 +110,7 @@ export default function OrderPage() {
 								<div className="w-full h-10 px-4 flex items-center justify-between">
 									<h1 className="text-[20px] font-medium">Total: </h1>
 									<span className="font-bold text-[18px]">
-										R${" "}
-										{orderDetails?.items
-											?.reduce((total, product) => total + product.quantity * Number(product?.product?.price.replace(",", ".")), 0)
-											.toFixed(2)}
+										R$ {orderDetails?.items?.reduce((total, product) => total + product.quantity * product.price, 0).toFixed(2)}
 									</span>
 								</div>
 								<Divider />
@@ -123,13 +120,13 @@ export default function OrderPage() {
 										<div className="flex gap-2">
 											<h2 className="font-medium text-[12px]">Endereço:</h2>
 											<div className="flex flex-col">
-												<span className="font-bold text-[12px]">{orderDetails.address?.name}</span>
+												<span className="font-bold text-[12px]">{orderDetails.order.name}</span>
 												<span className="font-light text-[12px]">
-													{orderDetails.address?.street} /{orderDetails.address?.complement} {orderDetails.address?.number}
+													{orderDetails.order?.street} /{orderDetails.order?.complement} {orderDetails.order?.number}
 												</span>
 												<span className="font-light text-[12px]">
-													{orderDetails.address?.city}, {orderDetails.address?.state}, {orderDetails.address?.country},{" "}
-													{orderDetails.address?.zipcode}
+													{orderDetails.order?.city}, {orderDetails.order?.state}, {orderDetails.order?.country},{" "}
+													{orderDetails.order?.zipcode}
 												</span>
 											</div>
 										</div>

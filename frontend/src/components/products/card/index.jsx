@@ -28,8 +28,14 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 			</figure>
 			<div className="card-body px-0 py-0 min-h-min flex justify-between flex-col">
 				<div className="card-actions justify-start pl-6 pt-2">
-					<div className="badge badge-warning text-[11px]">{/*product.brand.name*/} Marca</div>
-					<div className="badge badge-warning text-[11px]">{/*product.category.name*/} Categoria</div>
+					<div className="badge badge-warning text-[11px]">
+						{product.brand.name}
+						{/* Marca */}
+					</div>
+					<div className="badge badge-warning text-[11px]">
+						{product.categories[0].name}
+						{/* Categoria */}
+					</div>
 				</div>
 				<Link href={`/product/${product.id}`}>
 					<Tooltip placement="bottom" content={"Produto " + product?.id.split("-")[2].toUpperCase()}>

@@ -1,16 +1,7 @@
 import prismaClient from "../../prisma/index.js";
 
 class CreateProductService {
-	async execute({
-		name,
-		price,
-		description,
-		stock,
-		banner,
-		category_id,
-		sku,
-		brand_id,
-	}) {
+	async execute({ name, price, description, stock, banner, categories, sku, brand_id }) {
 		const findProduct = await prismaClient.product.findFirst({
 			where: {
 				SKU: sku,
@@ -29,9 +20,25 @@ class CreateProductService {
 				description: description,
 				stock: stock,
 				banner: { set: banner },
-				category_id: category_id,
 				brand_id: brand_id,
+				categories,
 			},
+			select: {
+				id: true,
+			},
+		});
+		// Criar as associações ProductCategory
+		const productCategories = categories.map((category) => ({
+			product_id: product.id,
+			category_id: category.id,
+		}));
+
+		await prismaClient.productCategory.createMany({
+			data: productCategories,
+		});
+
+		const productWithCategories = await prismaClient.product.findUnique({
+			where: { id: product.id },
 			select: {
 				id: true,
 				name: true,
@@ -41,12 +48,13 @@ class CreateProductService {
 				banner: true,
 				stock: true,
 				brand_id: true,
-				category_id: true,
+				categories: true,
 			},
 		});
-		console.log(product);
 
-		return product;
+		console.log(productWithCategories);
+
+		return productWithCategories;
 	}
 }
 

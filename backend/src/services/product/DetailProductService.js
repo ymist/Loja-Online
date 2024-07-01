@@ -8,13 +8,24 @@ export class DetailProductService {
 			},
 			include: {
 				brand: true,
-				category: true,
+				categories: {
+					include: {
+						category: true,
+					},
+				},
 			},
 		});
+
 		if (!product) {
 			return { error: "Produto Nao Encontrado!" };
 		}
 
-		return product;
+		// Transformar os dados para incluir apenas a categoria e não a tabela intermediária
+		const transformedProduct = {
+			...product,
+			categories: product.categories.map((pc) => pc.category),
+		};
+
+		return transformedProduct;
 	}
 }
