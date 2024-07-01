@@ -12,13 +12,29 @@ export class DeleteProductService {
 				banner: true,
 			},
 		});
+
+		if (!oldProduct) {
+			throw new Error("Produto não encontrado!");
+		}
+
 		const imagesToRemove = oldProduct.banner;
 
-		// imagesToRemove.forEach((image) => {
-		// 	const imagePath = path.resolve("./tmp_products", image);
-		// 	fs.unlinkSync(imagePath);
-		// });
+		// Remove imagens do sistema de arquivos
+		imagesToRemove.forEach((image) => {
+			const imagePath = path.resolve("./tmp_products", image);
+			if (fs.existsSync(imagePath)) {
+				fs.unlinkSync(imagePath);
+			}
+		});
 
+		// Deleta vínculos na tabela intermediária ProductCategory
+		await prismaClient.productCategory.deleteMany({
+			where: {
+				product_id: product_id,
+			},
+		});
+
+		// Deleta o produto
 		const product = await prismaClient.product.delete({
 			where: {
 				id: product_id,

@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import DoneIcon from "@mui/icons-material/Done";
 import { Box, Rating } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import CarouselDetail from "@/components/CarouselDetail/carousel_detail";
 import useStore from "@/data/global_states/useProducts";
 import { CarouselCardsProducts } from "@/components/products/Carousel";
 import Footer from "@/components/Footer";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
-import { Chip, Divider, Input, Spinner, useDisclosure } from "@nextui-org/react";
+import { Button, Chip, Divider, Input, Spinner, useDisclosure } from "@nextui-org/react";
 import { toast } from "react-toastify";
 import Head from "next/head";
 
@@ -99,10 +100,12 @@ export default function DetailProduct() {
 												{/* Marca */}
 												{product?.brand.name}
 											</div>
-											<div className="badge badge-warning p-3 lg:text-[16px]">
-												{/* Categoria */}
-												{product?.category.name}
-											</div>
+											{product?.categories?.slice(0, 2).map((category, index) => (
+												<div key={index} className="badge badge-warning p-3 lg:text-[16px]">
+													{/* Categoria */}
+													{category.name}
+												</div>
+											))}
 										</div>
 										<Rating
 											name="simple-controlled"
@@ -127,23 +130,63 @@ export default function DetailProduct() {
 											Item ja adicionado ao carrinho!
 										</button>
 									) : (
-										<button
-											className="btn mx-auto btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-full"
-											onClick={() => {
-												if (user) {
-													handleOpen();
-												} else {
-													router.push("/login");
-												}
-											}}>
-											<AddShoppingCartIcon />
-											Adicionar ao Carrinho
-										</button>
+										<div className="flex flex-col gap-4">
+											<button
+												className="btn mx-auto btn-square border-transparent bottom-6 bg-palette-primary-light text-palette-base-main w-full"
+												onClick={() => {
+													if (user) {
+														console.log("Em Desenvolvimento");
+													} else {
+														router.push("/login");
+													}
+												}}>
+												<ShoppingCartCheckoutRoundedIcon />
+												Comprar Agora
+											</button>
+											<Button
+												variant="flat"
+												color="success"
+												className="h-12 mx-auto border-transparent w-full"
+												onClick={() => {
+													if (user) {
+														handleOpen();
+													} else {
+														router.push("/login");
+													}
+												}}>
+												<AddShoppingCartIcon />
+												Adicionar ao Carrinho
+											</Button>
+										</div>
 									)}
 								</div>
 							</div>
 						</main>
 						<article className="w-screen flex min-h-max items-center mb-8 lg:my-8 flex-col lg:min-h-[500px] lg:items-start gap-6  lg:px-[10%] lg:py-[2%]">
+							<div className="w-3/4 my-8 lg:w-2/4 flex flex-col gap-4">
+								<h1 className="font-bold text-[28px] tracking-wide ">Categorias</h1>
+								<div className="max-w-96 flex gap-4 flex-wrap">
+									{product.categories.map((category) => (
+										<>
+											<Chip
+												color="warning"
+												className="tracking-widest cursor-pointer transition-opacity duration-300 hover:opacity-75 "
+												key={category.id}
+												onClick={() => {
+													router.push({
+														pathname: "/search_products",
+														query: {
+															category: category.name,
+														},
+													});
+												}}
+												variant="solid">
+												{category.name.toUpperCase()}
+											</Chip>
+										</>
+									))}
+								</div>
+							</div>
 							<Divider className="my-1" />
 							<div className="w-3/4 my-8 lg:w-2/4 flex flex-col gap-4">
 								<h1 className="font-bold text-[28px] tracking-wide ">Consultar CEP</h1>

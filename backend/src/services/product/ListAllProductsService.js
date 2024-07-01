@@ -5,10 +5,20 @@ class ListAllProductsService {
 		const products = await prismaClient.product.findMany({
 			include: {
 				brand: true,
-				category: true,
+				categories: {
+					include: {
+						category: true,
+					},
+				},
 			},
 		});
-		return products;
+		// Transformar os dados para incluir apenas a categoria e não a tabela intermediária
+		const transformedProducts = products.map((product) => ({
+			...product,
+			categories: product.categories.map((pc) => pc.category),
+		}));
+
+		return transformedProducts;
 	}
 }
 

@@ -22,16 +22,48 @@ class FinishCartService {
 			throw new Error("Cart not found");
 		}
 
+		const address = await prismaClient.address.findFirst({
+			where: { id: address_id },
+		});
+
+		if (!address) {
+			throw new Error("Address not found");
+		}
+
+		const newOrderItems = await Promise.all(
+			cart.cartItems.map(async (cartItem) => {
+				const product = await prismaClient.product.findFirst({
+					where: {
+						id: cartItem.product_id,
+					},
+				});
+
+				return { ...cartItem, price: product.price * cartItem.quantity };
+			}),
+		);
+
+		const grandTotal = newOrderItems.reduce((total, item) => total + item.price, 0);
+
 		// Criar um novo registro de pedido
 		const order = await prismaClient.order.create({
 			data: {
 				user_id: user_id,
-				address_id: address_id,
+				street: address.street,
+				number: address.number,
+				neighborhood: address.neighborhood,
+				complement: address.complement,
+				city: address.city,
+				state: address.state,
+				country: address.country,
+				zipcode: address.zipcode,
+				name: address.name,
+				grand_total: grandTotal,
 				orderItems: {
 					createMany: {
-						data: cart.cartItems.map((cartItem) => ({
+						data: newOrderItems.map((cartItem) => ({
 							product_id: cartItem.product_id,
 							quantity: cartItem.quantity,
+							price: cartItem.price,
 						})),
 					},
 				},

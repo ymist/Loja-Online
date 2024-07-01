@@ -2,7 +2,7 @@ import { ListByCategoryService } from "../../services/product/ListByCategoryServ
 
 class ListByCategoryController {
 	async handle(req, res) {
-		const { category_id } = req.params;
+		const { categories } = req.params;
 
 		const listByCategoryService = new ListByCategoryService();
 		const products = await listByCategoryService.execute(category_id);

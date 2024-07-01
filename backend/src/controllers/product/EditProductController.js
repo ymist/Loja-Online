@@ -2,17 +2,9 @@ import { EditProductService } from "../../services/product/EditProductService.js
 
 class EditProductController {
 	async handle(req, res) {
-		const {
-			name,
-			price,
-			description,
-			stock,
-			category_id,
-			brand_id,
-			SKU
-		} = req.body;
+		const { name, price, description, stock, category_id, brand_id, SKU } = req.body;
 
-		const {product_id} = req.params
+		const { product_id } = req.params;
 
 		const editProduct = new EditProductService();
 		if (!req.files) {
@@ -23,7 +15,7 @@ class EditProductController {
 				description,
 				stock,
 				SKU,
-				category_id,
+				categories,
 				brand_id,
 				product_id,
 			});
@@ -36,11 +28,11 @@ class EditProductController {
 				price,
 				description,
 				stock,
-				category_id,
+				categories,
 				brand_id,
 				product_id,
 				banner,
-				SKU
+				SKU,
 			});
 			return res.json(updatedProduct);
 		}

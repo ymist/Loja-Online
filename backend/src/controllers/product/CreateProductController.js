@@ -2,12 +2,10 @@ import { CreateProductService } from "../../services/product/CreateProductServic
 
 class CreateProductController {
 	async handle(req, res) {
-		const { name, price, sku, description, stock, category_id, brand_id } =
-			req.body;
+		const { name, price, sku, description, stock, categories, brand_id } = req.body;
 
 		const createProduct = new CreateProductService();
 
-		console.log("tetsteteteteteettete");
 		if (!req.files || req.files.length === 0) {
 			throw new Error("Nenhum arquivo foi enviado");
 		} else {
@@ -17,7 +15,7 @@ class CreateProductController {
 				price,
 				description,
 				stock,
-				category_id,
+				categories,
 				sku,
 				brand_id,
 				banner,
