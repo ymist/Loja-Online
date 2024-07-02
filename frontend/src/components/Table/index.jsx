@@ -141,20 +141,9 @@ export default function TableCart({ products, user }) {
 	];
 
 	return (
-		<Paper
-			sx={{
-				width: "100%",
-				borderRadius: "4px",
-				maxHeight: "65vh",
-				overflow: "auto",
-			}}
-			elevation={6}>
+		<div>
 			<Table aria-label="Tabela de produtos">
-				<TableHeader
-					columns={columns}
-					style={{
-						background: "linear-gradient(90deg, rgba(244,244,244,1) 0%, rgba(239,239,239,1) 49%)",
-					}}>
+				<TableHeader columns={columns}>
 					{(column) => (
 						<TableColumn key={column.uid}>
 							<span className=" text-[10px] lg:text-[16px] flex justify-center items-center">{column.name}</span>
@@ -198,6 +187,6 @@ export default function TableCart({ products, user }) {
 					</ModalContent>
 				</Modal>
 			)}
-		</Paper>
+		</div>
 	);
 }

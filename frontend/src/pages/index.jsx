@@ -57,15 +57,10 @@ export default function Page() {
 									if (filterProducts.length > 0) {
 										return (
 											<div key={index} className="flex items-center justify-center w-[100%] flex-col">
-												<Box
-													sx={{
-														fontWeight: "200",
-														fontSize: "32px",
-														paddingTop: "24px",
-													}}>
-													{/*brand.name*/}
-													{"Marca " + (index + 1)}
-												</Box>
+												<h3 className=" tracking-widest pt-6 text-3xl font-medium">
+													{brand.name}
+													{/* {"Marca " + (index + 1)} */}
+												</h3>
 												<CarouselCardsProducts products={filterProducts} />
 											</div>
 										);
