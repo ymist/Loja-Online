@@ -38,13 +38,15 @@ class FinishCartService {
 					},
 				});
 
-				return { ...cartItem, price: product.price * cartItem.quantity };
+				return { ...cartItem, price: Number(product.price.replace(",", ".")) * cartItem.quantity };
 			}),
 		);
 
 		const grandTotal = newOrderItems.reduce((total, item) => total + item.price, 0);
 
-		// Criar um novo registro de pedido
+		console.log(newOrderItems);
+
+		//Criar um novo registro de pedido
 		const order = await prismaClient.order.create({
 			data: {
 				user_id: user_id,
