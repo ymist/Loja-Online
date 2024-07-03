@@ -44,8 +44,6 @@ class FinishCartService {
 
 		const grandTotal = newOrderItems.reduce((total, item) => total + item.price, 0);
 
-		console.log(newOrderItems);
-
 		//Criar um novo registro de pedido
 		const order = await prismaClient.order.create({
 			data: {
