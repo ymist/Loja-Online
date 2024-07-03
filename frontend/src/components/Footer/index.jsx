@@ -14,6 +14,12 @@ export default function Footer() {
 				<a href="https://storyset.com/online" className="text-palette-tertiary-dark  hover:underline">
 					Online illustrations by Storyset
 				</a>
+				<a
+					href="https://www.flaticon.com/br/icones-gratis/comercio-e-compras"
+					className="text-palette-tertiary-dark  hover:underline"
+					title="comércio e compras ícones">
+					Comércio e compras ícones criados por Ongicon - Flaticon
+				</a>
 			</aside>
 			<nav>
 				<div className="grid grid-flow-col gap-4">

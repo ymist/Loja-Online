@@ -61,6 +61,7 @@ export default function ModalChangeQuantity({ isOpen, onClose, info }) {
 			// 	// setUser(user);
 			// 	onClose();
 			// }
+			onClose();
 			await inicialize();
 			toast.success("Quantidade alterada com sucesso!");
 			setLoading(false);

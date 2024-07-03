@@ -85,7 +85,8 @@ export default function OrdersPage() {
 														size="sm"
 														className="text-palette-base-main"
 														key={item?.product?.id}
-														src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`}
+														// src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`}
+														src={`/tmp_products/${item.product.banner[0]}`}
 													/>
 												))}
 											</AvatarGroup>
