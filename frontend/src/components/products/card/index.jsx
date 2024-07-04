@@ -17,7 +17,7 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 
 	return (
 		<motion.div
-			className="card w-full h-full bg-slate-100 shadow-2xl pb-2 cursor-pointer"
+			className="card w-full h-full bg-slate-100 shadow-md duration-300 hover:shadow-xl pb-2 cursor-pointer"
 			onClick={onClick}
 			initial={{ opacity: 0, scale: 0.5 }}
 			animate={{ opacity: 1, scale: 1 }}
