@@ -24,7 +24,7 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 			transition={{ duration: 0.5 }}>
 			<figure className="max-h-[250px] mb-3">
 				{/* <img src={`/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png`} alt={product.banner[0]} className="h-full" /> */}
-				<img src={`/tmp_products/${product.banner[0]}`} alt={product.banner[0]} className="h-full" />
+				<img src={`/tmp_products/${product.banner[0]}`} alt={product.banner[0]} className="h-full object-contain" />
 			</figure>
 			<div className="card-body px-0 py-0 min-h-min flex justify-between flex-col">
 				<div className="card-actions justify-start pl-6 pt-2">

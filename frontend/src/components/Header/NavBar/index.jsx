@@ -14,7 +14,6 @@ const StyledHeader = styled.header`
 	flex-direction: column;
 	background-color: "white";
 	color: ${(props) => props.theme.text.light.primary}; /* Use theme a partir de props */
-	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 `;
 
 const StyledDiv = styled.div`

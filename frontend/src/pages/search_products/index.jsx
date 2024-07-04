@@ -1,16 +1,20 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header/NavBar";
 import CardProduct from "@/components/products/card";
+import CardProductMobile from "@/components/products/cardMobile";
 import { AccordionList } from "@/components/ui/accordion_list";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
 import { RadioLayout } from "@/components/ui/radiolayout";
 import useStore from "@/data/global_states/useProducts";
-import { Divider, Input, Pagination, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useMediaQuery } from "@mui/material";
+import { Button, Divider, Input, Pagination, Select, SelectItem, Spinner, useDisclosure } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import { InboxIcon, MailIcon } from "lucide-react";
 
 export default function SearchProducts() {
 	const products = useStore((state) => state.products);
@@ -28,7 +32,12 @@ export default function SearchProducts() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 16;
 	const [search, setSearch] = useState(searchQuery || "");
-	console.log(search);
+	const isMobile = useMediaQuery("(max-width:1023px)");
+	const [open, setOpen] = useState(false);
+
+	const toggleDrawer = (newOpen) => () => {
+		setOpen(newOpen);
+	};
 
 	const filters = [
 		{
@@ -178,6 +187,93 @@ export default function SearchProducts() {
 		onOpenModalAdd();
 	};
 
+	const DrawerList = (
+		<Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+			<List>
+				{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+					<ListItem key={text} disablePadding>
+						<ListItemButton>
+							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+							<ListItemText primary={text} />
+						</ListItemButton>
+					</ListItem>
+				))}
+			</List>
+			<Divider />
+			<List>
+				{["All mail", "Trash", "Spam"].map((text, index) => (
+					<ListItem key={text} disablePadding>
+						<ListItemButton>
+							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+							<ListItemText primary={text} />
+						</ListItemButton>
+					</ListItem>
+				))}
+			</List>
+		</Box>
+	);
+
+	if (isMobile) {
+		return (
+			<div className="min-h-screen grid">
+				<Head>
+					<title>Produtos - uShop</title>
+				</Head>
+				<Header />
+				<main className="flex flex-col w-full min-h-full justify-self-center gap-4 lg:w-full py-4">
+					<h1 className="text-2xl tracking-widest text-palette-base-gray-900 flex justify-center items-center font-semibold">PRODUTOS</h1>
+
+					<div className="flex flex-col gap-3">
+						<div className="w-screen px-5 py-5 flex border-b-1 border-palette-base-gray-600 flex-row-reverse shadow-md sticky top-0 z-50 bg-palette-base-gray-500">
+							<Button isIconOnly variant="bordered" className="shadow-sm" color="default" onClick={toggleDrawer(true)}>
+								<MenuRoundedIcon />
+							</Button>
+						</div>
+						<div className="flex flex-grow">
+							<div className="flex flex-col gap-2 w-full">
+								{filteredProducts.length !== 0 ? (
+									<>
+										<div className={`flex-grow p-2 grid gap-3 gap-y-8 grid-cols-2 `}>
+											{currentProducts.map((product) => (
+												<div key={product.id} className="">
+													<CardProductMobile product={product} handleOpen={handleOpen} />
+												</div>
+											))}
+										</div>
+										<div className="w-full flex justify-center">
+											<Pagination
+												isCompact
+												color="success"
+												showControls
+												total={Math.ceil(filteredProducts.length / itemsPerPage)}
+												initialPage={1}
+												onChange={handlePageChange}
+											/>
+										</div>
+									</>
+								) : (
+									<motion.div
+										initial={{ opacity: 0, scale: 0.5 }}
+										animate={{ opacity: 1, scale: 1 }}
+										transition={{ duration: 0.5 }}
+										className="flex flex-col gap-6 my-32 items-center">
+										<Image src="/assets/images/search_not_found.png" alt="search_not_found" width={220} height={220} />
+										<h2 className="font-medium tracking-widest text-palette-base-gray-900 text-xl">Busca Não Encontrada</h2>
+									</motion.div>
+								)}
+							</div>
+						</div>
+					</div>
+					<Drawer open={open} anchor="right" onClose={toggleDrawer(false)}>
+						{DrawerList}
+					</Drawer>
+					{isOpenModalAdd && <ModalAddQuantity info={info} onClose={onCloseModalAdd} isOpen={isOpenModalAdd} />}
+				</main>
+				<Footer />
+			</div>
+		);
+	}
+
 	return (
 		<div className="min-h-screen grid">
 			<Head>
@@ -266,6 +362,7 @@ export default function SearchProducts() {
 				</div>
 				{isOpenModalAdd && <ModalAddQuantity info={info} onClose={onCloseModalAdd} isOpen={isOpenModalAdd} />}
 			</main>
+
 			<Footer />
 		</div>
 	);

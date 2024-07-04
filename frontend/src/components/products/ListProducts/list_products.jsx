@@ -51,17 +51,21 @@ export default function ListProducts({ products }) {
 	};
 
 	return (
-		<ul className="w-full h-full bg-palette-base-main shadow-md p-4 rounded-lg ">
-			<h2 className="text-xl p-2">Produtos</h2>
+		<ul className="w-full h-full bg-palette-base-main shadow-md duration-300 hover:shadow-lg flex flex-col gap-2 p-1 sm:p-4 rounded-lg ">
+			<h2 className=" text-md sm:text-xl p-1 sm:p-2">Produtos</h2>
 			{products?.map((product) => (
-				<li className="flex flex-col gap-4">
-					<Divider />
+				<li className="flex flex-col gap-4 border-2 border-palette-base-gray-300 duration-300 rounded-md px-1 py-2 sm:p-3 hover:border-palette-base-gray-400">
 					<div className="flex flex-col lg:gap-2  w-full">
 						<div className="flex justify-between items-center w-full">
 							<div className="flex gap-1 lg:gap-2 items-center w-min">
-								<img src={`/tmp_products/${product.banner[0]}`} className="w-10 h-10  sm:w-12 sm:h-12  lg:w-16 lg:h-16" />
+								<Tooltip color="default" content={<h2>Ir para a página do produto</h2>}>
+									<img
+										src={`/tmp_products/${product.banner[0]}`}
+										className="cursor-pointer w-14 h-14 sm:w-16 sm:h-16 lg:w-24 lg:h-24 p-1 border-1 border-palette-base-gray-400 rounded-lg "
+									/>
+								</Tooltip>
 								<div>
-									<h2 className="text-[10px]   sm:text-sm max-w-[70%] lg:max-w-full  font-medium text-palette-base-gray-900 lg:text-md truncate ">
+									<h2 className="text-[10px] sm:text-sm max-w-52 sm:max-w-72 lg:max-w-[95%] truncate  font-medium text-palette-base-gray-900 lg:text-md  ">
 										{product.name}
 									</h2>
 									<h2 className=" text-[10px] sm:text-sm text-palette-base-gray-900 tracking-wide font-light ">
@@ -102,7 +106,6 @@ export default function ListProducts({ products }) {
 							</div>
 						</div>
 					</div>
-					<Divider />
 				</li>
 			))}
 			<ModalChangeQuantity info={info} onClose={onCloseModalEdit} isOpen={isOpenModalEdit} />

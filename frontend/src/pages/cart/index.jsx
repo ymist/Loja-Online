@@ -25,7 +25,6 @@ export default function DetailCart() {
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
 	const isDesktop = useMediaQuery("(min-width:1024px)");
-	console.log(isDesktop);
 
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
@@ -117,6 +116,7 @@ export default function DetailCart() {
 				setCart(updatedCart.filter(Boolean)); // Filter out any null values from failed requests
 				setLoading(false);
 			} else {
+				setCart([]);
 				setLoading(false);
 			}
 		};
@@ -233,21 +233,30 @@ export default function DetailCart() {
 
 	if (cart.length === 0) {
 		return (
-			<div className="min-h-screen w-screen bg-palette-base-gray-500 flex flex-col">
+			<div className="min-h-screen w-screen bg-palette-base-gray-500 flex flex-col gap-6">
 				<Header />
 				<Head>
 					<title>Carrinho Vazio | uShop</title>
 				</Head>
 				<main className="flex-grow flex flex-col items-center justify-center">
-					<div className="max-w-700px h-full flex flex-col gap-6 items-center justify-center">
-						<img src="/assets/svg/emptycart.svg" className="w-full h-full mr-4" />
-						<motion.h1
-							className="text-palette-base-gray-800 tracking-normal font-normal text-3xl lg:text-5xl"
-							initial={{ opacity: 0, scale: 0.5 }}
-							animate={{ opacity: 1, scale: 1 }}
-							transition={{ duration: 0.5 }}>
-							Carrinho Vazio
-						</motion.h1>
+					<div className="max-w-700px h-full flex flex-col gap-5 items-center justify-center bg-palette-base-gray-200 p-6 duration-300 rounded-md shadow-md hover:shadow-xl">
+						<img src="/assets/svg/emptycart.svg" className="w-full h-full" />
+
+						<div className="flex flex-col items-center gap-2">
+							<h2 className="text-xl">Monte seu carrinho de compras!</h2>
+							<h4 className="text-palette-base-gray-600  text-sm sm:text-md text-center">
+								Descubra os melhores produtos e adicione ao carrinho.
+							</h4>
+						</div>
+						<Button
+							size="sm"
+							onClick={() => {
+								router.push("/search_products");
+							}}
+							color="success"
+							className="w-auto px-16 py-5 text-palette-base-main ">
+							<h4 className="font-medium">Descobrir Produtos</h4>
+						</Button>
 					</div>
 				</main>
 				<Footer className="mt-auto" />
@@ -263,8 +272,8 @@ export default function DetailCart() {
 			<Header />
 			<main className="flex-grow h-full w-full flex justify-center">
 				{cart.length > 0 && (
-					<div className="w-full lg:w-4/5 p-6 my-6 flex gap-4 bg-gradient-to-r from-palette-base-gray-100 to-palette-base-gray-200 rounded-md">
-						<div className=" w-full lg:w-[70%] flex flex-col gap-4 ">
+					<div className="w-full lg:w-4/5 shadow-md p-2 lg:p-6 my-6 flex lg:gap-4 bg-gradient-to-r from-palette-base-gray-100 to-palette-base-gray-200 rounded-md">
+						<div className=" w-full lg:w-[70%] flex flex-col gap-4  ">
 							<div className="w-full flex items-center h-6 gap-3">
 								<div
 									className="h-full w-max p-1 flex items-center rounded-full duration-300 cursor-pointer hover:bg-palette-base-gray-500"
@@ -273,11 +282,11 @@ export default function DetailCart() {
 									}}>
 									<ChevronLeft size={16} />
 								</div>
-								<h2 className="text-xl text-palette-base-gray-900">Carrinho de Compras | {totalQuantity}</h2>
+								<h2 className=" text-md sm:text-xl text-palette-base-gray-900">Carrinho de Compras | {totalQuantity}</h2>
 							</div>
 							<ListProducts products={cart} />
 						</div>
-						<div className="w-[30%] mt-10 lg:flex flex-col gap-4 bg-palette-base-main shadow-md p-4 rounded-lg hidden">
+						<div className="w-[30%] mt-10 lg:flex flex-col gap-4 bg-palette-base-main shadow-md p-4 rounded-lg hidden duration-300 hover:shadow-lg">
 							<div className="w-full flex justify-between items-center">
 								<h1 className="text-xl text-palette-base-gray-900 font-semibold">Resumo da Compra</h1>
 								<ShoppingBag />
