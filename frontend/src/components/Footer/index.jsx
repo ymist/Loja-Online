@@ -23,10 +23,10 @@ export default function Footer() {
 			</aside>
 			<nav>
 				<div className="grid grid-flow-col gap-4">
-					<a href="https://github.com/ymisthttps://github.com/ymist">
+					<a href="https://github.com/ymist" target="_blank">
 						<Github color="#ffffff" strokeWidth={1.25} />
 					</a>
-					<a href="https://www.linkedin.com/in/bruno-rufatto/">
+					<a href="https://www.linkedin.com/in/bruno-rufatto/" target="_blank">
 						<Linkedin color="#ffffff" strokeWidth={1.25} absoluteStrokeWidth />
 					</a>
 				</div>
