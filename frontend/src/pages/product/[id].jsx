@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import Head from "next/head";
 
 import useStore from "@/data/global_states/useProducts";
-import useFetchProducts from "./useFetchProduct";
+import useFetchProducts from "../../hooks/useFetchProduct";
 import { useState } from "react";
 
 const DetailProduct = () => {
