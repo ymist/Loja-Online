@@ -14,7 +14,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import { InboxIcon, MailIcon } from "lucide-react";
+import { ChevronLeft, Filter, InboxIcon, MailIcon } from "lucide-react";
 
 export default function SearchProducts() {
 	const products = useStore((state) => state.products);
@@ -188,27 +188,47 @@ export default function SearchProducts() {
 	};
 
 	const DrawerList = (
-		<Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-			<List>
-				{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
-			<Divider />
-			<List>
-				{["All mail", "Trash", "Spam"].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
+		<Box sx={{ width: 280 }} role="presentation" onClick={toggleDrawer(false)}>
+			<List className="flex flex-col gap-2">
+				<div
+					className="h-full w-max p-1 flex items-center rounded-full duration-300 cursor-pointer hover:bg-palette-base-gray-500"
+					onClick={() => {
+						toggleDrawer(false);
+					}}>
+					<ChevronLeft size={24} />
+				</div>
+				<div className="py-2 px-2 flex items-center justify-between">
+					<div className="flex items-center gap-2 ">
+						<Filter size={16} strokeWidth={1.25} absoluteStrokeWidth />
+						<h2 className="text-xl font-semibold text-palette-base-gray-900 tracking-wide">FILTROS</h2>
+					</div>
+					<h2 className="text-xl font-semibold">{filteredProducts.length}</h2>
+				</div>
+				<Divider />
+				<div className="flex gap-3 px-3 py-2 w-11/12 items-center">
+					<Select
+						size="md"
+						variant="faded"
+						label={<h2 className="text-md">Organizar Por:</h2>}
+						labelPlacement="outside"
+						aria-label="select-filters"
+						onSelectionChange={setSelectedFilter}
+						selectedKeys={selectedFilter}
+						className="w-full text-sm">
+						{filters.map((item) => (
+							<SelectItem key={item.value}>{item.label}</SelectItem>
+						))}
+					</Select>
+				</div>
+				<Divider />
+				<AccordionList
+					toogleCategoryFilter={toogleCategoryFilter}
+					toogleBrandFilter={toogleBrandFilter}
+					value={value}
+					setValue={setValue}
+					activeBrandFilters={activeBrandFilters}
+					activeCategoryFilters={activeCategoryFilters}
+				/>
 			</List>
 		</Box>
 	);
@@ -221,13 +241,12 @@ export default function SearchProducts() {
 				</Head>
 				<Header />
 				<main className="flex flex-col w-full min-h-full justify-self-center gap-4 lg:w-full py-4">
-					<h1 className="text-2xl tracking-widest text-palette-base-gray-900 flex justify-center items-center font-semibold">PRODUTOS</h1>
-
 					<div className="flex flex-col gap-3">
-						<div className="w-screen px-5 py-5 flex border-b-1 border-palette-base-gray-600 flex-row-reverse shadow-md sticky top-0 z-50 bg-palette-base-gray-500">
-							<Button isIconOnly variant="bordered" className="shadow-sm" color="default" onClick={toggleDrawer(true)}>
+						<div className="w-screen px-5 py-5 flex border-b-1 border-palette-base-gray-600 flex-row-reverse justify-between shadow-md sticky top-0 z-50 bg-palette-base-gray-500">
+							<Button isIconOnly variant="faded" className="shadow-sm" color="success" onClick={toggleDrawer(true)}>
 								<MenuRoundedIcon />
 							</Button>
+							<h1 className="text-2xl tracking-widest text-palette-base-gray-900 flex justify-center items-center font-semibold">PRODUTOS</h1>
 						</div>
 						<div className="flex flex-grow">
 							<div className="flex flex-col gap-2 w-full">

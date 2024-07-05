@@ -18,7 +18,8 @@ import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
 import { useRouter } from "next/router";
 import { Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery } from "@mui/material";
-import { Tooltip } from "@nextui-org/react";
+import { Divider, Tooltip } from "@nextui-org/react";
+import { Search } from "lucide-react";
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const products = useStore((state) => state.products);
 	const categories = useStore((state) => state.categories);
@@ -295,23 +296,51 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 			<motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
 				{/* <TemporaryDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} categories={categories} brands={brands} /> */}
 				<Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-					<Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-						<div className="divider divider-neutral opacity-60 text-palette-base-dark ">Categorias</div>
-						<List>
+					<Box sx={{ width: 250, display: "flex", flexDirection: "column", gap: "16px" }} role="presentation" onClick={toggleDrawer(false)}>
+						<div className="p-4 flex items-center gap-4 ">
+							<h2 className="text-xl">Buscar Produtos</h2>
+							<Search size={18} />
+						</div>
+
+						<List className="shadow-lg">
+							<h2 className="text-xl p-4 bg-palette-base-gray-400">Categorias</h2>
 							{categories.map((text, index) => (
-								<ListItem key={text.id} disablePadding>
+								<ListItem
+									className="py-2 border-t-1 border-b-1 border-palette-base-gray-400 "
+									key={text.id}
+									disablePadding
+									onClick={() =>
+										router.push({
+											pathname: "/search_products",
+											query: {
+												category: text.name,
+											},
+										})
+									}>
 									<ListItemButton>
-										<ListItemText primary={text.name} />
+										<h2 className="font-semibold">{text.name}</h2>
 									</ListItemButton>
 								</ListItem>
 							))}
 						</List>
-						<div className="divider  divider-neutral opacity-60 text-palette-base-dark ">Marcas</div>
-						<List>
+
+						<List className="shadow-lg">
+							<h2 className="text-xl p-4 bg-palette-base-gray-400">Marcas</h2>
 							{brands.map((text, index) => (
-								<ListItem key={text.id} disablePadding>
+								<ListItem
+									className="py-2 border-t-1 border-b-1 border-palette-base-gray-400"
+									key={text.id}
+									disablePaddin
+									onClick={() =>
+										router.push({
+											pathname: "/search_products",
+											query: {
+												brand: text.name,
+											},
+										})
+									}>
 									<ListItemButton>
-										<ListItemText primary={text.name} />
+										<h2 className="font-semibold">{text.name}</h2>
 									</ListItemButton>
 								</ListItem>
 							))}

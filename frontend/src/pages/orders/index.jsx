@@ -55,23 +55,23 @@ const OrdersPage = () => {
 									{order.items.map((item, index) => (
 										<Fragment key={item.product.id}>
 											<div
-												className="w-full cursor-pointer flex items-center md:gap-6 p-2 lg:p-4 "
+												className="w-full cursor-pointer flex items-center gap-3 md:gap-6 p-2 lg:p-4 "
 												onClick={() => router.push(`/order/${order.id}`)}>
 												<Tooltip color="default" content={<h2>Ir para a página do produto</h2>}>
 													<div onClick={() => router.push("/product/" + item.product.id)}>
 														<img
-															className=" lg:w-28 lg:h-28 p-2 object-contain border-palette-base-gray-500 duration-300 hover:border-palette-base-gray-600 border-2 rounded-lg"
+															className="w-20 h-20 lg:w-28 lg:h-28 p-2 object-contain border-palette-base-gray-500 duration-300 hover:border-palette-base-gray-600 border-2 rounded-lg"
 															src={`/tmp_products/${item.product.banner[0]}`}
 														/>
 													</div>
 												</Tooltip>
 
-												<div className="flex flex-col gap-2 max-w-52 sm:max-w-72 lg:max-w-[95%] truncate">
+												<div className="flex flex-col gap-2 max-w-52 sm:max-w-72 lg:max-w-[95%] text-wrap">
 													<div className="flex items-center gap-2">
 														<AccessAlarmsRoundedIcon fontSize="small" />
 														<h2 className="font-semibold  text-success-500 tracking-wide"> Aguardando Pagamento</h2>
 													</div>
-													<h4 className=" text-sm text-palette-base-gray-900 font-normal">
+													<h4 className=" text-[10px] lg:text-sm text-palette-base-gray-900 font-normal">
 														Seu pedido sairá para entrega após a confirmação do pagamento!
 													</h4>
 												</div>

@@ -44,7 +44,7 @@ export const AccordionList = ({ toogleCategoryFilter, toogleBrandFilter, value, 
 
 	return (
 		<Accordion selectionMode="multiple">
-			<AccordionItem key="1" aria-label="category" title={<p className="font-medium tracking-widest text-medium ">CATEGORIA</p>}>
+			<AccordionItem key="1" aria-label="category" title={<h2 className="font-medium tracking-widest text-medium ">CATEGORIA</h2>}>
 				<CheckboxGroup
 					color="default"
 					aria-label="categories-checkboxes"
@@ -52,24 +52,24 @@ export const AccordionList = ({ toogleCategoryFilter, toogleBrandFilter, value, 
 					onValueChange={handleCategoryChange}>
 					{categories?.map((category) => (
 						<Checkbox key={category.id} aria-label="categories-checkbox" value={category.name}>
-							<span className="text-sm">{category.name}</span>
+							<h2 className="text-sm">{category.name}</h2>
 						</Checkbox>
 					))}
 				</CheckboxGroup>
 			</AccordionItem>
-			<AccordionItem key="2" aria-label="brands" title={<p className="font-medium tracking-widest text-medium ">MARCA</p>}>
+			<AccordionItem key="2" aria-label="brands" title={<h2 className="font-medium tracking-widest text-medium ">MARCA</h2>}>
 				<CheckboxGroup color="default" aria-label="brands-checkboxes" value={Array.from(activeBrandFilters)} onValueChange={handleBrandChange}>
 					{brands?.map((brand) => (
 						<Checkbox key={brand.id} aria-label="brands-checkbox" value={brand.name}>
-							<span className="text-sm">{brand.name}</span>
+							<h2 className="text-sm">{brand.name}</h2>
 						</Checkbox>
 					))}
 				</CheckboxGroup>
 			</AccordionItem>
-			<AccordionItem key="3" aria-label="prices" title={<p className="font-medium tracking-widest text-medium ">PREÇO</p>}>
+			<AccordionItem key="3" aria-label="prices" title={<h2 className="font-medium tracking-widest text-medium ">PREÇO</h2>}>
 				<Input
 					type="number"
-					label="Mínimo:"
+					label={<h2>Mínimo:</h2>}
 					className="mb-10"
 					variant="bordered"
 					placeholder="0.00"
@@ -80,13 +80,13 @@ export const AccordionList = ({ toogleCategoryFilter, toogleBrandFilter, value, 
 					}}
 					startContent={
 						<div className="pointer-events-none flex items-center">
-							<span className="text-default-400 text-small">$</span>
+							<h2 className="text-default-400 text-small">$</h2>
 						</div>
 					}
 				/>
 				<Input
 					type="number"
-					label="Máximo:"
+					label={<h2>Máximo:</h2>}
 					variant="bordered"
 					placeholder="0.00"
 					labelPlacement="outside"

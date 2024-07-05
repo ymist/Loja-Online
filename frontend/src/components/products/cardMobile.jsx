@@ -23,11 +23,11 @@ export default function CardProductMobile({ product, onClick, handleOpen }) {
 			initial={{ opacity: 0, scale: 0.5 }}
 			animate={{ opacity: 1, scale: 1 }}
 			transition={{ duration: 0.5 }}>
-			<figure className="object-contain mb-3">
+			<figure className="w-full max-h-96  mb-3">
 				<img src={`/tmp_products/${product.banner[0]}`} alt={product.banner[0]} className="h-80 w-full object-contain" />
 			</figure>
 			<div className="card-body px-2 pt-2 pb-4 flex flex-col justify-between">
-				<div className="flex gap-1 items-center mb-2">
+				<div className="flex gap-1 items-center mb-2 w-full truncate">
 					<div className="badge badge-warning text-[11px]">{product.brand.name}</div>
 					<div className="badge badge-warning text-[11px]">{product.categories[0].name}</div>
 				</div>
