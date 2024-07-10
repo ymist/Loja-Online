@@ -42,14 +42,15 @@ export default function CustomAutocomplete({ products }) {
 						key={product.id}
 						textValue={`${product.name}, ${product.categories.map((category) => category.name + ", ")} ${product.brand.name}`}
 						onClick={() => router.push(`/product/${product.id}`)}>
-						<div className="flex gap-6 items-center h-32  ">
-							<Image
-								src={"/tmp_products/" + product.banner[0]}
-								// src={"/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png"}
-								width={100}
-								height={100}
-							/>
-							<div className="flex flex-col">
+						<div className="flex gap-6 items-center h-32 w-full" key={product.id}>
+							<div className="p-2 object-cover">
+								<img
+									src={"/tmp_products/" + product.banner[0]}
+									className="w-24 h-24 object-contain "
+									// src={"/produto-de-beleza-e-cosmeticos-com-tons-rosados-suaves.png"}
+								/>
+							</div>
+							<div className="flex flex-col text-wrap max-w-[60%]">
 								{/* <span className="text-small">{"Produto " + product?.id.split("-")[2].toUpperCase()}</span> */}
 								{/* <span className="text-tiny text-default-400">{"Marca" + 1}</span>
 								<span className="text-tiny text-default-400">{"Categoria" + 1}</span> */}

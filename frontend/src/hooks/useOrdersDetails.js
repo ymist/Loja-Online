@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useStore from "@/data/global_states/useProducts";
 
-const useOrderDetails = () => {
+const useOrdersDetails = () => {
 	const user = useStore((state) => state.user);
 	const products = useStore((state) => state.products);
 	const [orderDetails, setOrderDetails] = useState([]);
@@ -29,4 +29,4 @@ const useOrderDetails = () => {
 	return { orderDetails, loading };
 };
 
-export default useOrderDetails;
+export default useOrdersDetails;

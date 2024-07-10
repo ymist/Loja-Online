@@ -7,12 +7,12 @@ import AccessAlarmsRoundedIcon from "@mui/icons-material/AccessAlarmsRounded";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
-import useOrderDetails from "@/hooks/useOrderDetails";
 import { Fragment } from "react";
+import useOrdersDetails from "@/hooks/useOrdersDetails";
 
 const OrdersPage = () => {
 	const router = useRouter();
-	const { orderDetails, loading } = useOrderDetails();
+	const { orderDetails, loading } = useOrdersDetails();
 
 	if (loading) {
 		return <div>Loading...</div>;

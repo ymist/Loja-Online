@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header/NavBar";
 import CardProduct from "@/components/products/card";
-import CardProductMobile from "@/components/products/cardMobile";
+import CardProductMobile from "@/components/products/card/cardMobile";
 import { AccordionList } from "@/components/ui/accordion_list";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
 import { RadioLayout } from "@/components/ui/radiolayout";

@@ -55,8 +55,8 @@ export default function Header() {
 			<StyledDiv $h="50px" $gap="5%" $justC="center" $padding="0% 10% 0% 10%" theme={theme}>
 				{items ? (
 					<>
-						{items.map((item) => {
-							return <FlyoutItems category={item} />;
+						{items.map((item, index) => {
+							return <FlyoutItems key={index} category={item} />;
 						})}
 					</>
 				) : null}

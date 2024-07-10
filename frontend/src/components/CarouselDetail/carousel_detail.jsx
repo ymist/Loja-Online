@@ -6,7 +6,6 @@ import { useMediaQuery } from "@mui/material";
 
 export default function CarouselDetail({ images }) {
 	const isDesktop = useMediaQuery("(min-width: 900px)");
-	console.log(images);
 
 	// Estado para controlar o slide atual
 	const [currentSlide, setCurrentSlide] = useState(0);
