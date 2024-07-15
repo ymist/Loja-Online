@@ -55,6 +55,10 @@ import { UpdateOrderDeliveredController } from "./controllers/order/DeliveredOrd
 import { ListAllOrdersController } from "./controllers/order/ListAllOrdersController.js";
 import { DetailOrderController } from "./controllers/order/DetailOrderController.js";
 import { DetailProductController } from "./controllers/product/DetailProductController.js";
+import { ListAllCommentsController } from "./controllers/comments/ListAllCommentsController.js";
+import { DeleteCommentController } from "./controllers/comments/DeleteCommentController.js";
+import { CreateCommentController } from "./controllers/comments/CreateCommentController.js";
+import { UpdateCommentController } from "./controllers/comments/UpdateCommentControllet.js";
 
 const routes = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -102,4 +106,11 @@ routes.put("/order/out_delivered/:order_id", isAuthToken, new DeliverOrderContro
 routes.put("/order/delivered/:order_id", isAuthToken, new UpdateOrderDeliveredController().handle);
 routes.get("/orders", isAuthToken, new ListAllOrdersController().handle);
 routes.get("/order/:order_id", isAuthToken, new DetailOrderController().handle);
+
+//comments
+routes.get("/comments", new ListAllCommentsController().handle);
+routes.delete("/delete-comment", isAuthToken, new DeleteCommentController().handle);
+routes.post("/create-comment", isAuthToken, new CreateCommentController().handle);
+routes.put("/edit-comment", isAuthToken, new UpdateCommentController().handle);
+
 export { routes };

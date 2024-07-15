@@ -17,7 +17,7 @@ class EditAddressService {
 			},
 			data: {
 				street: street || address.street,
-				number: number || address.number,
+				number: Number(number) || address.number,
 				neighborhood: neighborhood || address.neighborhood,
 				city: city || address.city,
 				state: state || address.state,

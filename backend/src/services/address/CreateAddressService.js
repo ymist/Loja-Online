@@ -6,7 +6,7 @@ class CreateAddressService {
 			where: {
 				user_id: user_id,
 				zipcode: zipcode,
-				number: number,
+				number: Number(number),
 			},
 		});
 
@@ -18,7 +18,7 @@ class CreateAddressService {
 			data: {
 				user: { connect: { id: user_id } },
 				name: name,
-				number: number,
+				number: Number(number),
 				street: street,
 				state: state,
 				zipcode: zipcode,
