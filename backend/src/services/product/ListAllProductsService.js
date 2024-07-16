@@ -10,6 +10,7 @@ class ListAllProductsService {
 						category: true,
 					},
 				},
+				comments: true,
 			},
 		});
 		// Transformar os dados para incluir apenas a categoria e não a tabela intermediária
