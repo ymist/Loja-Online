@@ -7127,10 +7127,12 @@ export namespace Prisma {
 
   export type ProductAvgAggregateOutputType = {
     stock: number | null
+    media_rating: number | null
   }
 
   export type ProductSumAggregateOutputType = {
     stock: number | null
+    media_rating: number | null
   }
 
   export type ProductMinAggregateOutputType = {
@@ -7143,6 +7145,7 @@ export namespace Prisma {
     brand_id: string | null
     SKU: string | null
     stock: number | null
+    media_rating: number | null
   }
 
   export type ProductMaxAggregateOutputType = {
@@ -7155,6 +7158,7 @@ export namespace Prisma {
     brand_id: string | null
     SKU: string | null
     stock: number | null
+    media_rating: number | null
   }
 
   export type ProductCountAggregateOutputType = {
@@ -7168,16 +7172,19 @@ export namespace Prisma {
     banner: number
     SKU: number
     stock: number
+    media_rating: number
     _all: number
   }
 
 
   export type ProductAvgAggregateInputType = {
     stock?: true
+    media_rating?: true
   }
 
   export type ProductSumAggregateInputType = {
     stock?: true
+    media_rating?: true
   }
 
   export type ProductMinAggregateInputType = {
@@ -7190,6 +7197,7 @@ export namespace Prisma {
     brand_id?: true
     SKU?: true
     stock?: true
+    media_rating?: true
   }
 
   export type ProductMaxAggregateInputType = {
@@ -7202,6 +7210,7 @@ export namespace Prisma {
     brand_id?: true
     SKU?: true
     stock?: true
+    media_rating?: true
   }
 
   export type ProductCountAggregateInputType = {
@@ -7215,6 +7224,7 @@ export namespace Prisma {
     banner?: true
     SKU?: true
     stock?: true
+    media_rating?: true
     _all?: true
   }
 
@@ -7315,6 +7325,7 @@ export namespace Prisma {
     banner: string[]
     SKU: string
     stock: number | null
+    media_rating: number | null
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -7347,6 +7358,7 @@ export namespace Prisma {
     banner?: boolean
     SKU?: boolean
     stock?: boolean
+    media_rating?: boolean
     cart_item?: boolean | Product$cart_itemArgs<ExtArgs>
     products_on_order?: boolean | Product$products_on_orderArgs<ExtArgs>
     comments?: boolean | Product$commentsArgs<ExtArgs>
@@ -7366,6 +7378,7 @@ export namespace Prisma {
     banner?: boolean
     SKU?: boolean
     stock?: boolean
+    media_rating?: boolean
   }
 
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7398,6 +7411,7 @@ export namespace Prisma {
       banner: string[]
       SKU: string
       stock: number | null
+      media_rating: number | null
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -7811,6 +7825,7 @@ export namespace Prisma {
     readonly banner: FieldRef<"Product", 'String[]'>
     readonly SKU: FieldRef<"Product", 'String'>
     readonly stock: FieldRef<"Product", 'Int'>
+    readonly media_rating: FieldRef<"Product", 'Float'>
   }
     
 
@@ -15222,7 +15237,8 @@ export namespace Prisma {
     brand_id: 'brand_id',
     banner: 'banner',
     SKU: 'SKU',
-    stock: 'stock'
+    stock: 'stock',
+    media_rating: 'media_rating'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -15797,6 +15813,7 @@ export namespace Prisma {
     banner?: StringNullableListFilter<"Product">
     SKU?: StringFilter<"Product"> | string
     stock?: IntNullableFilter<"Product"> | number | null
+    media_rating?: FloatNullableFilter<"Product"> | number | null
     cart_item?: CartItemListRelationFilter
     products_on_order?: ProductOnOrderListRelationFilter
     comments?: CommentsListRelationFilter
@@ -15815,6 +15832,7 @@ export namespace Prisma {
     banner?: SortOrder
     SKU?: SortOrder
     stock?: SortOrderInput | SortOrder
+    media_rating?: SortOrderInput | SortOrder
     cart_item?: CartItemOrderByRelationAggregateInput
     products_on_order?: ProductOnOrderOrderByRelationAggregateInput
     comments?: CommentsOrderByRelationAggregateInput
@@ -15836,6 +15854,7 @@ export namespace Prisma {
     banner?: StringNullableListFilter<"Product">
     SKU?: StringFilter<"Product"> | string
     stock?: IntNullableFilter<"Product"> | number | null
+    media_rating?: FloatNullableFilter<"Product"> | number | null
     cart_item?: CartItemListRelationFilter
     products_on_order?: ProductOnOrderListRelationFilter
     comments?: CommentsListRelationFilter
@@ -15854,6 +15873,7 @@ export namespace Prisma {
     banner?: SortOrder
     SKU?: SortOrder
     stock?: SortOrderInput | SortOrder
+    media_rating?: SortOrderInput | SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -15875,6 +15895,7 @@ export namespace Prisma {
     banner?: StringNullableListFilter<"Product">
     SKU?: StringWithAggregatesFilter<"Product"> | string
     stock?: IntNullableWithAggregatesFilter<"Product"> | number | null
+    media_rating?: FloatNullableWithAggregatesFilter<"Product"> | number | null
   }
 
   export type ProductCategoryWhereInput = {
@@ -16778,6 +16799,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsCreateNestedManyWithoutProductInput
@@ -16796,6 +16818,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemUncheckedCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderUncheckedCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsUncheckedCreateNestedManyWithoutProductInput
@@ -16812,6 +16835,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUpdateManyWithoutProductNestedInput
@@ -16830,6 +16854,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUncheckedUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUncheckedUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUncheckedUpdateManyWithoutProductNestedInput
@@ -16847,6 +16872,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
   }
 
   export type ProductUpdateManyMutationInput = {
@@ -16859,6 +16885,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -16872,6 +16899,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type ProductCategoryCreateInput = {
@@ -17810,6 +17838,17 @@ export namespace Prisma {
     modified_at?: SortOrder
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type CartItemListRelationFilter = {
     every?: CartItemWhereInput
     some?: CartItemWhereInput
@@ -17846,10 +17885,12 @@ export namespace Prisma {
     banner?: SortOrder
     SKU?: SortOrder
     stock?: SortOrder
+    media_rating?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
     stock?: SortOrder
+    media_rating?: SortOrder
   }
 
   export type ProductMaxOrderByAggregateInput = {
@@ -17862,6 +17903,7 @@ export namespace Prisma {
     brand_id?: SortOrder
     SKU?: SortOrder
     stock?: SortOrder
+    media_rating?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
@@ -17874,10 +17916,28 @@ export namespace Prisma {
     brand_id?: SortOrder
     SKU?: SortOrder
     stock?: SortOrder
+    media_rating?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
     stock?: SortOrder
+    media_rating?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type CategoryRelationFilter = {
@@ -17903,17 +17963,6 @@ export namespace Prisma {
   export type ProductCategoryMinOrderByAggregateInput = {
     product_id?: SortOrder
     category_id?: SortOrder
-  }
-
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type OrderRelationFilter = {
@@ -17955,22 +18004,6 @@ export namespace Prisma {
   export type ProductOnOrderSumOrderByAggregateInput = {
     price?: SortOrder
     quantity?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type CartCountOrderByAggregateInput = {
@@ -18680,6 +18713,14 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type CartItemUpdateManyWithoutProductNestedInput = {
     create?: XOR<CartItemCreateWithoutProductInput, CartItemUncheckedCreateWithoutProductInput> | CartItemCreateWithoutProductInput[] | CartItemUncheckedCreateWithoutProductInput[]
     connectOrCreate?: CartItemCreateOrConnectWithoutProductInput | CartItemCreateOrConnectWithoutProductInput[]
@@ -18840,14 +18881,6 @@ export namespace Prisma {
     create?: XOR<ProductCreateWithoutProducts_on_orderInput, ProductUncheckedCreateWithoutProducts_on_orderInput>
     connectOrCreate?: ProductCreateOrConnectWithoutProducts_on_orderInput
     connect?: ProductWhereUniqueInput
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type OrderUpdateOneRequiredWithoutOrderItemsNestedInput = {
@@ -19758,6 +19791,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderCreateNestedManyWithoutProductsOnOrderInput
     brand?: BrandCreateNestedOneWithoutProductsInput
@@ -19775,6 +19809,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemUncheckedCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderUncheckedCreateNestedManyWithoutProductsOnOrderInput
     categories?: ProductCategoryUncheckedCreateNestedManyWithoutProductInput
@@ -19841,6 +19876,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUpdateManyWithoutProductsOnOrderNestedInput
     brand?: BrandUpdateOneWithoutProductsNestedInput
@@ -19858,6 +19894,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUncheckedUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUncheckedUpdateManyWithoutProductsOnOrderNestedInput
     categories?: ProductCategoryUncheckedUpdateManyWithoutProductNestedInput
@@ -19956,6 +19993,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsCreateNestedManyWithoutProductInput
@@ -19972,6 +20010,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemUncheckedCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderUncheckedCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsUncheckedCreateNestedManyWithoutProductInput
@@ -20018,6 +20057,7 @@ export namespace Prisma {
     banner?: StringNullableListFilter<"Product">
     SKU?: StringFilter<"Product"> | string
     stock?: IntNullableFilter<"Product"> | number | null
+    media_rating?: FloatNullableFilter<"Product"> | number | null
   }
 
   export type CartItemCreateWithoutProductInput = {
@@ -20262,6 +20302,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsCreateNestedManyWithoutProductInput
@@ -20279,6 +20320,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemUncheckedCreateNestedManyWithoutProductInput
     products_on_order?: ProductOnOrderUncheckedCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsUncheckedCreateNestedManyWithoutProductInput
@@ -20329,6 +20371,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUpdateManyWithoutProductNestedInput
@@ -20346,6 +20389,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUncheckedUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUncheckedUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUncheckedUpdateManyWithoutProductNestedInput
@@ -20443,6 +20487,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemCreateNestedManyWithoutProductInput
     comments?: CommentsCreateNestedManyWithoutProductInput
     brand?: BrandCreateNestedOneWithoutProductsInput
@@ -20460,6 +20505,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     cart_item?: CartItemUncheckedCreateNestedManyWithoutProductInput
     comments?: CommentsUncheckedCreateNestedManyWithoutProductInput
     categories?: ProductCategoryUncheckedCreateNestedManyWithoutProductInput
@@ -20554,6 +20600,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUpdateManyWithoutProductNestedInput
     comments?: CommentsUpdateManyWithoutProductNestedInput
     brand?: BrandUpdateOneWithoutProductsNestedInput
@@ -20571,6 +20618,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUncheckedUpdateManyWithoutProductNestedInput
     comments?: CommentsUncheckedUpdateManyWithoutProductNestedInput
     categories?: ProductCategoryUncheckedUpdateManyWithoutProductNestedInput
@@ -20727,6 +20775,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     products_on_order?: ProductOnOrderCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsCreateNestedManyWithoutProductInput
     brand?: BrandCreateNestedOneWithoutProductsInput
@@ -20744,6 +20793,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
     products_on_order?: ProductOnOrderUncheckedCreateNestedManyWithoutProductsOnOrderInput
     comments?: CommentsUncheckedCreateNestedManyWithoutProductInput
     categories?: ProductCategoryUncheckedCreateNestedManyWithoutProductInput
@@ -20804,6 +20854,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     products_on_order?: ProductOnOrderUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUpdateManyWithoutProductNestedInput
     brand?: BrandUpdateOneWithoutProductsNestedInput
@@ -20821,6 +20872,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     products_on_order?: ProductOnOrderUncheckedUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUncheckedUpdateManyWithoutProductNestedInput
     categories?: ProductCategoryUncheckedUpdateManyWithoutProductNestedInput
@@ -21462,6 +21514,7 @@ export namespace Prisma {
     banner?: ProductCreatebannerInput | string[]
     SKU: string
     stock?: number | null
+    media_rating?: number | null
   }
 
   export type ProductUpdateWithoutBrandInput = {
@@ -21474,6 +21527,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUpdateManyWithoutProductNestedInput
@@ -21490,6 +21544,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
     cart_item?: CartItemUncheckedUpdateManyWithoutProductNestedInput
     products_on_order?: ProductOnOrderUncheckedUpdateManyWithoutProductsOnOrderNestedInput
     comments?: CommentsUncheckedUpdateManyWithoutProductNestedInput
@@ -21506,6 +21561,7 @@ export namespace Prisma {
     banner?: ProductUpdatebannerInput | string[]
     SKU?: StringFieldUpdateOperationsInput | string
     stock?: NullableIntFieldUpdateOperationsInput | number | null
+    media_rating?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type CartItemCreateManyProductInput = {

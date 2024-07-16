@@ -42,7 +42,25 @@ class CreateCommentService {
 			},
 		});
 
+		// Update average rating
+		await this.updateProductRating(product_id);
+
 		return comment;
+	}
+
+	async updateProductRating(product_id) {
+		const productComments = await prismaClient.comments.findMany({
+			where: { product_id: product_id },
+			select: { rating: true },
+		});
+
+		const averageRating = productComments.reduce((acc, comment) => acc + comment.rating, 0) / productComments.length;
+		const roundedAverageRating = Math.round(averageRating * 100) / 100; // Round to two decimal places
+
+		await prismaClient.product.update({
+			where: { id: product_id },
+			data: { media_rating: roundedAverageRating },
+		});
 	}
 }
 
