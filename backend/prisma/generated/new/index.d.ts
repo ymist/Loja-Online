@@ -4283,6 +4283,8 @@ export namespace Prisma {
     description: string | null
     product_id: string | null
     user_id: string | null
+    created_at: Date | null
+    modified_at: Date | null
   }
 
   export type CommentsMaxAggregateOutputType = {
@@ -4292,6 +4294,8 @@ export namespace Prisma {
     description: string | null
     product_id: string | null
     user_id: string | null
+    created_at: Date | null
+    modified_at: Date | null
   }
 
   export type CommentsCountAggregateOutputType = {
@@ -4302,6 +4306,8 @@ export namespace Prisma {
     product_id: number
     user_id: number
     images: number
+    created_at: number
+    modified_at: number
     _all: number
   }
 
@@ -4321,6 +4327,8 @@ export namespace Prisma {
     description?: true
     product_id?: true
     user_id?: true
+    created_at?: true
+    modified_at?: true
   }
 
   export type CommentsMaxAggregateInputType = {
@@ -4330,6 +4338,8 @@ export namespace Prisma {
     description?: true
     product_id?: true
     user_id?: true
+    created_at?: true
+    modified_at?: true
   }
 
   export type CommentsCountAggregateInputType = {
@@ -4340,6 +4350,8 @@ export namespace Prisma {
     product_id?: true
     user_id?: true
     images?: true
+    created_at?: true
+    modified_at?: true
     _all?: true
   }
 
@@ -4437,6 +4449,8 @@ export namespace Prisma {
     product_id: string
     user_id: string
     images: string[]
+    created_at: Date | null
+    modified_at: Date | null
     _count: CommentsCountAggregateOutputType | null
     _avg: CommentsAvgAggregateOutputType | null
     _sum: CommentsSumAggregateOutputType | null
@@ -4466,6 +4480,8 @@ export namespace Prisma {
     product_id?: boolean
     user_id?: boolean
     images?: boolean
+    created_at?: boolean
+    modified_at?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comments"]>
@@ -4478,6 +4494,8 @@ export namespace Prisma {
     product_id?: boolean
     user_id?: boolean
     images?: boolean
+    created_at?: boolean
+    modified_at?: boolean
   }
 
   export type CommentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4500,6 +4518,8 @@ export namespace Prisma {
       product_id: string
       user_id: string
       images: string[]
+      created_at: Date | null
+      modified_at: Date | null
     }, ExtArgs["result"]["comments"]>
     composites: {}
   }
@@ -4904,6 +4924,8 @@ export namespace Prisma {
     readonly product_id: FieldRef<"Comments", 'String'>
     readonly user_id: FieldRef<"Comments", 'String'>
     readonly images: FieldRef<"Comments", 'String[]'>
+    readonly created_at: FieldRef<"Comments", 'DateTime'>
+    readonly modified_at: FieldRef<"Comments", 'DateTime'>
   }
     
 
@@ -15199,7 +15221,9 @@ export namespace Prisma {
     description: 'description',
     product_id: 'product_id',
     user_id: 'user_id',
-    images: 'images'
+    images: 'images',
+    created_at: 'created_at',
+    modified_at: 'modified_at'
   };
 
   export type CommentsScalarFieldEnum = (typeof CommentsScalarFieldEnum)[keyof typeof CommentsScalarFieldEnum]
@@ -15630,6 +15654,8 @@ export namespace Prisma {
     product_id?: StringFilter<"Comments"> | string
     user_id?: StringFilter<"Comments"> | string
     images?: StringNullableListFilter<"Comments">
+    created_at?: DateTimeNullableFilter<"Comments"> | Date | string | null
+    modified_at?: DateTimeNullableFilter<"Comments"> | Date | string | null
     product?: XOR<ProductRelationFilter, ProductWhereInput>
     user?: XOR<UserRelationFilter, UserWhereInput>
   }
@@ -15642,6 +15668,8 @@ export namespace Prisma {
     product_id?: SortOrder
     user_id?: SortOrder
     images?: SortOrder
+    created_at?: SortOrderInput | SortOrder
+    modified_at?: SortOrderInput | SortOrder
     product?: ProductOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -15657,6 +15685,8 @@ export namespace Prisma {
     product_id?: StringFilter<"Comments"> | string
     user_id?: StringFilter<"Comments"> | string
     images?: StringNullableListFilter<"Comments">
+    created_at?: DateTimeNullableFilter<"Comments"> | Date | string | null
+    modified_at?: DateTimeNullableFilter<"Comments"> | Date | string | null
     product?: XOR<ProductRelationFilter, ProductWhereInput>
     user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
@@ -15669,6 +15699,8 @@ export namespace Prisma {
     product_id?: SortOrder
     user_id?: SortOrder
     images?: SortOrder
+    created_at?: SortOrderInput | SortOrder
+    modified_at?: SortOrderInput | SortOrder
     _count?: CommentsCountOrderByAggregateInput
     _avg?: CommentsAvgOrderByAggregateInput
     _max?: CommentsMaxOrderByAggregateInput
@@ -15687,6 +15719,8 @@ export namespace Prisma {
     product_id?: StringWithAggregatesFilter<"Comments"> | string
     user_id?: StringWithAggregatesFilter<"Comments"> | string
     images?: StringNullableListFilter<"Comments">
+    created_at?: DateTimeNullableWithAggregatesFilter<"Comments"> | Date | string | null
+    modified_at?: DateTimeNullableWithAggregatesFilter<"Comments"> | Date | string | null
   }
 
   export type CategoryWhereInput = {
@@ -16607,6 +16641,8 @@ export namespace Prisma {
     rating: number
     description: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
     product: ProductCreateNestedOneWithoutCommentsInput
     user: UserCreateNestedOneWithoutCommentsInput
   }
@@ -16619,6 +16655,8 @@ export namespace Prisma {
     product_id: string
     user_id: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
   }
 
   export type CommentsUpdateInput = {
@@ -16627,6 +16665,8 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product?: ProductUpdateOneRequiredWithoutCommentsNestedInput
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
   }
@@ -16639,6 +16679,8 @@ export namespace Prisma {
     product_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentsCreateManyInput = {
@@ -16649,6 +16691,8 @@ export namespace Prisma {
     product_id: string
     user_id: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
   }
 
   export type CommentsUpdateManyMutationInput = {
@@ -16657,6 +16701,8 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentsUncheckedUpdateManyInput = {
@@ -16667,6 +16713,8 @@ export namespace Prisma {
     product_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryCreateInput = {
@@ -17726,6 +17774,8 @@ export namespace Prisma {
     product_id?: SortOrder
     user_id?: SortOrder
     images?: SortOrder
+    created_at?: SortOrder
+    modified_at?: SortOrder
   }
 
   export type CommentsAvgOrderByAggregateInput = {
@@ -17739,6 +17789,8 @@ export namespace Prisma {
     description?: SortOrder
     product_id?: SortOrder
     user_id?: SortOrder
+    created_at?: SortOrder
+    modified_at?: SortOrder
   }
 
   export type CommentsMinOrderByAggregateInput = {
@@ -17748,6 +17800,8 @@ export namespace Prisma {
     description?: SortOrder
     product_id?: SortOrder
     user_id?: SortOrder
+    created_at?: SortOrder
+    modified_at?: SortOrder
   }
 
   export type CommentsSumOrderByAggregateInput = {
@@ -19549,6 +19603,8 @@ export namespace Prisma {
     rating: number
     description: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
     product: ProductCreateNestedOneWithoutCommentsInput
   }
 
@@ -19559,6 +19615,8 @@ export namespace Prisma {
     description: string
     product_id: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
   }
 
   export type CommentsCreateOrConnectWithoutUserInput = {
@@ -19703,6 +19761,8 @@ export namespace Prisma {
     product_id?: StringFilter<"Comments"> | string
     user_id?: StringFilter<"Comments"> | string
     images?: StringNullableListFilter<"Comments">
+    created_at?: DateTimeNullableFilter<"Comments"> | Date | string | null
+    modified_at?: DateTimeNullableFilter<"Comments"> | Date | string | null
   }
 
   export type UserCreateWithoutAddressInput = {
@@ -20114,6 +20174,8 @@ export namespace Prisma {
     rating: number
     description: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
     user: UserCreateNestedOneWithoutCommentsInput
   }
 
@@ -20124,6 +20186,8 @@ export namespace Prisma {
     description: string
     user_id: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
   }
 
   export type CommentsCreateOrConnectWithoutProductInput = {
@@ -21318,6 +21382,8 @@ export namespace Prisma {
     description: string
     product_id: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
   }
 
   export type AddressUpdateWithoutUserInput = {
@@ -21467,6 +21533,8 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     product?: ProductUpdateOneRequiredWithoutCommentsNestedInput
   }
 
@@ -21477,6 +21545,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentsUncheckedUpdateManyWithoutUserInput = {
@@ -21486,6 +21556,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProductCategoryCreateManyCategoryInput = {
@@ -21585,6 +21657,8 @@ export namespace Prisma {
     description: string
     user_id: string
     images?: CommentsCreateimagesInput | string[]
+    created_at?: Date | string | null
+    modified_at?: Date | string | null
   }
 
   export type ProductCategoryCreateManyProductInput = {
@@ -21639,6 +21713,8 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
   }
 
@@ -21649,6 +21725,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentsUncheckedUpdateManyWithoutProductInput = {
@@ -21658,6 +21736,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     images?: CommentsUpdateimagesInput | string[]
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProductCategoryUpdateWithoutProductInput = {

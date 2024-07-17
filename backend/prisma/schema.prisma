@@ -51,7 +51,8 @@ model Comments {
   product_id  String
   user_id     String
   images      String[]
-
+  created_at  DateTime? @default(now())
+  modified_at DateTime? @default(now())
   product Product @relation(fields: [product_id], references: [id])
   user    User    @relation(fields: [user_id], references: [id])
 }

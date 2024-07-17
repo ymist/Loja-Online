@@ -152,7 +152,9 @@ exports.Prisma.CommentsScalarFieldEnum = {
   description: 'description',
   product_id: 'product_id',
   user_id: 'user_id',
-  images: 'images'
+  images: 'images',
+  created_at: 'created_at',
+  modified_at: 'modified_at'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {

@@ -51,7 +51,8 @@ model Comments {
   product_id  String
   user_id     String
   images      String[]
-
+  created_at  DateTime? @default(now())
+  modified_at DateTime? @default(now())
   product Product @relation(fields: [product_id], references: [id])
   user    User    @relation(fields: [user_id], references: [id])
 }
@@ -89,11 +90,13 @@ model Product {
   banner            String[]
   SKU               String
   stock             Int?
+  media_rating      Float?
   cart_item         CartItem[]
   products_on_order ProductOnOrder[]
   comments          Comments[]
   brand             Brand?           @relation(fields: [brand_id], references: [id])
   categories        ProductCategory[]
+
 
   @@map("products")
   @@index([name], name: "product_name_idx")
