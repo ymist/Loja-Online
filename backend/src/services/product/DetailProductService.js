@@ -13,6 +13,7 @@ export class DetailProductService {
 						category: true,
 					},
 				},
+				comments: true,
 			},
 		});
 
