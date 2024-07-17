@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 export default function CardProduct({ product, onClick, handleOpen }) {
 	const router = useRouter();
-	const [value, setValue] = useState(4);
+	const [value, setValue] = useState(product.media_rating);
 	const user = useStore((state) => state.user);
 
 	return (
@@ -45,21 +45,26 @@ export default function CardProduct({ product, onClick, handleOpen }) {
 						</h2>
 					</Tooltip>
 				</Link>
-
-				<Rating
-					name="simple-controlled"
-					size="small"
-					sx={{
-						padding: " 0px 1.5em",
-					}}
-					icon={<StarRateRoundedIcon fontSize="inherit" />}
-					emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
-					value={value}
-					className="lg:pl-6"
-					onChange={(event, newValue) => {
-						setValue(newValue);
-					}}
-				/>
+				<Tooltip color="warning" content={<h2>{product.media_rating}</h2>}>
+					<span className="w-min">
+						<Rating
+							name="simple-controlled"
+							size="small"
+							sx={{
+								padding: " 0px 1.5em",
+							}}
+							icon={<StarRateRoundedIcon fontSize="inherit" />}
+							emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+							value={value}
+							precision={0.5}
+							readOnly
+							className="lg:pl-6"
+							onChange={(event, newValue) => {
+								setValue(newValue);
+							}}
+						/>
+					</span>
+				</Tooltip>
 				<h3 className="text-neutral-800 font-bold flex justify-end pr-8">R$ {product.price}</h3>
 				<div className=" flex items-end justify-center gap-1">
 					{user?.cart?.[0]?.cartItems?.find((cartitem) => cartitem.product_id === product.id) ? (

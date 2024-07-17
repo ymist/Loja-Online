@@ -1,7 +1,7 @@
 import Header from "@/components/Header/NavBar";
 import { useRouter } from "next/router";
 import DoneIcon from "@mui/icons-material/Done";
-import { Box, Rating } from "@mui/material";
+import { Box, Rating, useMediaQuery } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutRoundedIcon from "@mui/icons-material/ShoppingCartCheckoutRounded";
 import CarouselDetail from "@/components/CarouselDetail/carousel_detail";
@@ -9,20 +9,21 @@ import { CarouselCardsProducts } from "@/components/products/Carousel";
 import Footer from "@/components/Footer";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import ModalAddQuantity from "@/components/ui/ModalAddQuantity";
-import { Button, Chip, Divider, Input, Spinner, useDisclosure } from "@nextui-org/react";
+import { Button, Chip, Divider, Input, Progress, Spinner, Tab, Tabs, Tooltip, useDisclosure, Pagination, Avatar } from "@nextui-org/react";
 import { toast } from "react-toastify";
 import Head from "next/head";
 
 import useStore from "@/data/global_states/useProducts";
 import useFetchProducts from "../../hooks/useFetchProduct";
 import { useState } from "react";
+import { format } from "date-fns";
 
 const DetailProduct = () => {
 	const router = useRouter();
 	const { id } = router.query;
 	const user = useStore((state) => state.user);
 	const { product, filterProducts, info } = useFetchProducts(id);
-	const [value, setValue] = useState(2);
+	console.log(product);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleOpen = () => {
@@ -50,7 +51,7 @@ const DetailProduct = () => {
 					</div>
 					<div className="w-[250px] sm:w-[450px] h-full flex lg:w-5/12">
 						<div className="card-body px-0 py-0 min-h-[250px] lg:min-h-[500px] flex flex-col gap-6 lg:mt-8">
-							<ProductDetails product={product} value={value} setValue={setValue} />
+							<ProductDetails product={product} />
 							<PriceAndActions product={product} user={user} handleOpen={handleOpen} router={router} />
 						</div>
 					</div>
@@ -64,7 +65,7 @@ const DetailProduct = () => {
 	);
 };
 
-const ProductDetails = ({ product, value, setValue }) => (
+const ProductDetails = ({ product }) => (
 	<div className="grid gap-4">
 		<Chip color="secondary" size="md" className="lg:ml-5" variant="flat">
 			NOVO
@@ -79,17 +80,23 @@ const ProductDetails = ({ product, value, setValue }) => (
 				</div>
 			))}
 		</div>
-		<Rating
-			name="simple-controlled"
-			size="large"
-			icon={<StarRateRoundedIcon fontSize="inherit" />}
-			emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
-			value={value}
-			className="lg:pl-6"
-			onChange={(event, newValue) => {
-				setValue(newValue);
-			}}
-		/>
+		<Tooltip color="warning" content={<h2>{product.media_rating}</h2>}>
+			<span className="w-min">
+				<Rating
+					name="simple-controlled"
+					size="large"
+					sx={{
+						padding: " 0px 1.5em",
+					}}
+					icon={<StarRateRoundedIcon fontSize="inherit" />}
+					emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+					value={product.media_rating}
+					precision={0.5}
+					readOnly
+					className="lg:pl-6"
+				/>
+			</span>
+		</Tooltip>
 	</div>
 );
 
@@ -142,7 +149,7 @@ const AdditionalDetails = ({ product, router }) => (
 		<Divider className="my-1" />
 		<CEPConsultationSection />
 		<Divider className="my-1" />
-		<DescriptionSection product={product} />
+		<TabsDescriptionOrReviews product={product} />
 	</article>
 );
 
@@ -185,12 +192,222 @@ const CEPConsultationSection = () => (
 	</div>
 );
 
+const TabsDescriptionOrReviews = ({ product }) => (
+	<Tabs variant="underlined" size="lg">
+		<Tab key="description" className="w-full px-[10%] lg:px-0 " title={<h2>Descrição</h2>}>
+			<DescriptionSection product={product} />
+		</Tab>
+		<Tab key="comments" className="w-full" title={<h2>{`Avaliações (${product.comments.length}) `}</h2>}>
+			<CommentsSection product={product} />
+		</Tab>
+	</Tabs>
+);
+
 const DescriptionSection = ({ product }) => (
-	<div className="w-3/4 my-8 lg:w-2/4 flex flex-col gap-4">
+	<div className="w-full flex flex-col gap-4">
 		<h1 className="font-bold text-[28px] tracking-wide">Descrição</h1>
 		<span className="text-[18px] tracking-wide">{product?.description}</span>
 	</div>
 );
+
+const CommentsSection = ({ product }) => (
+	<div className="flex flex-col gap-4">
+		<AverageRatingsSection product={product} />
+		<CommentSection product={product} />
+	</div>
+);
+
+const AverageRatingsSection = ({ product }) => {
+	const isDesktop = useMediaQuery("(min-width: 768px)");
+
+	return (
+		<div className={`${isDesktop ? "py-0" : "py-6"} w-full min-h-48 border-t border-b flex flex-col md:flex-row border-palette-base-gray-500`}>
+			<div className="flex flex-col items-center justify-center w-full md:w-2/5">
+				<h2 className="my-1 text-sm">Média de Avaliações</h2>
+				<h3 className="font-bold text-5xl my-3">{product.media_rating}/5</h3>
+				<span className="w-min my-1 ">
+					<Rating
+						name="simple-controlled"
+						size="large"
+						sx={{
+							padding: " 0px 1.5em",
+						}}
+						icon={<StarRateRoundedIcon fontSize="inherit" />}
+						emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+						value={product.media_rating}
+						precision={0.5}
+						readOnly
+						className="lg:pl-6"
+					/>
+				</span>
+				<h2 className="text-palette-base-gray-700 text-sm">({product.comments.length} Avaliações)</h2>
+			</div>
+			<Divider className={`${isDesktop ? "my-0" : "my-4"}`} orientation={isDesktop ? "vertical" : "horizontal"} />
+			<div className=" w-full md:w-3/5 flex flex-col gap-2 justify-center items-center">
+				<div className=" flex gap-2 sm:gap-5 w-full items-center justify-center">
+					<Rating
+						name="simple-controlled"
+						size="small"
+						icon={<StarRateRoundedIcon fontSize="inherit" />}
+						emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+						value={5}
+						readOnly
+						className="lg:pl-6"
+					/>
+					<Tooltip content={<h2>{(product.comments.filter((comment) => comment.rating === 5).length / product.comments.length) * 100}%</h2>}>
+						<Progress
+							aria-label="5 star"
+							size="small"
+							value={(product.comments.filter((comment) => comment.rating === 5).length / product.comments.length) * 100}
+							color="default"
+							className="max-w-40 cursor-pointer"
+						/>
+					</Tooltip>
+					<h2 className="text-palette-base-gray-700 text-sm">{`${product.comments.filter((comment) => comment.rating === 5).length} Avaliações`} </h2>
+				</div>
+				<div className=" flex gap-2 sm:gap-5 w-full items-center justify-center">
+					<Rating
+						name="simple-controlled"
+						size="small"
+						icon={<StarRateRoundedIcon fontSize="inherit" />}
+						emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+						value={4}
+						readOnly
+						className="lg:pl-6"
+					/>
+					<Tooltip content={<h2>{(product.comments.filter((comment) => comment.rating === 4).length / product.comments.length) * 100}%</h2>}>
+						<Progress
+							aria-label="4 star"
+							size="small"
+							value={(product.comments.filter((comment) => comment.rating === 4).length / product.comments.length) * 100}
+							color="default"
+							className="max-w-40 cursor-pointer"
+						/>
+					</Tooltip>
+					<h2 className="text-palette-base-gray-700 text-sm">{`${product.comments.filter((comment) => comment.rating === 4).length} Avaliações`} </h2>
+				</div>
+				<div className=" flex gap-2 sm:gap-5 w-full items-center justify-center">
+					<Rating
+						name="simple-controlled"
+						size="small"
+						icon={<StarRateRoundedIcon fontSize="inherit" />}
+						emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+						value={3}
+						readOnly
+						className="lg:pl-6"
+					/>
+					<Tooltip content={<h2>{(product.comments.filter((comment) => comment.rating === 3).length / product.comments.length) * 100}%</h2>}>
+						<Progress
+							aria-label="3 star"
+							size="small"
+							value={(product.comments.filter((comment) => comment.rating === 3).length / product.comments.length) * 100}
+							color="default"
+							className="max-w-40 cursor-pointer"
+						/>
+					</Tooltip>
+					<h2 className="text-palette-base-gray-700 text-sm">{`${product.comments.filter((comment) => comment.rating === 3).length} Avaliações`} </h2>
+				</div>
+				<div className=" flex flex gap-2 sm:gap-5 w-full items-center justify-center">
+					<Rating
+						name="simple-controlled"
+						size="small"
+						icon={<StarRateRoundedIcon fontSize="inherit" />}
+						emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+						value={2}
+						readOnly
+						className="lg:pl-6"
+					/>
+					<Tooltip content={<h2>{(product.comments.filter((comment) => comment.rating === 2).length / product.comments.length) * 100}%</h2>}>
+						<Progress
+							aria-label="2 star"
+							size="small"
+							value={(product.comments.filter((comment) => comment.rating === 2).length / product.comments.length) * 100}
+							color="default"
+							className="max-w-40 cursor-pointer"
+						/>
+					</Tooltip>
+					<h2 className="text-palette-base-gray-700 text-sm">{`${product.comments.filter((comment) => comment.rating === 2).length} Avaliações`} </h2>
+				</div>
+				<div className=" flex gap-2 sm:gap-5 w-full items-center justify-center">
+					<Rating
+						name="simple-controlled"
+						size="small"
+						icon={<StarRateRoundedIcon fontSize="inherit" />}
+						emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+						value={1}
+						readOnly
+						className="lg:pl-6"
+					/>
+					<Tooltip content={<h2>{(product.comments.filter((comment) => comment.rating === 1).length / product.comments.length) * 100}%</h2>}>
+						<Progress
+							aria-label="1 star"
+							size="small"
+							value={(product.comments.filter((comment) => comment.rating === 1).length / product.comments.length) * 100}
+							color="default"
+							className="max-w-40 cursor-pointer"
+						/>
+					</Tooltip>
+					<h2 className="text-palette-base-gray-700 text-sm">{`${product.comments.filter((comment) => comment.rating === 1).length} Avaliações`} </h2>
+				</div>
+			</div>
+			<div></div>
+		</div>
+	);
+};
+
+const CommentSection = ({ product }) => {
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 4;
+
+	const handlePageChange = (page) => {
+		setCurrentPage(page);
+	};
+
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const currentComments = product.comments.slice(startIndex, startIndex + itemsPerPage);
+
+	const colors = ["default", "primary", "secondary", "success", "warning", "danger"];
+
+	return (
+		<div className="flex flex-col gap-4">
+			{currentComments.map((comment) => (
+				<div key={comment.id} className="flex gap-2 p-4">
+					<div className="w-2/6 flex flex-col justify-center items-center gap-2">
+						<Avatar isBordered color={colors[Math.floor(Math.random() * colors.length)]} />
+						<h2 className="font-medium text-sm mt-1 text-palette-base-gray-900">{comment.user_name}</h2>
+						<h3 className="text-[11px] text-palette-base-gray-700"> {format(new Date(comment.modified_at), "dd MMM yyyy")} </h3>
+					</div>
+					<div className="w-4/6 flex flex-col gap-3 ">
+						<Rating
+							name={`rating-${comment.id}`}
+							size="small"
+							value={comment.rating}
+							readOnly
+							icon={<StarRateRoundedIcon fontSize="inherit" />}
+							emptyIcon={<StarRateRoundedIcon fontSize="inherit" />}
+						/>
+						<div className="flex items-center gap-1">
+							<img src="/assets/images/verified.png" alt="verified_icon" className="w-[18px] h-[18px]" />
+							<h2 className="text-sm text-success-400 ">Compra Verificada</h2>
+						</div>
+						<h2 className="text-palette-base-gray-900">{comment.title}</h2>
+						<h3 className="text-palette-base-gray-800 text-sm">{comment.description}</h3>
+					</div>
+				</div>
+			))}
+			<div className="flex justify-center mt-4">
+				<Pagination
+					isCompact
+					color="success"
+					showControls
+					total={Math.ceil(product.comments.length / itemsPerPage)}
+					initialPage={1}
+					onChange={handlePageChange}
+				/>
+			</div>
+		</div>
+	);
+};
 
 const RelatedProducts = ({ filterProducts }) => (
 	<div className="flex items-center justify-center w-[100%] flex-col">

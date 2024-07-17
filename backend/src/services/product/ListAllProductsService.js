@@ -19,8 +19,6 @@ class ListAllProductsService {
 			categories: product.categories.map((pc) => pc.category),
 		}));
 
-		console.log(transformedProducts);
-
 		return transformedProducts;
 	}
 }

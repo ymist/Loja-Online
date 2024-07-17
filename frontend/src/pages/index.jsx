@@ -62,7 +62,6 @@ export default function Page() {
 	const skeletonNumber = useMediaQuery("(min-width: 600px)") ? 8 : 4;
 	const brands = useStore((state) => state.brands);
 	const products = useStore((state) => state.products);
-	console.log(products);
 
 	return (
 		<div className="min-h-screen w-screen flex flex-col justify-between">
