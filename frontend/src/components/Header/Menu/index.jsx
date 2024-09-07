@@ -10,15 +10,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Link from "next/link";
 import LoginIcon from "@mui/icons-material/Login";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { motion } from "framer-motion";
 import useStore from "@/data/global_states/useProducts";
 import CustomAutocomplete from "@/components/ui/custom_autocomplete";
 import { useRouter } from "next/router";
-import { Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery } from "@mui/material";
-import { Divider, Tooltip } from "@nextui-org/react";
+import { Drawer, List, ListItem, ListItemButton, useMediaQuery } from "@mui/material";
+import { Tooltip } from "@nextui-org/react";
 import { Search } from "lucide-react";
 export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 	const products = useStore((state) => state.products);
@@ -134,19 +133,20 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 					</MenuItem>
 				</>
 			) : (
-				<Link href="/login">
-					<MenuItem>
-						<IconButton
-							size="large"
-							aria-label="account of current user"
-							aria-controls="primary-search-account-menu"
-							aria-haspopup="true"
-							color="inherit">
-							<LoginIcon />
-						</IconButton>
-						<p>Entrar</p>
-					</MenuItem>
-				</Link>
+				<MenuItem
+					onClick={() => {
+						router.push("/login");
+					}}>
+					<IconButton
+						size="large"
+						aria-label="account of current user"
+						aria-controls="primary-search-account-menu"
+						aria-haspopup="true"
+						color="inherit">
+						<LoginIcon />
+					</IconButton>
+					<p>Entrar</p>
+				</MenuItem>
 			)}
 		</Menu>
 	);
@@ -187,10 +187,14 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 						</IconButton>
 
 						{/* Link para a logo */}
-						<Link href="/" sx={{ mr: "auto" }}>
+						<h2
+							sx={{ mr: "auto" }}
+							onClick={() => {
+								router.push("/");
+							}}>
 							{/*<Image src="/LogoBrisaDesde1976.png" width={120} height={60} alt="Logo Header" />*/}
-							<h1 className="font-bold text-3xl text-palette-primary-dark">uShop</h1>
-						</Link>
+							<h1 className="font-bold text-3xl text-palette-primary-dark cursor-pointer">uShop</h1>
+						</h2>
 
 						{/* Restante do conteúdo */}
 						<Box
@@ -242,16 +246,17 @@ export default function PrimarySearchAppBar({ cartCount, notifyCount }) {
 							</>
 						) : (
 							<Tooltip content="Entrar">
-								<Link href="/login">
-									<IconButton
-										size="large"
-										aria-label="Entrar"
-										aria-controls="primary-search-account-menu"
-										aria-haspopup="true"
-										color="inherit">
-										<LoginIcon />
-									</IconButton>
-								</Link>
+								<IconButton
+									onClick={() => {
+										router.push("/login");
+									}}
+									size="large"
+									aria-label="Entrar"
+									aria-controls="primary-search-account-menu"
+									aria-haspopup="true"
+									color="inherit">
+									<LoginIcon />
+								</IconButton>
 							</Tooltip>
 						)}
 					</Box>
