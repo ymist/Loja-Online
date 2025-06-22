@@ -39,8 +39,3 @@ Este repositório contém o código-fonte para uma loja online, desenvolvida uti
 6. **Processo de Checkout:** Prossiga para o checkout, insira informações de envio e pagamento e efetue pedidos de forma segura.
 
 7. **Histórico de Pedidos:** Os usuários podem visualizar seu histórico de pedidos para rastrear compras anteriores.
-
-## Proximas Atualizações 🔜
-
-1. Ajustar armazenamento das imagens.
-2. Ajustar algumas telas mal desenhadas.
